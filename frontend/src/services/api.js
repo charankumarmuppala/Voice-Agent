@@ -97,6 +97,16 @@ export async function sendCallAudio(sessionId, audioBlob) {
   return await res.json();
 }
 
+export async function synthesizeSpeech(text, language = 'English') {
+  const res = await fetch(`${API_BASE_URL}/calls/tts`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, language })
+  });
+  if (!res.ok) throw new Error(`TTS error: ${res.status}`);
+  return await res.blob();
+}
+
 export async function endCall(sessionId, notes = '') {
   const res = await fetch(`${API_BASE_URL}/calls/${sessionId}/end`, {
     method: 'POST',

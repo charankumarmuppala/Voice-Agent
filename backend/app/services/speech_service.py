@@ -178,3 +178,45 @@ def transcribe_multilingual_audio(audio_bytes: bytes, mime_type: str = "audio/we
         "confidence": 0.0,
         "engine": "failed"
     }
+
+
+ELEVENLABS_FEMALE_VOICE_ID = "EXAVITQu4vr4xnSDxMaL"  # Sarah - warm, natural female voice
+
+
+def synthesize_elevenlabs_speech(text: str, language: str = "English") -> Optional[bytes]:
+    """
+    Generate natural multilingual female speech (MP3) using ElevenLabs API.
+    Uses eleven_flash_v2_5 for ultra-low latency across English, Hindi, Telugu, Kannada, and Tamil.
+    """
+    from app.config import settings
+    api_key = getattr(settings, "ELEVENLABS_API_KEY", None) or os.getenv("ELEVENLABS_API_KEY", "")
+    if not api_key or not text or not text.strip():
+        return None
+
+    try:
+        import httpx
+
+        url = f"https://api.elevenlabs.io/v1/text-to-speech/{ELEVENLABS_FEMALE_VOICE_ID}"
+        headers = {
+            "xi-api-key": api_key,
+            "Content-Type": "application/json",
+            "Accept": "audio/mpeg",
+        }
+        payload = {
+            "text": text.strip(),
+            "model_id": "eleven_flash_v2_5",
+            "voice_settings": {
+                "stability": 0.5,
+                "similarity_boost": 0.75,
+                "style": 0.2,
+                "use_speaker_boost": True,
+            },
+        }
+        resp = httpx.post(url, headers=headers, json=payload, timeout=15.0)
+        if resp.status_code == 200 and resp.content:
+            return resp.content
+        logger.warning(f"ElevenLabs TTS returned {resp.status_code}: {resp.text[:200]}")
+        return None
+    except Exception as e:
+        logger.warning(f"ElevenLabs TTS error: {e}")
+        return None

@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, BackgroundTasks, UploadFile, File
+from fastapi.responses import Response
+from pydantic import BaseModel
 from app.services.email_service import send_booking_email_in_background
-from app.services.speech_service import transcribe_multilingual_audio
+from app.services.speech_service import transcribe_multilingual_audio, synthesize_elevenlabs_speech
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, desc
 import datetime
@@ -165,6 +167,20 @@ def _save_appointment_if_needed(session, final_profile, ended_time, session_id, 
     db.add(appointment)
     db.flush()
     return appointment
+
+
+class TTSRequest(BaseModel):
+    text: str
+    language: str = "English"
+
+
+@router.post("/tts")
+def text_to_speech(req: TTSRequest):
+    """Synthesize natural multilingual female voice using ElevenLabs API."""
+    audio_bytes = synthesize_elevenlabs_speech(req.text, req.language)
+    if not audio_bytes:
+        raise HTTPException(status_code=503, detail="ElevenLabs TTS unavailable")
+    return Response(content=audio_bytes, media_type="audio/mpeg")
 
 
 @router.post("/start", response_model=CallStartResponse)

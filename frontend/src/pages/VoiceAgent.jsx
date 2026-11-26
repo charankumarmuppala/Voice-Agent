@@ -23,6 +23,7 @@ import {
   startCall,
   sendCallMessage,
   sendCallAudio,
+  synthesizeSpeech,
   endCall,
   fetchProperties,
   formatINR
@@ -194,6 +195,7 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const mediaStreamRef = useRef(null);
+  const currentAudioRef = useRef(null);
 
   useEffect(() => {
     callActiveRef.current = callActive;
@@ -359,13 +361,8 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
     return nativeVoices[0];
   }
 
-  // Text-to-Speech using browser SpeechSynthesis with Feedback Prevention & Natural Female Voice
-  function speakResponse(text, onEndCallback) {
-    if (!('speechSynthesis' in window)) {
-      if (onEndCallback) onEndCallback();
-      return;
-    }
-
+  // Text-to-Speech using ElevenLabs API first with seamless browser SpeechSynthesis fallback
+  async function speakResponse(text, onEndCallback) {
     const cleanedText = cleanSpeechText(text);
     if (!cleanedText) {
       if (onEndCallback) onEndCallback();
@@ -384,17 +381,15 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
     }
     setIsListening(false);
 
-    window.speechSynthesis.cancel();
-
-    const targetLangCode = getLangCode(languageRef.current);
-    const utterance = new SpeechSynthesisUtterance(cleanedText);
-    utterance.lang = targetLangCode;
-    utterance.rate = 0.96; // Smooth, clear, natural speaking rate
-    utterance.pitch = 1.05; // Warm, friendly female pitch
-
-    const femaleVoice = selectFemaleVoice(targetLangCode, cleanedText);
-    if (femaleVoice) {
-      utterance.voice = femaleVoice;
+    if (currentAudioRef.current) {
+      try {
+        currentAudioRef.current.pause();
+        currentAudioRef.current.src = '';
+      } catch (e) {}
+      currentAudioRef.current = null;
+    }
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
     }
 
     const cleanupAndResume = () => {
@@ -415,13 +410,61 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
       }
     };
 
-    utterance.onend = cleanupAndResume;
-    utterance.onerror = (e) => {
-      console.warn('TTS utterance event:', e);
-      cleanupAndResume();
-    };
+    // 1. Try ElevenLabs Neural TTS
+    try {
+      const audioBlob = await synthesizeSpeech(cleanedText, languageRef.current);
+      if (!callActiveRef.current && !onEndCallback) {
+        cleanupAndResume();
+        return;
+      }
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      currentAudioRef.current = audio;
 
-    window.speechSynthesis.speak(utterance);
+      audio.onended = () => {
+        URL.revokeObjectURL(audioUrl);
+        if (currentAudioRef.current === audio) currentAudioRef.current = null;
+        cleanupAndResume();
+      };
+      audio.onerror = () => {
+        URL.revokeObjectURL(audioUrl);
+        if (currentAudioRef.current === audio) currentAudioRef.current = null;
+        fallbackBrowserTTS();
+      };
+
+      await audio.play();
+      return;
+    } catch (err) {
+      console.warn('ElevenLabs TTS unavailable, falling back to browser TTS:', err);
+    }
+
+    // 2. Fallback to browser Web Speech Synthesis
+    function fallbackBrowserTTS() {
+      if (!('speechSynthesis' in window)) {
+        cleanupAndResume();
+        return;
+      }
+      const targetLangCode = getLangCode(languageRef.current);
+      const utterance = new SpeechSynthesisUtterance(cleanedText);
+      utterance.lang = targetLangCode;
+      utterance.rate = 0.96;
+      utterance.pitch = 1.05;
+
+      const femaleVoice = selectFemaleVoice(targetLangCode, cleanedText);
+      if (femaleVoice) {
+        utterance.voice = femaleVoice;
+      }
+
+      utterance.onend = cleanupAndResume;
+      utterance.onerror = (e) => {
+        console.warn('TTS utterance event:', e);
+        cleanupAndResume();
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    fallbackBrowserTTS();
   }
 
   // Submit buffered speech after adaptive silence window
@@ -628,6 +671,13 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
     setCallActive(false);
 
     // Stop TTS and STT immediately
+    if (currentAudioRef.current) {
+      try {
+        currentAudioRef.current.pause();
+        currentAudioRef.current.src = '';
+      } catch (e) {}
+      currentAudioRef.current = null;
+    }
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
