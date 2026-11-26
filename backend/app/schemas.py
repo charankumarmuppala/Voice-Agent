@@ -86,6 +86,18 @@ class CallMessageResponse(BaseModel):
     appointment_id: Optional[str] = None
     call_ended: Optional[bool] = False
     detected_language: Optional[str] = "English"
+    transcript: Optional[str] = None
+    timestamp: datetime
+
+class CallAudioResponse(BaseModel):
+    session_id: str
+    transcript: str
+    reply: str
+    extracted_profile: Dict[str, Any]
+    recommended_properties: List[PropertyResponse] = []
+    appointment_id: Optional[str] = None
+    call_ended: Optional[bool] = False
+    detected_language: Optional[str] = "English"
     timestamp: datetime
 
 class CallEndRequest(BaseModel):

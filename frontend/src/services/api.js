@@ -85,6 +85,18 @@ export async function sendCallMessage(sessionId, message) {
   return await res.json();
 }
 
+export async function sendCallAudio(sessionId, audioBlob) {
+  const formData = new FormData();
+  formData.append('file', audioBlob, 'recording.webm');
+
+  const res = await fetch(`${API_BASE_URL}/calls/${sessionId}/audio`, {
+    method: 'POST',
+    body: formData
+  });
+  if (!res.ok) throw new Error(`Failed to send audio: ${res.statusText}`);
+  return await res.json();
+}
+
 export async function endCall(sessionId, notes = '') {
   const res = await fetch(`${API_BASE_URL}/calls/${sessionId}/end`, {
     method: 'POST',

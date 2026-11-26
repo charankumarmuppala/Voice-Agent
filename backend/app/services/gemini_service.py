@@ -10,7 +10,10 @@ logger = logging.getLogger(__name__)
 
 CANDIDATE_MODELS = [
     "gemini-3.8-flash",
+    "gemini-3.5-flash",
+    "gemini-3.6-flash",
     "gemini-3.5-flash-lite",
+    "gemini-3.7-flash",
 ]
 
 PROPERTY_INVENTORY_CONTEXT = """
@@ -110,10 +113,14 @@ Respond with ONLY valid JSON:
 
 
 def detect_language_from_text(text: str, current_lang: str = "English") -> str:
-    """Detects spoken language from text, supporting mixed sentences and Indian scripts."""
+    """
+    Detects spoken language from text, supporting mixed sentences, transliterations, and Indian scripts.
+    Preserves Indian language context even when English proper nouns or loanwords (e.g. Prestige, 3 BHK, 1.5 Cr) are used.
+    """
     if not text:
         return current_lang or "English"
 
+    # 1. Unicode Indian script detection (100% certainty)
     if re.search(r'[\u0C00-\u0C7F]', text):
         return "Telugu"
     if re.search(r'[\u0C80-\u0CFF]', text):
@@ -125,43 +132,81 @@ def detect_language_from_text(text: str, current_lang: str = "English") -> str:
 
     low = text.lower()
 
+    # 2. Explicit language switch requests
+    if any(p in low for p in [
+        "speak in telugu", "talk in telugu", "in telugu", "telugu lo matladu", "telugu lo matladandi", "telugu please"
+    ]):
+        return "Telugu"
+    if any(p in low for p in [
+        "speak in hindi", "talk in hindi", "in hindi", "hindi me bolo", "hindi me baat karo", "hindi please"
+    ]):
+        return "Hindi"
+    if any(p in low for p in [
+        "speak in kannada", "talk in kannada", "in kannada", "kannada dalli mathadi", "kannada please"
+    ]):
+        return "Kannada"
+    if any(p in low for p in [
+        "speak in tamil", "talk in tamil", "in tamil", "tamil la pesunga", "tamil please"
+    ]):
+        return "Tamil"
+    if any(p in low for p in [
+        "speak in english", "talk in english", "in english please", "switch to english", "can we speak in english",
+        "let us speak in english", "english please"
+    ]):
+        return "English"
+
+    # 3. High-weight language markers (Romanized / Spoken)
     telugu_markers = [
         "naku", "naaku", "kavali", "kaavali", "chudali", "choodali", "kudurthunda", "kudurutunda",
-        "cheppandi", "telusukovalani", "undaa", "undi", "entha", "ekkada", "yekkada", "vaddu",
-        "chaalu", "dhanyavadalu", "chuddam", "cheddam", "illu", "manchi", "chesukondi"
-    ]
-    kannada_markers = [
-        "nanage", "beku", "bekagide", "eshtu", "elli", "yelli", "nodbeku", "ideya", "hegidhe",
-        "saku", "beda", "dhanyavada", "mane", "tumba", "namaskara", "madona", "banni"
+        "kudurtundi", "kudurthundi", "cheppandi", "telusukovalani", "undaa", "undi", "unna", "unnayi",
+        "entha", "yenta", "ekkada", "yekkada", "vaddu", "chaalu", "dhanyavadalu", "chuddam", "cheddam",
+        "illu", "manchi", "chesukondi", "chesukovalani", "meeru", "mariyu", "leka", "daggara", "kuda",
+        "kani", "gurinchi", "kosam", "avunu", "kaadu", "sare", "peru", "naa peru", "eppudu", "yeppudu",
+        "matladandi", "matladutunnam", "cheppu", "emiti", "yemiti", "chustunnanu", "chustunnam",
+        "chusa", "chusam", "repu", "ivvala", "ee roju", "pettandi", "ivvandi", "choopandi", "chupandi"
     ]
     hindi_markers = [
-        "mujhe", "chahiye", "kitna", "kahan", "kaha", "dekhna", "bataiye", "shukriya",
-        "dhanyawad", "nahin", "nahi", "theek", "acha", "achha", "ghar", "kaunsa", "batao", "karna"
+        "mujhe", "chahiye", "kitna", "kitne", "kahan", "kaha", "dekhna", "dekhne", "bataiye", "batao",
+        "shukriya", "dhanyawad", "nahin", "nahi", "theek", "theek hai", "acha", "achha", "ghar", "makaan",
+        "kaunsa", "karna", "karenge", "mera", "meri", "mere", "naam", "mera naam", "budget hai", "mein",
+        "me", "par", "ka", "ki", "ke", "aur", "ya", "lekin", "jo", "ko", "se", "hai", "hote", "kal",
+        "aaj", "subah", "shaam", "dekh raha", "dekh rahi", "mil sakta", "milega", "hoga", "sunte", "sunai"
+    ]
+    kannada_markers = [
+        "nanage", "beku", "bekagide", "eshtu", "elli", "yelli", "nodbeku", "ideya", "ide", "hegidhe",
+        "saku", "beda", "dhanyavada", "mane", "tumba", "namaskara", "madona", "banni", "nanna", "hesaru",
+        "nanna hesaru", "alli", "inda", "mattu", "athava", "hatthira", "bagge", "adare", "haudu", "illa",
+        "nale", "ivatthu", "noduttiddene", "kodi", "kanisutta", "kelasa"
     ]
     tamil_markers = [
-        "enakku", "vendum", "venum", "evvalavu", "yenge", "paarka", "nandri", "veedu", "vanakkam"
+        "enakku", "vendum", "venum", "evvalavu", "yenge", "enge", "paarka", "paakkanum", "nandri",
+        "veedu", "vanakkam", "en peyar", "yen peyar", "il", "la", "mattum", "alladhu", "kithe",
+        "patri", "aamaam", "illai", "seri", "selavu", "naalai", "indru", "parkkiren", "sollunga"
     ]
 
     t_score = sum(1 for m in telugu_markers if re.search(r'\b' + re.escape(m) + r'\b', low))
-    k_score = sum(1 for m in kannada_markers if re.search(r'\b' + re.escape(m) + r'\b', low))
     h_score = sum(1 for m in hindi_markers if re.search(r'\b' + re.escape(m) + r'\b', low))
+    k_score = sum(1 for m in kannada_markers if re.search(r'\b' + re.escape(m) + r'\b', low))
     ta_score = sum(1 for m in tamil_markers if re.search(r'\b' + re.escape(m) + r'\b', low))
 
-    scores = {"Telugu": t_score, "Kannada": k_score, "Hindi": h_score, "Tamil": ta_score}
+    scores = {"Telugu": t_score, "Hindi": h_score, "Kannada": k_score, "Tamil": ta_score}
     max_lang, max_score = max(scores.items(), key=lambda x: x[1])
+
+    # If distinct Indian language markers are present, switch to that language regardless of English loanwords!
     if max_score > 0:
         return max_lang
 
-    if any(p in low for p in ["speak in english", "talk in english", "in english please", "switch to english"]):
-        return "English"
-
+    # 4. Standard English phrase starters / intent cues
     english_starters = [
-        "i am looking", "i want to", "can you", "what is the", "could you", "tell me about",
-        "my name is", "we are looking", "looking for a", "is there any"
+        "i am looking", "looking for", "i want to", "can you", "what is the", "could you",
+        "tell me about", "my name is", "we are looking", "is there any", "how much is",
+        "can i visit", "let us schedule", "can we book", "would like to", "i need a",
+        "do you have", "show me", "please send", "schedule a visit", "book an appointment"
     ]
     if any(p in low for p in english_starters):
         return "English"
 
+    # Default to current session language
     return current_lang or "English"
 
 

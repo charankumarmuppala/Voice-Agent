@@ -22,6 +22,7 @@ import {
 import {
   startCall,
   sendCallMessage,
+  sendCallAudio,
   endCall,
   fetchProperties,
   formatINR
@@ -190,6 +191,9 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
   const silenceTimerRef = useRef(null);
   const countdownIntervalRef = useRef(null);
   const isSubmittingRef = useRef(false);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const mediaStreamRef = useRef(null);
 
   useEffect(() => {
     callActiveRef.current = callActive;
@@ -429,11 +433,21 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
     speechFragmentsRef.current = [];
     setLiveHeardText('');
     setSilenceCountdown(0);
-    setSentenceStatus('Listening...');
+    setSentenceStatus('Processing speech...');
 
-    if (fullMessage) {
+    let audioBlob = null;
+    if (audioChunksRef.current && audioChunksRef.current.length > 0) {
+      try {
+        audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+      } catch (e) {
+        audioBlob = null;
+      }
+      audioChunksRef.current = [];
+    }
+
+    if (fullMessage || (audioBlob && audioBlob.size > 2000)) {
       isSubmittingRef.current = true;
-      processUserMessage(fullMessage);
+      processUserMessage(fullMessage, audioBlob);
     }
   }
 
@@ -646,21 +660,22 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
     }
   }
 
-  // Process User Input (Voice STT or Typed Text)
-  async function processUserMessage(text) {
-    if (!text || !text.trim()) {
+  // Process User Input (Voice STT, Audio recording, or Typed Text)
+  async function processUserMessage(text, audioBlob = null) {
+    if (!text && !audioBlob) {
       isSubmittingRef.current = false;
       return;
     }
-    const userText = text.trim();
+    const initialText = text ? text.trim() : '🎤 [Processing voice audio...]';
+    const userMsgId = Date.now();
 
     // Append user message
     setMessages((prev) => [
       ...prev,
       {
-        id: Date.now(),
+        id: userMsgId,
         sender: 'user',
-        text: userText,
+        text: initialText,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ]);
@@ -678,14 +693,40 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
         callActiveRef.current = true;
       }
 
-      // Send to FastAPI Gemini endpoint with automatic language detection
-      const res = await sendCallMessage(currentSid, userText);
+      // If audioBlob is present and sizeable (>2KB), send to backend Multilingual Audio STT endpoint
+      let res;
+      if (audioBlob && audioBlob.size > 2000) {
+        try {
+          res = await sendCallAudio(currentSid, audioBlob);
+          if (res.transcript) {
+            // Update the user message with verbatim transcript from Faster-Whisper / Gemini
+            setMessages((prev) =>
+              prev.map((m) => (m.id === userMsgId ? { ...m, text: res.transcript } : m))
+            );
+          }
+        } catch (audioErr) {
+          console.warn('Audio endpoint fallback to text endpoint:', audioErr);
+          if (text) {
+            res = await sendCallMessage(currentSid, text.trim());
+          } else {
+            throw audioErr;
+          }
+        }
+      } else {
+        res = await sendCallMessage(currentSid, text.trim());
+      }
 
-      // Automatic Language Detection update:
-      // If customer switched languages, update UI and speech engine to match!
+      // Dynamic Multilingual Conversation Switching:
+      // If customer switched languages during conversation (e.g. English -> Telugu / Hindi / Kannada / Tamil),
+      // adapt immediately without restarting the conversation and preserving all extracted data!
       if (res.detected_language && res.detected_language !== languageRef.current) {
         setLanguage(res.detected_language);
         languageRef.current = res.detected_language;
+        if (recognitionRef.current) {
+          try {
+            recognitionRef.current.lang = getLangCode(res.detected_language);
+          } catch (e) {}
+        }
       }
 
       // Append Gemini response in native script
@@ -759,13 +800,15 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
     processUserMessage(txt);
   }
 
-  // Multilingual sample prompt chips covering English, Telugu, Kannada, Hindi
+  // Multilingual sample prompt chips covering English, Telugu, Hindi, Kannada, Tamil and dynamic switching
   const samplePrompts = [
     "Looking for a 3 BHK in Whitefield around 1.5 Cr",
-    "నాకు వైట్‌ఫీల్డ్‌లో 3 BHK ఫ్లాట్ కావాలి (Whitefield 3 BHK)",
-    "ನನಗೆ ಸರ್ಜಾಪುರದಲ್ಲಿ ವಿಲ್ಲಾ ಬೇಕು (Sarjapur Villa)",
-    "इलेक्ट्रॉनिक सिटी में 2 BHK फ्लैट का बजट क्या है?",
-    "Can I schedule a visit for Prestige Willow Park this Saturday?"
+    "నాకు వైట్‌ఫీల్డ్‌లో 3 BHK ఫ్లాట్ కావాలి (Whitefield 3 BHK kavali)",
+    "मुझे व्हाइटफील्ड में 3 BHK फ्लैट चाहिए (Whitefield me 3 BHK chahiye)",
+    "ನನಗೆ ಸರ್ಜಾಪುರದಲ್ಲಿ 2 BHK ಮನೆ ಬೇಕು (Sarjapur 2 BHK mane beku)",
+    "எனக்கு ஒயிட்பீல்டில் 3 BHK வீடு வேண்டும் (Whitefield 3 BHK veedu vendum)",
+    "Can we speak in Telugu? / English lo matladandi",
+    "Saturday 11 AM ki visit schedule cheddama?"
   ];
 
   return (
@@ -859,23 +902,29 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
             </span>
           </div>
 
-          {/* Language Selector supporting 5 languages */}
-          <div className="flex items-center gap-2 bg-white dark:bg-[#181818] border-2 border-[#111111] dark:border-[#E5E5E5] rounded-sm px-3 py-2 text-xs font-mono font-bold text-[#111111] dark:text-[#F5F5F5] shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5]">
+          {/* Dynamic Auto-Detect Language Badge & Selector */}
+          <div className="flex items-center gap-1.5 bg-white dark:bg-[#181818] border-2 border-[#111111] dark:border-[#E5E5E5] rounded-sm px-2.5 py-1.5 text-xs font-mono font-bold text-[#111111] dark:text-[#F5F5F5] shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5]">
             <Languages className="w-4 h-4 text-[#111111] dark:text-[#FFDE59]" />
+            <span className="text-[10px] text-[#111111]/70 dark:text-[#B3B3B3] uppercase font-bold">Auto:</span>
             <select
               value={language}
               onChange={(e) => {
                 setLanguage(e.target.value);
                 languageRef.current = e.target.value;
+                if (recognitionRef.current) {
+                  try {
+                    recognitionRef.current.lang = getLangCode(e.target.value);
+                  } catch (err) {}
+                }
               }}
-              disabled={callActive}
-              className="bg-transparent border-none focus:outline-none text-xs cursor-pointer font-mono font-bold disabled:opacity-60 text-[#111111] dark:text-[#F5F5F5]"
+              className="bg-transparent border-none focus:outline-none text-xs cursor-pointer font-mono font-bold text-[#111111] dark:text-[#F5F5F5]"
+              title="Automatic language detection active. You may also select a starting language."
             >
               <option value="English" className="dark:bg-[#181818] dark:text-[#F5F5F5]">English (en-IN)</option>
-              <option value="Hindi" className="dark:bg-[#181818] dark:text-[#F5F5F5]">हिन्दी (hi-IN)</option>
-              <option value="Kannada" className="dark:bg-[#181818] dark:text-[#F5F5F5]">ಕನ್ನಡ (kn-IN)</option>
-              <option value="Telugu" className="dark:bg-[#181818] dark:text-[#F5F5F5]">తెలుగు (te-IN)</option>
-              <option value="Tamil" className="dark:bg-[#181818] dark:text-[#F5F5F5]">தமிழ் (ta-IN)</option>
+              <option value="Hindi" className="dark:bg-[#181818] dark:text-[#F5F5F5]">हिन्दी (Hindi - hi-IN)</option>
+              <option value="Telugu" className="dark:bg-[#181818] dark:text-[#F5F5F5]">తెలుగు (Telugu - te-IN)</option>
+              <option value="Kannada" className="dark:bg-[#181818] dark:text-[#F5F5F5]">ಕನ್ನಡ (Kannada - kn-IN)</option>
+              <option value="Tamil" className="dark:bg-[#181818] dark:text-[#F5F5F5]">தமிழ் (Tamil - ta-IN)</option>
             </select>
           </div>
 

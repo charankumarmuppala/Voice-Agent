@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, Query, BackgroundTasks, UploadFile, File
 from app.services.email_service import send_booking_email_in_background
+from app.services.speech_service import transcribe_multilingual_audio
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, desc
 import datetime
@@ -13,6 +14,7 @@ from app.schemas import (
     CallStartResponse,
     CallMessageRequest,
     CallMessageResponse,
+    CallAudioResponse,
     CallEndRequest,
     CallEndResponse,
     CallSessionItem,
@@ -353,6 +355,138 @@ def send_call_message(session_id: str, req: CallMessageRequest, background_tasks
         "appointment_id": appointment_id,
         "call_ended": call_just_ended,
         "detected_language": detected_lang,
+        "timestamp": utcnow()
+    }
+
+@router.post("/{session_id}/audio", response_model=CallAudioResponse)
+async def process_call_audio(
+    session_id: str,
+    file: UploadFile = File(...),
+    background_tasks: BackgroundTasks = BackgroundTasks(),
+    db: Session = Depends(get_db)
+):
+    """
+    Multilingual Speech-to-Text with Automatic Language Detection:
+    Transcribes audio (using Faster-Whisper or Gemini Audio) in Telugu, Hindi, Kannada, Tamil, or English,
+    dynamically switches language if needed, generates response in native script, and updates customer profile.
+    """
+    session = db.query(CallSession).filter(CallSession.session_id == session_id).first()
+    if not session:
+        raise HTTPException(status_code=404, detail=f"Call session '{session_id}' not found")
+
+    audio_bytes = await file.read()
+    if not audio_bytes:
+        raise HTTPException(status_code=400, detail="Empty audio payload")
+
+    # 1. Transcribe audio with automatic language detection
+    stt_res = transcribe_multilingual_audio(
+        audio_bytes=audio_bytes,
+        mime_type=file.content_type or "audio/webm",
+        language_hint=session.language
+    )
+    transcript = stt_res.get("transcript", "").strip()
+    detected_lang = stt_res.get("detected_language") or session.language
+
+    if not transcript:
+        # Fallback gentle clarification in the detected/session language
+        clarifications = {
+            "Telugu": "క్షమించండి, మీ మాట స్పష్టంగా వినిపించలేదు. దయచేసి మళ్ళీ చెప్పగలరా?",
+            "Hindi": "माफ़ कीजियेगा, आपकी आवाज़ स्पष्ट नहीं आई। क्या आप दोबारा कह सकते हैं?",
+            "Kannada": "ಕ್ಷಮಿಸಿ, ನಿಮ್ಮ ಧ್ವನಿ ಸ್ಪಷ್ಟವಾಗಿ ಕೇಳಿಸಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಇನ್ನೊಮ್ಮೆ ಹೇಳುವಿರಾ?",
+            "Tamil": "மன்னிக்கவும், உங்கள் குரல் தெளிவாக கேட்கவில்லை. தயவுசெய்து மீண்டும் கூற முடியுமா?",
+            "English": "I didn't quite catch that. Could you please repeat that?"
+        }
+        fallback_reply = clarifications.get(detected_lang, clarifications["English"])
+        return {
+            "session_id": session_id,
+            "transcript": "",
+            "reply": fallback_reply,
+            "extracted_profile": session.extracted_profile or {},
+            "recommended_properties": [],
+            "appointment_id": None,
+            "call_ended": False,
+            "detected_language": detected_lang,
+            "timestamp": utcnow()
+        }
+
+    # 2. Record transcribed user message
+    user_msg = ChatMessage(
+        session_id=session_id,
+        role="user",
+        content=transcript,
+        created_at=utcnow()
+    )
+    db.add(user_msg)
+    db.flush()
+
+    # 3. Retrieve conversational history
+    past_messages = (
+        db.query(ChatMessage)
+        .filter(ChatMessage.session_id == session_id)
+        .order_by(ChatMessage.id.asc())
+        .all()
+    )
+    history = [{"role": m.role, "content": m.content} for m in past_messages]
+
+    # 4. Generate sales response via Gemini, dynamically adapting language
+    current_profile = session.extracted_profile or {}
+    gemini_result = gemini_sales_service.generate_sales_response(
+        current_message=transcript,
+        history=history,
+        current_profile=current_profile,
+        language=detected_lang,
+        db=db,
+        session_id=session_id
+    )
+
+    agent_reply = gemini_result["reply"]
+    updated_profile = gemini_result["extracted_profile"]
+    recommended_props = gemini_result.get("recommended_properties") or []
+    effective_lang = gemini_result.get("detected_language") or detected_lang
+    session.language = effective_lang
+
+    # 5. Save agent message
+    agent_msg = ChatMessage(
+        session_id=session_id,
+        role="model",
+        content=agent_reply,
+        created_at=utcnow()
+    )
+    db.add(agent_msg)
+
+    # 6. Update customer profile & appointments
+    if updated_profile.get("customer_name") and session.customer_name in ["Prospective Buyer", "Valued Buyer", None]:
+        session.customer_name = updated_profile["customer_name"]
+    if updated_profile.get("customer_phone") and updated_profile["customer_phone"] not in ["+91 98450 12345", None]:
+        session.customer_phone = updated_profile["customer_phone"]
+
+    session.extracted_profile = updated_profile
+
+    appointment_id = None
+    if updated_profile.get("booking_ready") or updated_profile.get("visit_interest") in ["Interested", "Requested"]:
+        appt = _save_appointment_if_needed(session, updated_profile, utcnow(), session_id, None, db)
+        if appt:
+            appointment_id = appt.appointment_id
+            if updated_profile.get("email_confirmed") and appt.customer_email and appt.email_status != "Sent":
+                background_tasks.add_task(send_booking_email_in_background, appt.appointment_id)
+
+    db.commit()
+
+    call_just_ended = updated_profile.get("call_ended", False)
+    if call_just_ended and session.status == "in_progress":
+        session.status = "completed"
+        session.ended_at = utcnow()
+        db.commit()
+
+    return {
+        "session_id": session_id,
+        "transcript": transcript,
+        "reply": agent_reply,
+        "extracted_profile": updated_profile,
+        "recommended_properties": recommended_props,
+        "appointment_id": appointment_id,
+        "call_ended": call_just_ended,
+        "detected_language": effective_lang,
         "timestamp": utcnow()
     }
 
