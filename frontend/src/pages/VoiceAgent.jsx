@@ -181,6 +181,7 @@ export default function VoiceAgent({ onVisitBooked }) {
   const isMutedRef = useRef(false);
   const sessionIdRef = useRef(null);
   const languageRef = useRef(language);
+  const transcriptContainerRef = useRef(null);
   const transcriptEndRef = useRef(null);
   const keepAliveIntervalRef = useRef(null);
 
@@ -237,8 +238,10 @@ export default function VoiceAgent({ onVisitBooked }) {
   }, [isMuted, callActive]);
 
   useEffect(() => {
-    transcriptEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping, isSpeaking, liveHeardText]);
+    if (transcriptContainerRef.current) {
+      transcriptContainerRef.current.scrollTop = transcriptContainerRef.current.scrollHeight;
+    }
+  }, [messages, isTyping]);
 
   // Check speech recognition support and voice loading on mount
   useEffect(() => {
@@ -934,7 +937,7 @@ export default function VoiceAgent({ onVisitBooked }) {
           </div>
 
           {/* Transcript Message Scroll */}
-          <div className="flex-1 p-5 overflow-y-auto space-y-4">
+          <div ref={transcriptContainerRef} className="flex-1 p-5 overflow-y-auto space-y-4">
             {messages.map((msg) => {
               if (msg.sender === 'system') {
                 return (
