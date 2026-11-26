@@ -105,8 +105,6 @@ EstateVoice AI completely automates the top-of-funnel real estate sales cycle:
 
 EstateVoice AI is organized into five decoupled layers ensuring low latency, high audio responsiveness, and clean separation of concerns.
 
-![System Architecture](docs/system-architecture.png)
-
 ### Architectural Flow Summary
 1. **Client Audio Layer:** Captures the customer's voice stream through the browser microphone, converts audio to text in real-time via Web Speech STT, and manages the audio visualizer.
 2. **API Gateway Layer:** FastAPI receives requests, routes messages to active session contexts, and delegates CPU-bound or network-bound tasks to async background workers.
