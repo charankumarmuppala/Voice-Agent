@@ -361,7 +361,7 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
     return nativeVoices[0];
   }
 
-  // Text-to-Speech using ElevenLabs API first with seamless browser SpeechSynthesis fallback
+  // Text-to-Speech exclusively using ElevenLabs Neural Voice with persistent Audio player
   async function speakResponse(text, onEndCallback) {
     const cleanedText = cleanSpeechText(text);
     if (!cleanedText) {
@@ -384,12 +384,11 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
     if (currentAudioRef.current) {
       try {
         currentAudioRef.current.pause();
-        currentAudioRef.current.src = '';
+        currentAudioRef.current.onended = null;
+        currentAudioRef.current.onerror = null;
       } catch (e) {}
-      currentAudioRef.current = null;
-    }
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+    } else {
+      currentAudioRef.current = new Audio();
     }
 
     const cleanupAndResume = () => {
@@ -410,7 +409,6 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
       }
     };
 
-    // 1. Try ElevenLabs Neural TTS
     try {
       const audioBlob = await synthesizeSpeech(cleanedText, languageRef.current);
       if (!callActiveRef.current && !onEndCallback) {
@@ -418,53 +416,24 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
         return;
       }
       const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
-      currentAudioRef.current = audio;
+      const audio = currentAudioRef.current;
+      audio.src = audioUrl;
 
       audio.onended = () => {
         URL.revokeObjectURL(audioUrl);
-        if (currentAudioRef.current === audio) currentAudioRef.current = null;
         cleanupAndResume();
       };
-      audio.onerror = () => {
+      audio.onerror = (e) => {
+        console.warn('ElevenLabs audio playback error:', e);
         URL.revokeObjectURL(audioUrl);
-        if (currentAudioRef.current === audio) currentAudioRef.current = null;
-        fallbackBrowserTTS();
+        cleanupAndResume();
       };
 
       await audio.play();
-      return;
     } catch (err) {
-      console.warn('ElevenLabs TTS unavailable, falling back to browser TTS:', err);
+      console.warn('ElevenLabs TTS error:', err);
+      cleanupAndResume();
     }
-
-    // 2. Fallback to browser Web Speech Synthesis
-    function fallbackBrowserTTS() {
-      if (!('speechSynthesis' in window)) {
-        cleanupAndResume();
-        return;
-      }
-      const targetLangCode = getLangCode(languageRef.current);
-      const utterance = new SpeechSynthesisUtterance(cleanedText);
-      utterance.lang = targetLangCode;
-      utterance.rate = 0.96;
-      utterance.pitch = 1.05;
-
-      const femaleVoice = selectFemaleVoice(targetLangCode, cleanedText);
-      if (femaleVoice) {
-        utterance.voice = femaleVoice;
-      }
-
-      utterance.onend = cleanupAndResume;
-      utterance.onerror = (e) => {
-        console.warn('TTS utterance event:', e);
-        cleanupAndResume();
-      };
-
-      window.speechSynthesis.speak(utterance);
-    }
-
-    fallbackBrowserTTS();
   }
 
   // Submit buffered speech after adaptive silence window
@@ -608,6 +577,15 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
   // Start Call Session
   async function handleStartCall() {
     try {
+      // Unlock persistent Audio element synchronously on user gesture to prevent autoplay blocks
+      if (!currentAudioRef.current) {
+        currentAudioRef.current = new Audio();
+      }
+      try {
+        currentAudioRef.current.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+        currentAudioRef.current.play().catch(() => {});
+      } catch (e) {}
+
       clearSilenceTimers();
       speechFragmentsRef.current = [];
       setLiveHeardText('');

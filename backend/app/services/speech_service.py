@@ -188,35 +188,54 @@ def synthesize_elevenlabs_speech(text: str, language: str = "English") -> Option
     Generate natural multilingual female speech (MP3) using ElevenLabs API.
     Uses eleven_flash_v2_5 for ultra-low latency across English, Hindi, Telugu, Kannada, and Tamil.
     """
+    from dotenv import dotenv_values
     from app.config import settings
-    api_key = getattr(settings, "ELEVENLABS_API_KEY", None) or os.getenv("ELEVENLABS_API_KEY", "")
+
+    env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), ".env")
+    env_vars = dotenv_values(env_path) if os.path.exists(env_path) else {}
+    api_key = (
+        env_vars.get("ELEVENLABS_API_KEY")
+        or getattr(settings, "ELEVENLABS_API_KEY", None)
+        or os.getenv("ELEVENLABS_API_KEY", "")
+    ).strip().strip('"').strip("'")
+
     if not api_key or not text or not text.strip():
         return None
 
-    try:
-        import httpx
+    import httpx
+    import time
 
-        url = f"https://api.elevenlabs.io/v1/text-to-speech/{ELEVENLABS_FEMALE_VOICE_ID}"
-        headers = {
-            "xi-api-key": api_key,
-            "Content-Type": "application/json",
-            "Accept": "audio/mpeg",
-        }
-        payload = {
-            "text": text.strip(),
-            "model_id": "eleven_flash_v2_5",
-            "voice_settings": {
-                "stability": 0.5,
-                "similarity_boost": 0.75,
-                "style": 0.2,
-                "use_speaker_boost": True,
-            },
-        }
-        resp = httpx.post(url, headers=headers, json=payload, timeout=15.0)
-        if resp.status_code == 200 and resp.content:
-            return resp.content
-        logger.warning(f"ElevenLabs TTS returned {resp.status_code}: {resp.text[:200]}")
-        return None
-    except Exception as e:
-        logger.warning(f"ElevenLabs TTS error: {e}")
-        return None
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{ELEVENLABS_FEMALE_VOICE_ID}"
+    headers = {
+        "xi-api-key": api_key,
+        "Content-Type": "application/json",
+        "Accept": "audio/mpeg",
+    }
+    payload = {
+        "text": text.strip(),
+        "model_id": "eleven_flash_v2_5",
+        "voice_settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75,
+            "style": 0.2,
+            "use_speaker_boost": True,
+        },
+    }
+
+    for attempt in range(2):
+        try:
+            resp = httpx.post(url, headers=headers, json=payload, timeout=15.0)
+            if resp.status_code == 200 and resp.content:
+                return resp.content
+            logger.warning(f"ElevenLabs TTS attempt {attempt + 1} returned {resp.status_code}: {resp.text[:200]}")
+            if resp.status_code in (429, 500, 502, 503, 504) and attempt == 0:
+                time.sleep(0.4)
+                continue
+            return None
+        except Exception as e:
+            logger.warning(f"ElevenLabs TTS attempt {attempt + 1} error: {e}")
+            if attempt == 0:
+                time.sleep(0.3)
+                continue
+            return None
+    return None
