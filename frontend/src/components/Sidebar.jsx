@@ -10,10 +10,12 @@ import {
   ChevronLeft,
   ChevronRight,
   Sparkles,
-  PhoneCall
+  PhoneCall,
+  Sun,
+  Moon
 } from 'lucide-react';
 
-export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed }) {
+export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed, darkMode, setDarkMode }) {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'voice-agent', label: 'AI Voice Agent', icon: Mic, badge: 'LIVE' },
@@ -94,25 +96,43 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
         </nav>
       </div>
 
-      {/* Bottom Status Info */}
-      <div className="p-3 border-t border-[#D6CDBB]">
+      {/* Bottom Status Info & Theme Toggle */}
+      <div className="p-3 border-t border-[#D6CDBB] space-y-2">
         {!collapsed ? (
-          <div className="bg-[#F5F2E9] rounded-2xl p-3 border border-[#D6CDBB] text-xs">
-            <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-[#14532D] font-bold mb-1">
-              <span className="flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#14532D]" />
-                Gemini Sales AI
-              </span>
-              <span className="w-2 h-2 rounded-full bg-[#14532D] animate-pulse" />
+          <>
+            <div className="bg-[#F5F2E9] rounded-2xl p-3 border border-[#D6CDBB] text-xs">
+              <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-[#14532D] font-bold mb-1">
+                <span className="flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#14532D]" />
+                  Gemini Sales AI
+                </span>
+                <span className="w-2 h-2 rounded-full bg-[#14532D] animate-pulse" />
+              </div>
+              <p className="font-sans text-[#171717]/60 text-[11px] leading-relaxed">
+                Real-time voice agent & SQLite CRM connected.
+              </p>
             </div>
-            <p className="font-sans text-[#171717]/60 text-[11px] leading-relaxed">
-              Real-time voice agent & SQLite CRM connected.
-            </p>
-          </div>
+
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-xl border border-[#D6CDBB] bg-[#F5F2E9] text-[#171717] font-mono text-xs font-semibold hover:border-[#14532D] transition-all cursor-pointer"
+              title={darkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
+            >
+              <span className="flex items-center gap-2">
+                {darkMode ? <Sun className="w-3.5 h-3.5 text-[#FCD34D]" /> : <Moon className="w-3.5 h-3.5 text-[#14532D]" />}
+                <span>{darkMode ? 'Light Theme' : 'Dark Theme'}</span>
+              </span>
+              <span className="text-[10px] uppercase font-bold text-[#171717]/50">{darkMode ? 'Dark' : 'Light'}</span>
+            </button>
+          </>
         ) : (
-          <div className="w-10 h-10 mx-auto rounded-2xl bg-[#F5F2E9] border border-[#D6CDBB] flex items-center justify-center text-[#14532D]">
-            <Sparkles className="w-4 h-4 text-[#14532D]" />
-          </div>
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="w-10 h-10 mx-auto rounded-2xl bg-[#F5F2E9] border border-[#D6CDBB] flex items-center justify-center text-[#14532D] hover:border-[#14532D] transition-colors cursor-pointer"
+            title={darkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
+          >
+            {darkMode ? <Sun className="w-4 h-4 text-[#FCD34D]" /> : <Moon className="w-4 h-4 text-[#14532D]" />}
+          </button>
         )}
       </div>
     </aside>

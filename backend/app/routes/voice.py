@@ -133,7 +133,9 @@ def _process_user_message(session_id: str, user_text_raw: str, db: Session):
         current_message=user_text,
         history=history,
         current_profile=current_profile,
-        language=session.language
+        language=session.language,
+        db=db,
+        session_id=session_id
     )
 
     agent_reply = gemini_result["reply"]

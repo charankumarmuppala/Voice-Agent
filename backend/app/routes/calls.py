@@ -33,6 +33,9 @@ def _save_appointment_if_needed(session, final_profile, ended_time, session_id, 
     visit_interest = final_profile.get("visit_interest", "")
     visit_slot = final_profile.get("visit_slot")
 
+    if final_profile.get("slot_conflict"):
+        return None
+
     should_book = booking_ready or (
         visit_interest in ["Interested", "Requested"]
     )
@@ -258,7 +261,8 @@ def send_call_message(session_id: str, req: CallMessageRequest, background_tasks
         history=history,
         current_profile=current_profile,
         language=session.language,
-        db=db
+        db=db,
+        session_id=session_id
     )
 
     agent_reply = gemini_result["reply"]

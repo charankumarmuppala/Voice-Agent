@@ -8,10 +8,12 @@ import {
   Sparkles,
   Key,
   ShieldCheck,
-  CheckCircle2
+  CheckCircle2,
+  Sun,
+  Moon
 } from 'lucide-react';
 
-export default function Settings() {
+export default function Settings({ darkMode, setDarkMode }) {
   const [defaultLanguage, setDefaultLanguage] = useState('English');
   const [agentTone, setAgentTone] = useState('Consultative & Professional');
   const [speechSpeed, setSpeechSpeed] = useState('1.0x (Natural)');
@@ -35,6 +37,48 @@ export default function Settings() {
       </div>
 
       <form onSubmit={handleSave} className="space-y-6">
+        {/* Appearance & Interface Theme */}
+        <div className="bg-[#FFFCF7] rounded-3xl p-6 border border-[#D6CDBB] shadow-none space-y-4">
+          <div className="flex items-center gap-2">
+            <Sun className="w-5 h-5 text-[#14532D]" />
+            <h3 className="font-heading font-bold text-[#171717] text-sm">Appearance & Interface Theme</h3>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <button
+              type="button"
+              onClick={() => setDarkMode && setDarkMode(false)}
+              className={`p-4 rounded-2xl border flex items-center gap-3 transition-all text-left cursor-pointer ${
+                !darkMode
+                  ? 'bg-[#E2F1E7] border-[#14532D] text-[#14532D] font-bold'
+                  : 'bg-[#F5F2E9] border-[#D6CDBB] text-[#171717]/70 hover:border-[#14532D]'
+              }`}
+            >
+              <Sun className="w-5 h-5 flex-shrink-0" />
+              <div>
+                <div className="font-heading font-bold text-sm">Light Mode</div>
+                <div className="text-[11px] font-sans opacity-80">Warm Neo-Brutalist Light theme</div>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setDarkMode && setDarkMode(true)}
+              className={`p-4 rounded-2xl border flex items-center gap-3 transition-all text-left cursor-pointer ${
+                darkMode
+                  ? 'bg-[#14532D] border-[#14532D] text-white font-bold'
+                  : 'bg-[#F5F2E9] border-[#D6CDBB] text-[#171717]/70 hover:border-[#14532D]'
+              }`}
+            >
+              <Moon className="w-5 h-5 flex-shrink-0" />
+              <div>
+                <div className="font-heading font-bold text-sm">Dark Mode</div>
+                <div className="text-[11px] font-sans opacity-80">Deep Obsidian & Emerald Dark theme</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
         {/* Language Preferences */}
         <div className="bg-[#FFFCF7] rounded-3xl p-6 border border-[#D6CDBB] shadow-none space-y-4">
           <div className="flex items-center gap-2">

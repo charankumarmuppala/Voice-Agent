@@ -14,15 +14,30 @@ export default function App() {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedPropertyForVisit, setSelectedPropertyForVisit] = useState(null);
 
-  // Clear any residual test data from browser storage for fresh testing
+  // Dark Mode State with persistence
+  const [darkMode, setDarkMode] = useState(() => {
+    try {
+      const saved = localStorage.getItem('estatevoice_theme');
+      if (saved) return saved === 'dark';
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } catch (e) {
+      return false;
+    }
+  });
+
   useEffect(() => {
     try {
-      localStorage.clear();
-      sessionStorage.clear();
+      if (darkMode) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('estatevoice_theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('estatevoice_theme', 'light');
+      }
     } catch (e) {
-      console.warn('Storage cleanup:', e);
+      console.warn('Theme storage error:', e);
     }
-  }, []);
+  }, [darkMode]);
 
   function handleScheduleVisitFromCard(prop) {
     setSelectedPropertyForVisit(prop);
@@ -40,18 +55,24 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-screen bg-dotted-grid bg-[#F5F2E9] text-[#171717] font-sans overflow-hidden">
+    <div className={`flex h-screen bg-dotted-grid bg-[#F5F2E9] text-[#171717] font-sans overflow-hidden ${darkMode ? 'dark' : ''}`}>
       {/* Collapsible Sidebar */}
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         collapsed={collapsed}
         setCollapsed={setCollapsed}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
       />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <Navbar activeTabTitle={titles[activeTab] || 'EstateVoice AI'} />
+        <Navbar
+          activeTabTitle={titles[activeTab] || 'EstateVoice AI'}
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+        />
 
         <main className="flex-1 overflow-y-auto">
           {activeTab === 'dashboard' && <Dashboard setActiveTab={setActiveTab} />}
@@ -68,7 +89,7 @@ export default function App() {
             <Appointments initialProperty={selectedPropertyForVisit} />
           )}
           {activeTab === 'call-history' && <CallHistory />}
-          {activeTab === 'settings' && <Settings />}
+          {activeTab === 'settings' && <Settings darkMode={darkMode} setDarkMode={setDarkMode} />}
         </main>
       </div>
     </div>
