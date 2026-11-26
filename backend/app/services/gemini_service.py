@@ -477,25 +477,28 @@ def extract_all_requirements(message: str, existing_profile: Optional[Dict[str, 
         updated["unconfirmed_email"] = em_tuple[0]
         updated["email_spelling"] = em_tuple[1]
 
-    # 8. Visit request extraction
-    explicit_book_phrases = [
-        "book visit", "schedule visit", "book a visit", "schedule a visit", "book appointment", "schedule appointment",
-        "book tour", "schedule tour", "tour the property", "book a site visit", "schedule a site visit"
-    ]
-    curr_state = updated.get("conv_state", "")
-    is_recommending = curr_state in ["RECOMMEND", "VISIT", "COLLECT_PHONE", "CONFIRM_PHONE"]
+    # 8. Visit request extraction (skip if rescheduling so old visit_slot is not overwritten)
+    from app.services.appointment_service import detect_reschedule_intent
+    is_rescheduling = bool(updated.get("reschedule_active")) or detect_reschedule_intent(message, updated)
+    if not is_rescheduling:
+        explicit_book_phrases = [
+            "book visit", "schedule visit", "book a visit", "schedule a visit", "book appointment", "schedule appointment",
+            "book tour", "schedule tour", "tour the property", "book a site visit", "schedule a site visit"
+        ]
+        curr_state = updated.get("conv_state", "")
+        is_recommending = curr_state in ["RECOMMEND", "VISIT", "COLLECT_PHONE", "CONFIRM_PHONE"]
 
-    has_explicit_booking = any(p in low for p in explicit_book_phrases)
-    has_timing_in_recommend = is_recommending and any(w in low for w in ["visit", "saturday", "sunday", "tomorrow", "this weekend", "yes", "sure", "ok", "okay", "శనివారం", "ఆదివారం", "ಶನಿವಾರ", "ಭಾನುವಾರ", "शनिवार", "रविवार"])
+        has_explicit_booking = any(p in low for p in explicit_book_phrases)
+        has_timing_in_recommend = is_recommending and any(w in low for w in ["visit", "saturday", "sunday", "tomorrow", "this weekend", "yes", "sure", "ok", "okay", "శనివారం", "ఆదివారం", "ಶನಿವಾರ", "ಭಾನುವಾರ", "शनिवार", "रविवार"])
 
-    if has_explicit_booking or has_timing_in_recommend:
-        updated["visit_interest"] = "Requested"
-        updated["lead_score"] = 92
-        slot = "Saturday 11:00 AM" if ("saturday" in low or "శనివారం" in low or "ಶನಿವಾರ" in low or "शनिवार" in low) else (
-            "Sunday 11:00 AM" if ("sunday" in low or "ఆదివారం" in low or "ಭಾನುವಾರ" in low or "रविवार" in low) else "Tomorrow 11:00 AM"
-        )
-        updated["visit_slot"] = slot
-        updated["booking_ready"] = True
+        if has_explicit_booking or has_timing_in_recommend:
+            updated["visit_interest"] = "Requested"
+            updated["lead_score"] = 92
+            slot = "Saturday 11:00 AM" if ("saturday" in low or "శనివారం" in low or "ಶನಿವಾರ" in low or "शनिवार" in low) else (
+                "Sunday 11:00 AM" if ("sunday" in low or "ఆదివారం" in low or "ಭಾನುವಾರ" in low or "रविवार" in low) else "Tomorrow 11:00 AM"
+            )
+            updated["visit_slot"] = slot
+            updated["booking_ready"] = True
 
     # 9. Property Name extraction
     for p_name in ["Prestige Willow Park", "Assetz Marq", "Sobha Dream Acres", "Brigade Horizon", "Godrej Royale Woods"]:
@@ -1051,6 +1054,24 @@ class GeminiSalesService:
         active_lang = detect_language_from_text(current_message, extracted_facts.get("language") or language)
         extracted_facts["language"] = active_lang
 
+        # 1b. Dedicated RESCHEDULE_APPOINTMENT intent handling (deterministic DB validation & state isolation)
+        from app.services.appointment_service import detect_reschedule_intent, handle_reschedule_turn
+        if extracted_facts.get("reschedule_active") or detect_reschedule_intent(current_message, extracted_facts):
+            resched_res = handle_reschedule_turn(
+                current_message=current_message,
+                profile=extracted_facts,
+                language=active_lang,
+                db=db,
+                session_id=session_id,
+            )
+            return {
+                "reply": resched_res["reply"],
+                "extracted_profile": resched_res["profile"],
+                "detected_language": active_lang,
+                "recommended_properties": [],
+                "next_action": resched_res.get("next_action", "RESCHEDULE_APPOINTMENT"),
+            }
+
         # 2. Trigger automatic RAG property search if criteria are present
         has_criteria = bool(extracted_facts.get("location") and (extracted_facts.get("bhk") or extracted_facts.get("budget")))
         rag_properties = []
@@ -1298,6 +1319,8 @@ class GeminiSalesService:
             "timeline", "visit_interest", "visit_slot", "visit_date_iso", "property_name",
             "conv_state", "booking_ready", "call_ended", "phone_confirmed", "email_confirmed",
             "unconfirmed_phone", "unconfirmed_email", "email_spelling", "email_status",
+            "appointment_id", "reschedule_active", "reschedule_target_date", "reschedule_target_time",
+            "suggested_alternative_iso", "rescheduled_just_now",
             "sentiment", "lead_score", "intent", "language"
         ]
         for f in fields:
@@ -1352,6 +1375,21 @@ class GeminiSalesService:
         is_tamil = "tamil" in detected_lang.lower()
 
         state = updated.get("conv_state", "GREET")
+
+        # Rescheduling check in fallback mode
+        from app.services.appointment_service import detect_reschedule_intent, handle_reschedule_turn
+        if updated.get("reschedule_active") or detect_reschedule_intent(message, updated):
+            resched_res = handle_reschedule_turn(
+                current_message=message,
+                profile=updated,
+                language=detected_lang,
+                db=None,
+            )
+            return {
+                "reply": resched_res["reply"],
+                "extracted_profile": resched_res["profile"],
+                "detected_language": detected_lang,
+            }
 
         # Closing detection
         def is_closing_intent_fb(txt: str) -> bool:

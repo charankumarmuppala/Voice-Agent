@@ -194,21 +194,24 @@ def extract_node(state: AgentState) -> Dict[str, Any]:
     if b_match:
         prof["budget"] = b_match.group(1)
 
-    # Visit request
-    visit_words = [
-        "visit", "see", "tour", "saturday", "sunday", "tomorrow", "book", "schedule",
-        "భేటి", "విజిట్", "చూడాలి", "చూద్దాం", "శనివారం", "ఆదివారం",
-        "ಭೇಟಿ", "ವಿಜಿಟ್", "ನೋಡಬೇಕು", "ಶನಿವಾರ", "ಭಾನುವಾರ",
-        "विजिट", "दौरा", "देखना", "शनिवार", "रविवार"
-    ]
-    if any(w in low for w in visit_words):
-        prof["visit_interest"] = "Requested"
-        prof["lead_score"] = 92
-        slot = "Saturday 11:00 AM" if any(w in low for w in ["saturday", "శనివారం", "ಶನಿವಾರ", "शनिवार"]) else (
-            "Sunday 11:00 AM" if any(w in low for w in ["sunday", "ఆదివారం", "ಭಾನುವಾರ", "रविवार"]) else "Tomorrow 11:00 AM"
-        )
-        prof["visit_slot"] = slot
-        prof["booking_ready"] = True
+    # Visit request (skip if rescheduling so old visit_slot is not overwritten)
+    from app.services.appointment_service import detect_reschedule_intent
+    is_rescheduling = bool(prof.get("reschedule_active")) or detect_reschedule_intent(msg, prof)
+    if not is_rescheduling:
+        visit_words = [
+            "visit", "see", "tour", "saturday", "sunday", "tomorrow", "book", "schedule",
+            "భేటి", "విజిట్", "చూడాలి", "చూద్దాం", "శనివారం", "ఆదివారం",
+            "ಭೇಟಿ", "ವಿಜಿಟ್", "ನೋಡಬೇಕು", "ಶನಿವಾರ", "ಭಾನುವಾರ",
+            "विजिट", "दौरा", "देखना", "शनिवार", "रविवार"
+        ]
+        if any(w in low for w in visit_words):
+            prof["visit_interest"] = "Requested"
+            prof["lead_score"] = 92
+            slot = "Saturday 11:00 AM" if any(w in low for w in ["saturday", "శనివారం", "ಶನಿವಾರ", "शनिवार"]) else (
+                "Sunday 11:00 AM" if any(w in low for w in ["sunday", "ఆదివారం", "ಭಾನುವಾರ", "रविवार"]) else "Tomorrow 11:00 AM"
+            )
+            prof["visit_slot"] = slot
+            prof["booking_ready"] = True
 
     for p_name in ["Prestige Willow Park", "Assetz Marq", "Sobha Dream Acres", "Brigade Horizon", "Godrej Royale Woods"]:
         if p_name.lower() in low:
@@ -334,6 +337,26 @@ def contact_node(state: AgentState) -> Dict[str, Any]:
     return {"reply": reply, "profile": prof}
 
 
+def reschedule_node(state: AgentState) -> Dict[str, Any]:
+    """Node 6: Dedicated RESCHEDULE_APPOINTMENT workflow node."""
+    from app.services.appointment_service import handle_reschedule_turn
+    prof = dict(state.get("profile") or {})
+    lang = state.get("language", "English")
+    db = state.get("db")
+    res = handle_reschedule_turn(
+        current_message=state["current_message"],
+        profile=prof,
+        language=lang,
+        db=db,
+        session_id=prof.get("session_id"),
+    )
+    return {
+        "reply": res["reply"],
+        "profile": res["profile"],
+        "next_action": "RESCHEDULE_APPOINTMENT",
+    }
+
+
 def closing_node(state: AgentState) -> Dict[str, Any]:
     """Node 5: Answers questions or gracefully ends call with warm female thank you."""
     prof = dict(state.get("profile") or {})
@@ -372,7 +395,9 @@ def closing_node(state: AgentState) -> Dict[str, Any]:
 
 def route_conversation(state: AgentState) -> str:
     """Decides which LangGraph node handles the next action based on state."""
-    msg = state["current_message"].lower()
+    from app.services.appointment_service import detect_reschedule_intent
+    raw_msg = state["current_message"]
+    msg = raw_msg.lower()
     prof = state.get("profile") or {}
 
     closing_triggers = [
@@ -381,7 +406,12 @@ def route_conversation(state: AgentState) -> str:
         "ಧನ್ಯವಾದ", "ಇಲ್ಲ", "సెలవు", "వద్దు", "ధన్యవాదాలు"
     ]
     is_q = any(q in msg for q in ["?", "what", "where", "how", "pool", "gym", "price", "amenit"])
-    is_correction = any(w in msg for w in ["wrong", "correction", "email is", "phone is", "number is", "actually", "@", "dot", "change", "mistake"])
+
+    # Dedicated RESCHEDULE_APPOINTMENT intent routing (must precede closing/contact nodes)
+    if prof.get("reschedule_active") or detect_reschedule_intent(raw_msg, prof):
+        return "RESCHEDULE_APPOINTMENT"
+
+    is_correction = any(w in msg for w in ["wrong", "correction", "email is", "phone is", "number is", "actually", "@", "dot", "mistake"])
 
     if is_correction:
         return "contact_node"
@@ -422,6 +452,7 @@ def build_estatevoice_graph():
     builder.add_node("rag_search_node", rag_search_node)
     builder.add_node("recommendation_node", recommendation_node)
     builder.add_node("contact_node", contact_node)
+    builder.add_node("reschedule_node", reschedule_node)
     builder.add_node("closing_node", closing_node)
 
     builder.set_entry_point("extract_node")
@@ -432,6 +463,7 @@ def build_estatevoice_graph():
         {
             "rag_search_node": "rag_search_node",
             "contact_node": "contact_node",
+            "RESCHEDULE_APPOINTMENT": "reschedule_node",
             "closing_node": "closing_node"
         }
     )
@@ -439,6 +471,7 @@ def build_estatevoice_graph():
     builder.add_edge("rag_search_node", "recommendation_node")
     builder.add_edge("recommendation_node", END)
     builder.add_edge("contact_node", END)
+    builder.add_edge("reschedule_node", END)
     builder.add_edge("closing_node", END)
 
     return builder.compile()

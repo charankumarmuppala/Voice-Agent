@@ -333,12 +333,15 @@ def send_call_message(session_id: str, req: CallMessageRequest, background_tasks
     session.extracted_profile = updated_profile
 
     # 5b. If booking_ready or visit requested, save or update appointment immediately (don't wait for call end)
-    appointment_id = None
-    if updated_profile.get("booking_ready") or updated_profile.get("visit_interest") in ["Interested", "Requested"]:
+    appointment_id = updated_profile.get("appointment_id")
+    rescheduled_just_now = bool(updated_profile.pop("rescheduled_just_now", False))
+    if updated_profile.get("booking_ready") or updated_profile.get("visit_interest") in ["Interested", "Requested"] or rescheduled_just_now:
         appt = _save_appointment_if_needed(session, updated_profile, utcnow(), session_id, None, db)
         if appt:
             appointment_id = appt.appointment_id
-            if updated_profile.get("email_confirmed") and appt.customer_email and appt.email_status != "Sent":
+            updated_profile["appointment_id"] = appointment_id
+            session.extracted_profile = dict(updated_profile)
+            if (updated_profile.get("email_confirmed") or rescheduled_just_now) and appt.customer_email and appt.email_status != "Sent":
                 background_tasks.add_task(send_booking_email_in_background, appt.appointment_id)
 
     db.commit()
@@ -478,12 +481,15 @@ async def process_call_audio(
 
     session.extracted_profile = updated_profile
 
-    appointment_id = None
-    if updated_profile.get("booking_ready") or updated_profile.get("visit_interest") in ["Interested", "Requested"]:
+    appointment_id = updated_profile.get("appointment_id")
+    rescheduled_just_now = bool(updated_profile.pop("rescheduled_just_now", False))
+    if updated_profile.get("booking_ready") or updated_profile.get("visit_interest") in ["Interested", "Requested"] or rescheduled_just_now:
         appt = _save_appointment_if_needed(session, updated_profile, utcnow(), session_id, None, db)
         if appt:
             appointment_id = appt.appointment_id
-            if updated_profile.get("email_confirmed") and appt.customer_email and appt.email_status != "Sent":
+            updated_profile["appointment_id"] = appointment_id
+            session.extracted_profile = dict(updated_profile)
+            if (updated_profile.get("email_confirmed") or rescheduled_just_now) and appt.customer_email and appt.email_status != "Sent":
                 background_tasks.add_task(send_booking_email_in_background, appt.appointment_id)
 
     db.commit()

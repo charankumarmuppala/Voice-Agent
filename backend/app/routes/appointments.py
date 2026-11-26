@@ -91,6 +91,14 @@ def create_appointment(payload: dict, db: Session = Depends(get_db)):
     if existing:
         return appt_to_dict(existing)  # Return existing instead of duplicate
 
+    # Prevent simultaneous bookings from reserving an already-booked or overlapping slot
+    from app.services.appointment_service import has_slot_conflict
+    if has_slot_conflict(db, slot_dt):
+        raise HTTPException(
+            status_code=409,
+            detail="Unfortunately, that time slot is already booked. Please choose another available time."
+        )
+
     # Ensure/create Lead
     lead = db.query(Lead).filter(Lead.phone == customer_phone).first()
     if not lead:
