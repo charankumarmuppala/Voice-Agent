@@ -237,7 +237,7 @@ def send_call_message(session_id: str, req: CallMessageRequest, background_tasks
     if not user_text:
         raise HTTPException(status_code=400, detail="Message cannot be empty")
 
-    # 1. Save user message
+    # 1. Save user message and commit immediately so SQLite write lock is released before calling Gemini
     user_msg = ChatMessage(
         session_id=session_id,
         role="user",
@@ -245,7 +245,7 @@ def send_call_message(session_id: str, req: CallMessageRequest, background_tasks
         created_at=utcnow()
     )
     db.add(user_msg)
-    db.flush()
+    db.commit()
 
     # 2. Retrieve history
     past_messages = (
@@ -409,7 +409,7 @@ async def process_call_audio(
             "timestamp": utcnow()
         }
 
-    # 2. Record transcribed user message
+    # 2. Record transcribed user message and commit immediately so SQLite write lock is released before calling Gemini
     user_msg = ChatMessage(
         session_id=session_id,
         role="user",
@@ -417,7 +417,7 @@ async def process_call_audio(
         created_at=utcnow()
     )
     db.add(user_msg)
-    db.flush()
+    db.commit()
 
     # 3. Retrieve conversational history
     past_messages = (

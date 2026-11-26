@@ -101,7 +101,13 @@ def transcribe_with_gemini_audio(audio_bytes: bytes, mime_type: str = "audio/web
         from google import genai
         from google.genai import types
 
-        client = genai.Client(api_key=api_key)
+        client = genai.Client(
+            api_key=api_key,
+            http_options=types.HttpOptions(
+                timeout=15000,
+                retry_options=types.HttpRetryOptions(attempts=1)
+            )
+        )
         audio_part = types.Part.from_bytes(data=audio_bytes, mime_type=mime_type)
 
         prompt = (
@@ -118,14 +124,22 @@ def transcribe_with_gemini_audio(audio_bytes: bytes, mime_type: str = "audio/web
             "{\"transcript\": \"transcribed text here\", \"detected_language\": \"Telugu|Hindi|Kannada|Tamil|English\"}"
         )
 
-        response = client.models.generate_content(
-            model="gemini-3.8-flash",
-            contents=[audio_part, prompt],
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                temperature=0.1
-            )
-        )
+        response = None
+        for model_name in ["gemini-3.5-flash-lite", "gemini-3.8-flash"]:
+            try:
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=[audio_part, prompt],
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json",
+                        temperature=0.1
+                    )
+                )
+                break
+            except Exception:
+                continue
+        if response is None:
+            raise RuntimeError("All Gemini audio transcription models failed")
 
         import json
         data = json.loads(response.text.strip())

@@ -9,10 +9,10 @@ from app.config import settings
 logger = logging.getLogger(__name__)
 
 CANDIDATE_MODELS = [
+    "gemini-3.5-flash-lite",
     "gemini-3.8-flash",
     "gemini-3.5-flash",
     "gemini-3.6-flash",
-    "gemini-3.5-flash-lite",
     "gemini-3.7-flash",
 ]
 
@@ -709,7 +709,13 @@ class GeminiSalesService:
 
     def get_client(self):
         if self._client is None and settings.GEMINI_API_KEY:
-            self._client = genai.Client(api_key=settings.GEMINI_API_KEY)
+            self._client = genai.Client(
+                api_key=settings.GEMINI_API_KEY,
+                http_options=types.HttpOptions(
+                    timeout=15000,
+                    retry_options=types.HttpRetryOptions(attempts=1)
+                )
+            )
         return self._client
 
     def get_initial_greeting(self, language: str = "English", customer_name: Optional[str] = None) -> str:
