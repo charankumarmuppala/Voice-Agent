@@ -17,7 +17,7 @@ CANDIDATE_MODELS = [
 ]
 
 PROPERTY_INVENTORY_CONTEXT = """
-VERIFIED DREAMSPACE REALTY BANGALORE PORTFOLIO (DO NOT INVENT PROPERTIES OUTSIDE THIS LIST):
+VERIFIED DREAMSPACE PROPERTIES BANGALORE PORTFOLIO (DO NOT INVENT PROPERTIES OUTSIDE THIS LIST):
 1. Prestige Willow Park | Whitefield | 3 BHK Apartment | ₹1.45 Cr | Ready to Move | Near ITPL, pool & clubhouse
 2. Godrej Royale Woods | Electronic City | 2 BHK Apartment | ₹82 Lakhs | Ready to Move | 5 mins from Phase 1 IT parks
 3. Sobha Lake Haven Luxury Villas | Sarjapur | 4 BHK Villa | ₹3.85 Cr | Under Construction | Private garden & pool
@@ -41,7 +41,7 @@ VERIFIED DREAMSPACE REALTY BANGALORE PORTFOLIO (DO NOT INVENT PROPERTIES OUTSIDE
 """
 
 SYSTEM_INSTRUCTION = f"""
-You are the AI Real Estate Sales Assistant for DreamSpace Realty, Bangalore.
+You are the AI Real Estate Sales Assistant for DreamSpace Properties, Bangalore.
 Tagline: "Turning conversations into property visits."
 
 ## CONVERSATION STATE MACHINE & INTELLIGENT EXTRACTION
@@ -538,7 +538,7 @@ def determine_missing_field_and_action(profile: Dict[str, Any], language: str = 
         elif is_ta:
             return "MISSING_NAME", "வணக்கம்! ட்ரீம்ஸ்பேஸ் ரியாலிட்டிக்கு வரவேற்கிறோம். உங்கள் பெயரைத் தெரிந்து கொள்ளலாமா?"
         else:
-            return "MISSING_NAME", "Namaskara! Welcome to DreamSpace Realty. May I know your name?"
+            return "MISSING_NAME", "Namaskara! Welcome to DreamSpace Properties. May I know your name?"
 
     if not location:
         if is_te:
@@ -740,8 +740,8 @@ class GeminiSalesService:
             return "வணக்கம்! ட்ரீம்ஸ்பேஸ் ரியாலிட்டி பெங்களூருக்கு வரவேற்கிறோம். நான் உங்கள் AI விற்பனை உதவியாளர். உங்கள் பெயரைத் தெரிந்து கொள்ளலாமா?"
         else:
             if name_known:
-                return f"Namaskara {customer_name}! Welcome to DreamSpace Realty. Which area in Bangalore are you looking to buy a home in?"
-            return "Namaskara! Welcome to DreamSpace Realty. May I know your name?"
+                return f"Namaskara {customer_name}! Welcome to DreamSpace Properties. Which area in Bangalore are you looking to buy a home in?"
+            return "Namaskara! Welcome to DreamSpace Properties. May I know your name?"
 
     def _get_closing_reply(self, language: str) -> str:
         lang_lower = (language or "English").lower()
@@ -750,11 +750,11 @@ class GeminiSalesService:
         elif "kannada" in lang_lower:
             return "ತುಂಬಾ ಧನ್ಯವಾದಗಳು! ಡ್ರೀಮ್‌ಸ್ಪೇಸ್ ರಿಯಾಲ್ಟಿ ಆಯ್ಕೆ ಮಾಡಿದ್ದಕ್ಕಾಗಿ ಧನ್ಯವಾದ. ಒಳ್ಳೆಯ ದಿನವಾಗಲಿ!"
         elif "hindi" in lang_lower:
-            return "DreamSpace Realty चुनने के लिए बहुत धन्यवाद! हम आपकी विजिट पर मिलने के लिए उत्सुक हैं। आपका दिन शुभ हो। अलविदा!"
+            return "DreamSpace Properties चुनने के लिए बहुत धन्यवाद! हम आपकी विजिट पर मिलने के लिए उत्सुक हैं। आपका दिन शुभ हो। अलविदा!"
         elif "tamil" in lang_lower:
             return "ட்ரீம்ஸ்பேஸ் ரியாலிட்டியைத் தேர்ந்தெடுத்ததற்கு மிக்க நன்றி! உங்கள் நாள் சிறப்பாக அமையட்டும். வணக்கம்!"
         else:
-            return "Thank you for choosing DreamSpace Realty! We look forward to your visit. Have a wonderful day. Goodbye!"
+            return "Thank you for choosing DreamSpace Properties! We look forward to your visit. Have a wonderful day. Goodbye!"
 
     def _get_collect_phone_reply(self, prop: str, slot: str, language: str) -> str:
         lang_lower = (language or "English").lower()
@@ -1149,11 +1149,11 @@ class GeminiSalesService:
                             elif "kannada" in model_lang.lower():
                                 reply_txt = "ತುಂಬಾ ಧನ್ಯವಾದಗಳು! ಡ್ರೀಮ್‌ಸ್ಪೇಸ್ ರಿಯಾಲ್ಟಿ ಆಯ್ಕೆ ಮಾಡಿದ್ದಕ್ಕಾಗಿ ಧನ್ಯವಾದ. ಒಳ್ಳೆಯ ದಿನವಾಗಲಿ!"
                             elif "hindi" in model_lang.lower():
-                                reply_txt = "DreamSpace Realty चुनने के लिए बहुत धन्यवाद! हम आपकी विजिट पर मिलने के लिए उत्सुक हैं। आपका दिन शुभ हो। अलविदा!"
+                                reply_txt = "DreamSpace Properties चुनने के लिए बहुत धन्यवाद! हम आपकी विजिट पर मिलने के लिए उत्सुक हैं। आपका दिन शुभ हो। अलविदा!"
                             elif "tamil" in model_lang.lower():
                                 reply_txt = "ட்ரீம்ஸ்பேஸ் ரியாலிட்டியைத் தேர்ந்தெடுத்ததற்கு மிக்க நன்றி! உங்கள் நாள் சிறப்பாக அமையட்டும். வணக்கம்!"
                             else:
-                                reply_txt = "Thank you for choosing DreamSpace Realty! We look forward to your visit. Have a wonderful day. Goodbye!"
+                                reply_txt = "Thank you for choosing DreamSpace Properties! We look forward to your visit. Have a wonderful day. Goodbye!"
 
                         elif (
                             merged_profile.get("booking_ready")
@@ -1383,11 +1383,11 @@ class GeminiSalesService:
             elif is_kannada:
                 reply = "ತುಂಬಾ ಧನ್ಯವಾದಗಳು! ಡ್ರೀಮ್‌ಸ್ಪೇಸ್ ರಿಯಾಲ್ಟಿ ಆಯ್ಕೆ ಮಾಡಿದ್ದಕ್ಕಾಗಿ ಧನ್ಯವಾದ. ಒಳ್ಳೆಯ ದಿನವಾಗಲಿ!"
             elif is_hindi:
-                reply = "DreamSpace Realty चुनने के लिए बहुत धन्यवाद! हम आपकी विजिट पर मिलने के लिए उत्सुक हैं। आपका दिन शुभ हो। अलविदा!"
+                reply = "DreamSpace Properties चुनने के लिए बहुत धन्यवाद! हम आपकी विजिट पर मिलने के लिए उत्सुक हैं। आपका दिन शुभ हो। अलविदा!"
             elif is_tamil:
                 reply = "ட்ரீம்ஸ்பேஸ் ரியாலிட்டியைத் தேர்ந்தெடுத்ததற்கு மிக்க நன்றி! உங்கள் நாள் சிறப்பாக அமையட்டும். வணக்கம்!"
             else:
-                reply = "Thank you for choosing DreamSpace Realty! We look forward to your visit. Have a wonderful day. Goodbye!"
+                reply = "Thank you for choosing DreamSpace Properties! We look forward to your visit. Have a wonderful day. Goodbye!"
             return {"reply": reply, "extracted_profile": updated, "detected_language": detected_lang}
 
         # Contact Details & Booking Confirmation Workflow
@@ -1597,7 +1597,7 @@ class GeminiSalesService:
             elif is_tamil:
                 reply = "வணக்கம்! ட்ரீம்ஸ்பேஸ் ரியாலிட்டிக்கு வரவேற்கிறோம். உங்கள் பெயரைத் தெரிந்து கொள்ளலாமா?"
             else:
-                reply = "Namaskara! Welcome to DreamSpace Realty. May I know your name?"
+                reply = "Namaskara! Welcome to DreamSpace Properties. May I know your name?"
             updated["conv_state"] = "GREET"
 
         elif not updated.get("location"):

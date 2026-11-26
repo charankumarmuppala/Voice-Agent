@@ -132,7 +132,7 @@ def generate_property_brochure_pdf(
     # 1. Header Banner
     header_data = [
         [
-            Paragraph("DREAMSPACE REALTY BANGALORE", title_style),
+            Paragraph("DREAMSPACE PROPERTIES BANGALORE", title_style),
             Paragraph(f"Date: {datetime.datetime.now().strftime('%d %b %Y')}<br/>Ref: {visit_details.get('booking_id', 'ESTATE-DEMO') if visit_details else 'ESTATE-DEMO'}", ParagraphStyle('HeadRight', fontName='Helvetica-Bold', fontSize=9, leading=12, textColor=text_muted, alignment=TA_RIGHT))
         ],
         [
@@ -330,7 +330,7 @@ def generate_property_brochure_pdf(
     contact_data = [
         [
             Paragraph(
-                "<b>DreamSpace Realty Bangalore</b> • Level 4, UB City, Vittal Mallya Road, Bangalore - 560001<br/>"
+                "<b>DreamSpace Properties Bangalore</b> • Level 4, UB City, Vittal Mallya Road, Bangalore - 560001<br/>"
                 "Sales Desk: +91 80 4567 8900 • Email: sales@dreamspacerealty.com • Web: https://dreamspacerealty.com",
                 contact_style
             )

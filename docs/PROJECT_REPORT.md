@@ -1,7 +1,7 @@
 # Project Report: EstateVoice AI
 ## Autonomous Multilingual Real Estate Sales & Lead Qualification Agent
 
-**Organization:** DreamSpace Realty Bangalore  
+**Organization:** DreamSpace Properties Bangalore  
 **Document Type:** Technical & Business Project Evaluation Report  
 **Date:** November 2026  
 **Status:** Implemented & Validated  

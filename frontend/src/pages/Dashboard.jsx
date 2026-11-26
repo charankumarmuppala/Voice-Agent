@@ -114,7 +114,7 @@ export default function Dashboard({ setActiveTab, darkMode }) {
             </span>
           </div>
           <p className="font-sans text-xs sm:text-sm text-[#111111]/70 dark:text-[#B3B3B3] mt-1 font-medium">
-            DreamSpace Realty • Autonomous Conversational Sales Operations & Pipeline Intelligence
+            DreamSpace Properties • Autonomous Conversational Sales Operations & Pipeline Intelligence
           </p>
         </div>
 

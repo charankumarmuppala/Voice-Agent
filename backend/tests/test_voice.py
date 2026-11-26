@@ -28,7 +28,7 @@ def test_voice_start_and_greeting_multilingual(client):
     assert res_en.status_code == 200
     data_en = res_en.json()
     assert data_en["session_id"].startswith("CALL-")
-    assert "DreamSpace Realty" in data_en["greeting"]
+    assert "DreamSpace Properties" in data_en["greeting"]
 
     # Test Kannada
     res_kn = client.post("/api/voice/start", json={"language": "Kannada"})

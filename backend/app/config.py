@@ -25,10 +25,10 @@ class Settings(BaseSettings):
     SMTP_PASSWORD: str = ""
     GMAIL_USER: str = ""
     GMAIL_APP_PASSWORD: str = ""
-    SMTP_FROM_NAME: str = "DreamSpace Realty Bangalore"
+    SMTP_FROM_NAME: str = "DreamSpace Properties Bangalore"
 
     # Company Details
-    COMPANY_NAME: str = "DreamSpace Realty Bangalore"
+    COMPANY_NAME: str = "DreamSpace Properties Bangalore"
     COMPANY_PHONE: str = "+91 80 4567 8900"
     COMPANY_EMAIL: str = "sales@dreamspacerealty.com"
     COMPANY_ADDRESS: str = "Level 4, UB City, Vittal Mallya Road, Bangalore - 560001"

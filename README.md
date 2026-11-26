@@ -17,7 +17,7 @@
 
 ## 1. Project Overview
 
-**EstateVoice AI** is a production-tested, autonomous conversational real estate sales agent built for **DreamSpace Realty**, a premier property consultancy based in Bengaluru, India. 
+**EstateVoice AI** is a production-tested, autonomous conversational real estate sales agent built for **DreamSpace Properties**, a premier property consultancy based in Bengaluru, India. 
 
 The system conducts continuous, human-like voice conversations with potential home buyers. It understands spoken requirements in natural language (English, Kannada, and Hindi), autonomously converts currency formats (e.g., *"1.5 Crore"* to `₹15,000,000`), performs sub-second semantic property searches using Retrieval-Augmented Generation (RAG), schedules in-person site visits, verifies contact details digit-by-digit and letter-by-letter, and automatically dispatches personalized PDF brochures with site visit passes directly to the buyer's inbox.
 
@@ -34,7 +34,7 @@ In major metropolitan real estate markets, digital lead response time directly d
 
 ### The EstateVoice AI Solution
 EstateVoice AI completely automates the top-of-funnel real estate sales cycle:
-1. **Instant Voice Engagement:** Zero waiting time; greets inbound customers in under 1.5 seconds with local Bengaluru warmth (*"Namaskara! Welcome to DreamSpace Realty..."*).
+1. **Instant Voice Engagement:** Zero waiting time; greets inbound customers in under 1.5 seconds with local Bengaluru warmth (*"Namaskara! Welcome to DreamSpace Properties..."*).
 2. **Autonomous Retrieval:** Immediately matches verified inventory across top Bengaluru tech hubs (Whitefield, Electronic City, Sarjapur, Hebbal) without requiring awkward confirmation turns.
 3. **High-Accuracy Contact Verification:** Validates phone numbers digit-by-digit and parses spoken emails letter-by-letter to guarantee zero delivery failures.
 4. **Instant Multi-Channel Fulfillment:** Compiles a branded, vector-graphic PDF brochure and delivers it via SMTP email in the background while the call concludes naturally.
@@ -122,7 +122,7 @@ EstateVoice AI is organized into five decoupled layers ensuring low latency, hig
 [1] Customer initiates call
     │
     ▼
-[2] Agent greets: "Namaskara! Welcome to DreamSpace Realty. May I know your name?"
+[2] Agent greets: "Namaskara! Welcome to DreamSpace Properties. May I know your name?"
     │
     ▼
 [3] Customer provides Name, Budget & Location (e.g., "Charan, looking for 3BHK in Whitefield under 1.5 Cr")
@@ -297,8 +297,8 @@ Create a `.env` file in the `backend/` directory based on the table below:
 | `SMTP_PORT` | No | `587` | SMTP server TLS port |
 | `SMTP_USER` | No | `""` | SMTP sender email address (e.g. Gmail) |
 | `SMTP_PASSWORD` | No | `""` | SMTP App Password (16-character Google App Password) |
-| `SMTP_FROM_NAME` | No | `DreamSpace Realty Bangalore` | Display sender name on outgoing emails |
-| `COMPANY_NAME` | No | `DreamSpace Realty Bangalore` | Agency name printed on brochures |
+| `SMTP_FROM_NAME` | No | `DreamSpace Properties Bangalore` | Display sender name on outgoing emails |
+| `COMPANY_NAME` | No | `DreamSpace Properties Bangalore` | Agency name printed on brochures |
 | `COMPANY_PHONE` | No | `+91 80 4567 8900` | Contact phone printed on brochures |
 | `COMPANY_EMAIL` | No | `sales@dreamspacerealty.com` | Agency email printed on brochures |
 
@@ -499,7 +499,7 @@ python backend/test_live_call.py
 ```text
 Start status: 200
 Session ID: CALL-XXXXXX
-Greeting: Namaskara! Welcome to DreamSpace Realty. May I know your name?
+Greeting: Namaskara! Welcome to DreamSpace Properties. May I know your name?
 Message status: 200
 Agent Reply: Thank you Charan Kumar! Which location in Bangalore are you looking to buy a home in?...
 Customer Name Extracted: Charan Kumar
@@ -516,5 +516,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-**Developed for DreamSpace Realty, Bengaluru**  
+**Developed for DreamSpace Properties, Bengaluru**  
 *Autonomous Real Estate Conversational Engineering.*

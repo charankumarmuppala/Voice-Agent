@@ -149,7 +149,7 @@ export default function VoiceAgent({ onVisitBooked, darkMode }) {
     {
       id: 'init-1',
       sender: 'agent',
-      text: "Namaskara! Welcome to DreamSpace Realty. May I know your name?",
+      text: "Namaskara! Welcome to DreamSpace Properties. May I know your name?",
       time: 'Ready'
     }
   ]);

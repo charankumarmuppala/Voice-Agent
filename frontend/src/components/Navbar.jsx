@@ -11,7 +11,7 @@ export default function Navbar({ activeTabTitle, darkMode, setDarkMode }) {
           </h1>
           <div className="font-mono text-[11px] uppercase tracking-wider text-[#111111] dark:text-[#B3B3B3] font-bold mt-0.5 flex items-center gap-2">
             <span className="bg-[#FFDE59] text-[#111111] px-2 py-0.5 border border-[#111111] dark:border-[#E5E5E5] rounded-sm text-[10px] font-black shadow-[1px_1px_0px_#111111] dark:shadow-[1px_1px_0px_#E5E5E5]">
-              DreamSpace Realty
+              DreamSpace Properties
             </span>
             <span>•</span>
             <span className="flex items-center gap-1 text-[#111111] dark:text-[#B3B3B3]">

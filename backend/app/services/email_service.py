@@ -31,7 +31,7 @@ def send_booking_confirmation_email(
     smtp_pass = settings.SMTP_PASSWORD or getattr(settings, "GMAIL_APP_PASSWORD", "")
     smtp_host = settings.SMTP_HOST or "smtp.gmail.com"
     smtp_port = int(settings.SMTP_PORT or 587)
-    from_name = getattr(settings, "SMTP_FROM_NAME", "DreamSpace Realty Bangalore")
+    from_name = getattr(settings, "SMTP_FROM_NAME", "DreamSpace Properties Bangalore")
     company_phone = getattr(settings, "COMPANY_PHONE", "+91 80 4567 8900")
     company_email = getattr(settings, "COMPANY_EMAIL", "sales@dreamspacerealty.com")
     company_address = getattr(settings, "COMPANY_ADDRESS", "Level 4, UB City, Vittal Mallya Road, Bangalore - 560001")
@@ -71,7 +71,7 @@ def send_booking_confirmation_email(
 
     text_content = f"""Dear {customer_name},
 
-Thank you for choosing DreamSpace Realty Bangalore! Your upcoming property walkthrough has been officially scheduled.
+Thank you for choosing DreamSpace Properties Bangalore! Your upcoming property walkthrough has been officially scheduled.
 
 VISIT DETAILS & INSTRUCTIONS:
 • Booking ID: {booking_id}
@@ -90,7 +90,7 @@ VISIT INSTRUCTIONS:
 Your official property brochure is attached as a PDF to this email.
 
 CONTACT & VENUE:
-DreamSpace Realty Bangalore
+DreamSpace Properties Bangalore
 Office: {company_address}
 Concierge Desk: {company_phone}
 Email: {company_email}
@@ -124,7 +124,7 @@ NOTICE: This property listing and booking are demonstration data created for sho
 <body>
 <div class="container">
   <div class="header">
-    <h1>DreamSpace Realty Bangalore</h1>
+    <h1>DreamSpace Properties Bangalore</h1>
     <p>Official Site Visit Walkthrough Confirmation</p>
   </div>
   <div class="content">
@@ -164,7 +164,7 @@ NOTICE: This property listing and booking are demonstration data created for sho
     </div>
   </div>
   <div class="footer">
-    <b>DreamSpace Realty Bangalore</b> • {company_address}<br/>
+    <b>DreamSpace Properties Bangalore</b> • {company_address}<br/>
     Phone: {company_phone} • Email: {company_email} • Web: https://dreamspacerealty.com
   </div>
 </div>

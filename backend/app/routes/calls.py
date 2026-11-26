@@ -102,7 +102,7 @@ def _save_appointment_if_needed(session, final_profile, ended_time, session_id, 
         if bhk:
             q = q.filter(Property.bhk == bhk)
         p = q.first()
-        prop_name = p.name if p else "DreamSpace Realty Property"
+        prop_name = p.name if p else "DreamSpace Properties Property"
         if p:
             loc = p.location
 

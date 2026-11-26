@@ -357,13 +357,13 @@ def closing_node(state: AgentState) -> Dict[str, Any]:
     if "kannada" in lang.lower():
         reply = "ತುಂಬಾ ಧನ್ಯವಾದಗಳು! ಡ್ರೀಮ್‌ಸ್ಪೇಸ್ ರಿಯಾಲ್ಟಿ ಆಯ್ಕೆ ಮಾಡಿದ್ದಕ್ಕಾಗಿ ಧನ್ಯವಾದ. ಒಳ್ಳೆಯ ದಿನವಾಗಲಿ!"
     elif "hindi" in lang.lower():
-        reply = "DreamSpace Realty चुनने के लिए बहुत धन्यवाद! हम आपकी विजिट पर मिलने के लिए उत्सुक हैं। आपका दिन शुभ हो। अलविदा!"
+        reply = "DreamSpace Properties चुनने के लिए बहुत धन्यवाद! हम आपकी विजिट पर मिलने के लिए उत्सुक हैं। आपका दिन शुभ हो। अलविदा!"
     elif "telugu" in lang.lower():
         reply = "డ్రీమ్‌స్పేస్ రియల్టీని ఎంచుకున్నందుకు చాలా ధన్యవాదాలు! మీ సైట్ విజిట్‌లో కలుద్దాం. సెలవు!"
     elif "tamil" in lang.lower():
         reply = "ட்ரீம்ஸ்பேஸ் ரியாலிட்டியைத் தேர்ந்தெடுத்ததற்கு மிக்க நன்றி! உங்கள் நாள் சிறப்பாக அமையட்டும். வணக்கம்!"
     else:
-        reply = "Thank you for choosing DreamSpace Realty! We look forward to your visit. Have a wonderful day. Goodbye!"
+        reply = "Thank you for choosing DreamSpace Properties! We look forward to your visit. Have a wonderful day. Goodbye!"
 
     return {"reply": reply, "profile": prof}
 

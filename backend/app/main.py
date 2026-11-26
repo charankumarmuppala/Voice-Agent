@@ -32,7 +32,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title=settings.APP_NAME,
-    description="Backend API for EstateVoice AI - DreamSpace Realty Sales Assistant",
+    description="Backend API for EstateVoice AI - DreamSpace Properties Sales Assistant",
     version="1.0.0",
     debug=settings.DEBUG,
     lifespan=lifespan
@@ -59,7 +59,7 @@ app.include_router(leads_router, prefix="/api")
 def root():
     return {
         "message": "Welcome to EstateVoice AI Backend API",
-        "company": "DreamSpace Realty, Bangalore",
+        "company": "DreamSpace Properties, Bangalore",
         "tagline": "Turning conversations into property visits.",
         "docs": "/docs",
         "health": "/api/health"
