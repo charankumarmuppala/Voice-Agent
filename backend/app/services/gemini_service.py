@@ -329,7 +329,7 @@ def format_phone_digits_readback(phone: str) -> str:
     return " ".join(list(digits))
 
 
-def extract_all_requirements(message: str, existing_profile: Dict[str, Any]) -> Dict[str, Any]:
+def extract_all_requirements(message: str, existing_profile: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """Extracts multiple customer requirements from a single sentence and merges with profile."""
     low = message.lower().strip()
     updated = dict(existing_profile or {})
@@ -437,7 +437,7 @@ def extract_all_requirements(message: str, existing_profile: Dict[str, Any]) -> 
         "book visit", "schedule visit", "book a visit", "schedule a visit", "book appointment", "schedule appointment",
         "book tour", "schedule tour", "tour the property", "book a site visit", "schedule a site visit"
     ]
-    curr_state = current_profile.get("conv_state", "")
+    curr_state = updated.get("conv_state", "")
     is_recommending = curr_state in ["RECOMMEND", "VISIT", "COLLECT_PHONE", "CONFIRM_PHONE"]
 
     has_explicit_booking = any(p in low for p in explicit_book_phrases)
