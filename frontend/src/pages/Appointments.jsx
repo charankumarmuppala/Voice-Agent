@@ -55,7 +55,7 @@ function toLocalDateKey(d) {
   return `${year}-${month}-${day}`;
 }
 
-export default function Appointments({ initialProperty }) {
+export default function Appointments({ initialProperty, darkMode }) {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -182,14 +182,14 @@ export default function Appointments({ initialProperty }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#111111] tracking-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#111111] dark:text-[#F5F5F5] tracking-tight">
               Scheduled Property Walkthroughs
             </h2>
-            <span className="neo-badge bg-[#FFDE59] text-[#111111]">
+            <span className="neo-badge bg-[#FFDE59] text-[#111111] border-2 border-[#111111] dark:border-[#E5E5E5] font-black">
               Site Passes
             </span>
           </div>
-          <p className="font-sans text-xs sm:text-sm text-[#111111]/70 mt-1 font-medium">
+          <p className="font-sans text-xs sm:text-sm text-[#111111]/70 dark:text-[#B3B3B3] mt-1 font-medium">
             Automated calendar booking, PDF brochure dispatches, and confirmed client visit passes.
           </p>
         </div>
@@ -204,16 +204,16 @@ export default function Appointments({ initialProperty }) {
           </button>
           <button
             onClick={loadAppointments}
-            className="neo-btn neo-btn-white p-2.5"
+            className="neo-btn neo-btn-white dark:bg-[#1E1E1E] dark:text-[#F5F5F5] dark:border-[#E5E5E5] p-2.5"
             title="Refresh database records"
           >
-            <RefreshCw className="w-4 h-4 text-[#111111]" />
+            <RefreshCw className="w-4 h-4 text-[#111111] dark:text-[#F5F5F5]" />
           </button>
         </div>
       </div>
 
       {error && (
-        <div className="neo-card bg-[#FF8A80]/20 border-2 border-[#111111] text-[#111111] px-4 py-3 text-xs font-mono font-bold">
+        <div className="neo-card bg-[#FF8A80]/20 dark:bg-[#FF8A80]/30 border-2 border-[#111111] dark:border-[#E5E5E5] text-[#111111] dark:text-[#F5F5F5] px-4 py-3 text-xs font-mono font-bold">
           {error}
         </div>
       )}
@@ -221,37 +221,37 @@ export default function Appointments({ initialProperty }) {
       {/* Bento Grid: 8-Column Calendar + 4-Column Day Timeline */}
       <div className="grid grid-cols-12 gap-5">
         {/* Calendar (8 columns) */}
-        <div className="col-span-12 lg:col-span-8 neo-card p-6 sm:p-7 bg-white">
+        <div className="col-span-12 lg:col-span-8 neo-card p-6 sm:p-7 bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5] transition-colors">
           {/* Calendar Header */}
-          <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-[#111111]/15">
+          <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/15">
             <div>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#111111]/70 font-bold">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">
                 Calendar View
               </span>
-              <h3 className="font-heading text-xl font-extrabold text-[#111111] mt-0.5">
+              <h3 className="font-heading text-xl font-extrabold text-[#111111] dark:text-[#F5F5F5] mt-0.5">
                 {monthName}
               </h3>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={prevMonth}
-                className="neo-btn neo-btn-white w-8 h-8 font-bold"
+                className="neo-btn neo-btn-white dark:bg-[#181818] dark:text-[#F5F5F5] dark:border-[#E5E5E5] w-8 h-8 font-bold"
                 title="Previous Month"
               >
-                <ChevronLeft className="w-4 h-4 text-[#111111]" />
+                <ChevronLeft className="w-4 h-4 text-[#111111] dark:text-[#F5F5F5]" />
               </button>
               <button
                 onClick={nextMonth}
-                className="neo-btn neo-btn-white w-8 h-8 font-bold"
+                className="neo-btn neo-btn-white dark:bg-[#181818] dark:text-[#F5F5F5] dark:border-[#E5E5E5] w-8 h-8 font-bold"
                 title="Next Month"
               >
-                <ChevronRight className="w-4 h-4 text-[#111111]" />
+                <ChevronRight className="w-4 h-4 text-[#111111] dark:text-[#F5F5F5]" />
               </button>
             </div>
           </div>
 
           {/* Days of week header */}
-          <div className="grid grid-cols-7 gap-2 text-center font-mono text-[11px] uppercase tracking-wider text-[#111111] font-extrabold mb-2.5">
+          <div className="grid grid-cols-7 gap-2 text-center font-mono text-[11px] uppercase tracking-wider text-[#111111] dark:text-[#B3B3B3] font-extrabold mb-2.5">
             <span>SUN</span>
             <span>MON</span>
             <span>TUE</span>
@@ -265,7 +265,7 @@ export default function Appointments({ initialProperty }) {
           <div className="grid grid-cols-7 gap-2">
             {/* Blank cells before 1st */}
             {Array.from({ length: firstDayOfMonth }).map((_, i) => (
-              <div key={`empty-${i}`} className="h-16 sm:h-20 rounded-sm bg-[#FFFDF5] border-2 border-dashed border-[#111111]/20" />
+              <div key={`empty-${i}`} className="h-16 sm:h-20 rounded-sm bg-[#FFFDF5] dark:bg-[#181818]/40 border-2 border-dashed border-[#111111]/20 dark:border-[#E5E5E5]/20" />
             ))}
 
             {/* Month days */}
@@ -282,22 +282,22 @@ export default function Appointments({ initialProperty }) {
                 <div
                   key={dateKey}
                   onClick={() => setSelectedDate(dateObj)}
-                  className={`h-16 sm:h-20 p-2 rounded-sm border-2 border-[#111111] transition-all cursor-pointer flex flex-col justify-between ${
+                  className={`h-16 sm:h-20 p-2 rounded-sm border-2 transition-all cursor-pointer flex flex-col justify-between ${
                     isSelected
-                      ? 'bg-[#FFDE59] shadow-[3px_3px_0px_#111111]'
+                      ? 'bg-[#FFDE59] text-[#111111] border-[#111111] dark:border-[#E5E5E5] shadow-[3px_3px_0px_#111111] dark:shadow-[3px_3px_0px_#E5E5E5]'
                       : count > 0
-                      ? 'bg-[#B8F4B8] shadow-[2px_2px_0px_#111111] hover:bg-[#98EE98]'
-                      : 'bg-white hover:bg-[#FFFDF5] shadow-[1px_1px_0px_#111111]'
+                      ? 'bg-[#B8F4B8] text-[#111111] border-[#111111] dark:border-[#E5E5E5] shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5] hover:bg-[#98EE98]'
+                      : 'bg-white dark:bg-[#181818] border-[#111111] dark:border-[#E5E5E5] text-[#111111] dark:text-[#F5F5F5] hover:bg-[#FFFDF5] dark:hover:bg-[#252525] shadow-[1px_1px_0px_#111111] dark:shadow-[1px_1px_0px_#E5E5E5]'
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <span
                       className={`font-heading text-xs sm:text-sm font-bold w-5 h-5 rounded-sm flex items-center justify-center ${
                         isToday
-                          ? 'bg-[#111111] text-[#FFDE59] font-black'
+                          ? 'bg-[#111111] dark:bg-[#F5F5F5] text-[#FFDE59] dark:text-[#111111] font-black'
                           : isSelected
                           ? 'text-[#111111] font-black'
-                          : 'text-[#111111]'
+                          : 'text-[#111111] dark:text-[#F5F5F5]'
                       }`}
                     >
                       {dayNum}
@@ -306,7 +306,7 @@ export default function Appointments({ initialProperty }) {
 
                   {count > 0 && (
                     <div>
-                      <span className="neo-badge bg-[#111111] text-white text-[9px] px-1 py-0.5 inline-flex">
+                      <span className="neo-badge bg-[#111111] text-white dark:bg-[#F5F5F5] dark:text-[#111111] border border-[#111111] dark:border-[#E5E5E5] text-[9px] px-1 py-0.5 inline-flex font-black">
                         {count} {count === 1 ? 'Pass' : 'Passes'}
                       </span>
                     </div>
@@ -318,42 +318,42 @@ export default function Appointments({ initialProperty }) {
         </div>
 
         {/* Selected Date Timeline & Slots (4 columns) */}
-        <div className="col-span-12 lg:col-span-4 neo-card p-6 flex flex-col justify-between bg-white">
+        <div className="col-span-12 lg:col-span-4 neo-card p-6 flex flex-col justify-between bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5] transition-colors">
           <div>
-            <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-[#111111]/15">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/15">
               <div>
-                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#111111]/70">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3]">
                   Selected Date
                 </span>
-                <h4 className="font-heading text-base font-extrabold text-[#111111] mt-0.5">
+                <h4 className="font-heading text-base font-extrabold text-[#111111] dark:text-[#F5F5F5] mt-0.5">
                   {selectedDate.toLocaleDateString('en-IN', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })}
                 </h4>
               </div>
-              <span className="neo-badge bg-[#B8F4B8] text-[#111111]">
+              <span className="neo-badge bg-[#B8F4B8] text-[#111111] border-2 border-[#111111] dark:border-[#E5E5E5] font-black">
                 {selectedDateAppointments.length} Booked
               </span>
             </div>
 
             {/* Scheduled on this date */}
             <div className="space-y-2.5 mb-6">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#111111] block">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#111111] dark:text-[#B3B3B3] block">
                 Confirmed Walkthroughs
               </span>
               {selectedDateAppointments.length === 0 ? (
-                <div className="p-4 rounded-sm bg-[#FFFDF5] border-2 border-dashed border-[#111111]/30 text-center font-mono text-xs text-[#111111]/60 uppercase tracking-wider font-bold">
+                <div className="p-4 rounded-sm bg-[#FFFDF5] dark:bg-[#181818] border-2 border-dashed border-[#111111]/30 dark:border-[#E5E5E5]/30 text-center font-mono text-xs text-[#111111]/60 dark:text-[#A3A3A3] uppercase tracking-wider font-bold">
                   No visits scheduled on this date.
                 </div>
               ) : (
                 selectedDateAppointments.map(a => (
-                  <div key={a.appointment_id} className="p-3 rounded-sm border-2 border-[#111111] bg-[#B8F4B8] text-xs space-y-1 shadow-[2px_2px_0px_#111111]">
+                  <div key={a.appointment_id} className="p-3 rounded-sm border-2 border-[#111111] dark:border-[#E5E5E5] bg-[#B8F4B8] text-xs space-y-1 shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5]">
                     <div className="flex items-center justify-between">
                       <span className="font-heading font-black text-[#111111]">{a.customer_name}</span>
-                      <span className="neo-badge bg-white text-[#111111]">
+                      <span className="neo-badge bg-white text-[#111111] border border-[#111111] font-bold">
                         {formatTime(a.date_time)}
                       </span>
                     </div>
                     <div className="font-sans text-[#111111] font-bold truncate">{a.property_name}</div>
-                    <div className="font-mono text-[#111111]/80 text-[10px] font-bold flex items-center justify-between pt-1">
+                    <div className="font-mono text-[#111111]/90 text-[10px] font-bold flex items-center justify-between pt-1">
                       <span>{a.location}</span>
                       <span>{a.customer_phone || 'Phone verified'}</span>
                     </div>
@@ -364,7 +364,7 @@ export default function Appointments({ initialProperty }) {
 
             {/* Time Slot Fast Booking */}
             <div>
-              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#111111] block mb-2">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#111111] dark:text-[#B3B3B3] block mb-2">
                 Available Walkthrough Slots
               </span>
               <div className="grid grid-cols-2 gap-2">
@@ -377,15 +377,15 @@ export default function Appointments({ initialProperty }) {
                       onClick={() => openModalForSlot(slot)}
                       className={`p-2.5 rounded-sm text-xs font-bold transition-all flex items-center justify-between ${
                         isBooked
-                          ? 'bg-[#111111]/5 text-[#111111]/40 border-2 border-[#111111]/20 cursor-not-allowed'
-                          : 'neo-btn neo-btn-white w-full'
+                          ? 'bg-[#111111]/5 dark:bg-[#181818]/60 text-[#111111]/40 dark:text-[#B3B3B3]/40 border-2 border-[#111111]/20 dark:border-[#E5E5E5]/20 cursor-not-allowed'
+                          : 'neo-btn neo-btn-white dark:bg-[#181818] dark:text-[#F5F5F5] dark:border-[#E5E5E5] w-full'
                       }`}
                     >
                       <span className="flex items-center gap-1.5 font-mono text-[11px]">
-                        <Clock className="w-3.5 h-3.5 text-[#111111]" />
+                        <Clock className="w-3.5 h-3.5 text-[#111111] dark:text-[#FFDE59]" />
                         {slot}
                       </span>
-                      <span className={`neo-badge ${isBooked ? 'bg-[#111111]/10 text-[#111111]/50' : 'bg-[#FFDE59] text-[#111111]'}`}>
+                      <span className={`neo-badge border border-[#111111] dark:border-[#E5E5E5] font-black ${isBooked ? 'bg-[#111111]/10 text-[#111111]/50 dark:bg-white/10 dark:text-[#A3A3A3]' : 'bg-[#FFDE59] text-[#111111]'}`}>
                         {isBooked ? 'Booked' : 'Open'}
                       </span>
                     </button>
@@ -400,26 +400,26 @@ export default function Appointments({ initialProperty }) {
       {/* Upcoming Scheduled Site Passes Grid */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-heading text-lg sm:text-xl font-extrabold text-[#111111] flex items-center gap-2 tracking-tight">
-            <CalendarCheck className="w-5 h-5 text-[#111111]" />
+          <h3 className="font-heading text-lg sm:text-xl font-extrabold text-[#111111] dark:text-[#F5F5F5] flex items-center gap-2 tracking-tight">
+            <CalendarCheck className="w-5 h-5 text-[#111111] dark:text-[#FFDE59]" />
             All Active Site Visit Passes ({appointments.length})
           </h3>
-          <span className="neo-badge bg-[#FFDE59] text-[#111111]">
+          <span className="neo-badge bg-[#FFDE59] text-[#111111] border-2 border-[#111111] dark:border-[#E5E5E5] font-black">
             SQLite Database Ground Truth
           </span>
         </div>
 
         {loading && (
-          <div className="text-center py-12 font-mono text-xs font-bold text-[#111111] uppercase tracking-wider">
+          <div className="text-center py-12 font-mono text-xs font-bold text-[#111111] dark:text-[#B3B3B3] uppercase tracking-wider">
             Loading site passes...
           </div>
         )}
 
         {!loading && appointments.length === 0 && (
-          <div className="neo-card p-12 text-center bg-white">
-            <CalendarCheck className="w-10 h-10 text-[#111111]/40 mx-auto mb-2" />
-            <p className="font-heading text-base font-extrabold text-[#111111]">No scheduled passes found.</p>
-            <p className="font-sans text-xs text-[#111111]/70 mt-1 font-medium">
+          <div className="neo-card p-12 text-center bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5]">
+            <CalendarCheck className="w-10 h-10 text-[#111111]/40 dark:text-[#B3B3B3]/40 mx-auto mb-2" />
+            <p className="font-heading text-base font-extrabold text-[#111111] dark:text-[#F5F5F5]">No scheduled passes found.</p>
+            <p className="font-sans text-xs text-[#111111]/70 dark:text-[#B3B3B3] mt-1 font-medium">
               Start an AI voice call to generate site walkthroughs or click "Schedule Site Pass" above.
             </p>
           </div>
@@ -430,45 +430,45 @@ export default function Appointments({ initialProperty }) {
             {appointments.map((apt) => (
               <div
                 key={apt.appointment_id}
-                className="neo-card-interactive p-5 sm:p-6 flex flex-col justify-between bg-white"
+                className="neo-card-interactive p-5 sm:p-6 flex flex-col justify-between bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5] transition-colors"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="font-mono text-[10px] font-bold text-[#111111]/70">{apt.appointment_id}</span>
-                    <span className="neo-badge bg-[#B8F4B8] text-[#111111] flex items-center gap-1">
+                    <span className="font-mono text-[10px] font-bold text-[#111111]/70 dark:text-[#A3A3A3]">{apt.appointment_id}</span>
+                    <span className="neo-badge bg-[#B8F4B8] text-[#111111] border-2 border-[#111111] dark:border-[#E5E5E5] flex items-center gap-1 font-black">
                       <CheckCircle2 className="w-3 h-3 text-[#111111]" />
                       {apt.status}
                     </span>
                   </div>
 
-                  <h4 className="font-heading font-extrabold text-[#111111] text-base leading-snug">{apt.property_name}</h4>
-                  <div className="flex items-center gap-1 font-sans text-xs text-[#111111] mt-1 font-bold">
-                    <MapPin className="w-3.5 h-3.5 text-[#111111]" />
+                  <h4 className="font-heading font-extrabold text-[#111111] dark:text-[#F5F5F5] text-base leading-snug">{apt.property_name}</h4>
+                  <div className="flex items-center gap-1 font-sans text-xs text-[#111111] dark:text-[#B3B3B3] mt-1 font-bold">
+                    <MapPin className="w-3.5 h-3.5 text-[#111111] dark:text-[#FFDE59]" />
                     <span>{apt.location}, Bangalore</span>
                   </div>
 
-                  <div className="mt-4 p-3.5 rounded-sm bg-[#FFFDF5] border-2 border-[#111111] space-y-2 text-xs">
-                    <div className="flex items-center gap-2 text-[#111111]">
-                      <CalendarIcon className="w-3.5 h-3.5 text-[#111111]" />
-                      <span className="font-mono font-bold text-[#111111]">{formatDate(apt.date_time)} • {formatTime(apt.date_time)}</span>
+                  <div className="mt-4 p-3.5 rounded-sm bg-[#FFFDF5] dark:bg-[#181818] border-2 border-[#111111] dark:border-[#E5E5E5] space-y-2 text-xs">
+                    <div className="flex items-center gap-2 text-[#111111] dark:text-[#F5F5F5]">
+                      <CalendarIcon className="w-3.5 h-3.5 text-[#111111] dark:text-[#FFDE59]" />
+                      <span className="font-mono font-bold">{formatDate(apt.date_time)} • {formatTime(apt.date_time)}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-[#111111]">
-                      <User className="w-3.5 h-3.5 text-[#111111]" />
-                      <span className="font-sans font-bold text-[#111111]">{apt.customer_name}</span>
+                    <div className="flex items-center gap-2 text-[#111111] dark:text-[#F5F5F5]">
+                      <User className="w-3.5 h-3.5 text-[#111111] dark:text-[#B4A7FF]" />
+                      <span className="font-sans font-bold">{apt.customer_name}</span>
                     </div>
                     {apt.customer_phone && (
-                      <div className="flex items-center gap-2 text-[#111111]">
-                        <Phone className="w-3.5 h-3.5 text-[#111111] shrink-0" />
-                        <span className="font-mono font-bold text-[#111111]">{apt.customer_phone}</span>
+                      <div className="flex items-center gap-2 text-[#111111] dark:text-[#F5F5F5]">
+                        <Phone className="w-3.5 h-3.5 text-[#111111] dark:text-[#B8F4B8] shrink-0" />
+                        <span className="font-mono font-bold">{apt.customer_phone}</span>
                       </div>
                     )}
                     {apt.customer_email && (
-                      <div className="flex items-center justify-between text-[#111111] pt-0.5">
+                      <div className="flex items-center justify-between text-[#111111] dark:text-[#F5F5F5] pt-0.5">
                         <div className="flex items-center gap-2 truncate">
-                          <Mail className="w-3.5 h-3.5 text-[#111111] shrink-0" />
-                          <span className="font-mono text-[#111111] font-bold truncate">{apt.customer_email}</span>
+                          <Mail className="w-3.5 h-3.5 text-[#111111] dark:text-[#FFDE59] shrink-0" />
+                          <span className="font-mono font-bold truncate">{apt.customer_email}</span>
                         </div>
-                        <span className={`neo-badge shrink-0 ml-2 ${
+                        <span className={`neo-badge border border-[#111111] dark:border-[#E5E5E5] font-black shrink-0 ml-2 ${
                           apt.email_status === 'Sent'
                             ? 'bg-[#B8F4B8] text-[#111111]'
                             : 'bg-[#FFDE59] text-[#111111]'
@@ -480,9 +480,9 @@ export default function Appointments({ initialProperty }) {
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t-2 border-[#111111] flex items-center justify-between text-[11px] font-mono text-[#111111] font-bold">
+                <div className="mt-4 pt-3 border-t-2 border-[#111111] dark:border-[#E5E5E5] flex items-center justify-between text-[11px] font-mono text-[#111111] dark:text-[#B3B3B3] font-bold">
                   <span>Site Visit Pass</span>
-                  <span className="neo-badge bg-[#FFDE59] text-[#111111]">Confirmed</span>
+                  <span className="neo-badge bg-[#FFDE59] text-[#111111] border-2 border-[#111111] dark:border-[#E5E5E5] font-black">Confirmed</span>
                 </div>
               </div>
             ))}
@@ -492,26 +492,26 @@ export default function Appointments({ initialProperty }) {
 
       {/* Manual Booking Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="neo-card bg-white max-w-md w-full p-6 border-3 border-[#111111] shadow-[8px_8px_0px_#111111] relative animate-fade-in">
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-none flex items-center justify-center p-4">
+          <div className="neo-card bg-white dark:bg-[#1E1E1E] max-w-md w-full p-6 border-3 border-[#111111] dark:border-[#E5E5E5] shadow-[8px_8px_0px_#111111] dark:shadow-[8px_8px_0px_#E5E5E5] relative animate-fade-in text-[#111111] dark:text-[#F5F5F5]">
             <button
               onClick={() => setModalOpen(false)}
-              className="absolute top-4 right-4 text-[#111111] hover:opacity-70 cursor-pointer"
+              className="absolute top-4 right-4 text-[#111111] dark:text-[#F5F5F5] hover:opacity-70 cursor-pointer"
             >
-              <X className="w-5 h-5 text-[#111111]" />
+              <X className="w-5 h-5" />
             </button>
 
-            <div className="neo-badge bg-[#FFDE59] text-[#111111] inline-block mb-2">Walkthrough Pass</div>
-            <h3 className="font-heading text-lg font-black text-[#111111] mb-1">
+            <div className="neo-badge bg-[#FFDE59] text-[#111111] border-2 border-[#111111] dark:border-[#E5E5E5] inline-block mb-2 font-black">Walkthrough Pass</div>
+            <h3 className="font-heading text-lg font-black text-[#111111] dark:text-[#F5F5F5] mb-1">
               Manual Site Visit Pass
             </h3>
-            <p className="font-sans text-xs text-[#111111]/70 mb-5 font-medium">
+            <p className="font-sans text-xs text-[#111111]/70 dark:text-[#B3B3B3] mb-5 font-medium">
               Record a prospective client walkthrough directly to the database.
             </p>
 
             <form onSubmit={handleSchedule} className="space-y-4 text-xs">
               <div>
-                <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] mb-1">
+                <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] dark:text-[#B3B3B3] mb-1">
                   Buyer Name
                 </label>
                 <input
@@ -520,12 +520,12 @@ export default function Appointments({ initialProperty }) {
                   value={form.customerName}
                   onChange={e => setForm(prev => ({ ...prev, customerName: e.target.value }))}
                   placeholder="e.g. Charan Kumar"
-                  className="neo-input w-full px-3 py-2 text-[#111111] font-medium bg-white"
+                  className="neo-input w-full px-3 py-2 text-[#111111] dark:text-[#F5F5F5] font-medium bg-white dark:bg-[#181818] dark:border-[#E5E5E5] dark:placeholder-[#A3A3A3]"
                 />
               </div>
 
               <div>
-                <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] mb-1">
+                <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] dark:text-[#B3B3B3] mb-1">
                   Contact Phone
                 </label>
                 <input
@@ -534,12 +534,12 @@ export default function Appointments({ initialProperty }) {
                   value={form.phone}
                   onChange={e => setForm(prev => ({ ...prev, phone: e.target.value }))}
                   placeholder="+91 98450 12345"
-                  className="neo-input w-full px-3 py-2 text-[#111111] font-medium bg-white"
+                  className="neo-input w-full px-3 py-2 text-[#111111] dark:text-[#F5F5F5] font-medium bg-white dark:bg-[#181818] dark:border-[#E5E5E5] dark:placeholder-[#A3A3A3]"
                 />
               </div>
 
               <div>
-                <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] mb-1">
+                <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] dark:text-[#B3B3B3] mb-1">
                   Target Development
                 </label>
                 <input
@@ -547,13 +547,13 @@ export default function Appointments({ initialProperty }) {
                   required
                   value={form.propertyName}
                   onChange={e => setForm(prev => ({ ...prev, propertyName: e.target.value }))}
-                  className="neo-input w-full px-3 py-2 text-[#111111] font-medium bg-white"
+                  className="neo-input w-full px-3 py-2 text-[#111111] dark:text-[#F5F5F5] font-medium bg-white dark:bg-[#181818] dark:border-[#E5E5E5] dark:placeholder-[#A3A3A3]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] mb-1">
+                  <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] dark:text-[#B3B3B3] mb-1">
                     Locality
                   </label>
                   <input
@@ -561,11 +561,11 @@ export default function Appointments({ initialProperty }) {
                     required
                     value={form.location}
                     onChange={e => setForm(prev => ({ ...prev, location: e.target.value }))}
-                    className="neo-input w-full px-3 py-2 text-[#111111] font-medium bg-white"
+                    className="neo-input w-full px-3 py-2 text-[#111111] dark:text-[#F5F5F5] font-medium bg-white dark:bg-[#181818] dark:border-[#E5E5E5] dark:placeholder-[#A3A3A3]"
                   />
                 </div>
                 <div>
-                  <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] mb-1">
+                  <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] dark:text-[#B3B3B3] mb-1">
                     Date & Time
                   </label>
                   <input
@@ -573,7 +573,7 @@ export default function Appointments({ initialProperty }) {
                     required
                     value={form.dateTime}
                     onChange={e => setForm(prev => ({ ...prev, dateTime: e.target.value }))}
-                    className="neo-input w-full px-3 py-2 text-[#111111] font-mono font-bold bg-white"
+                    className="neo-input w-full px-3 py-2 text-[#111111] dark:text-[#F5F5F5] font-mono font-bold bg-white dark:bg-[#181818] dark:border-[#E5E5E5]"
                   />
                 </div>
               </div>
@@ -582,7 +582,7 @@ export default function Appointments({ initialProperty }) {
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="neo-btn neo-btn-white px-4 py-2 text-xs font-bold"
+                  className="neo-btn neo-btn-white dark:bg-[#181818] dark:text-[#F5F5F5] dark:border-[#E5E5E5] px-4 py-2 text-xs font-bold"
                 >
                   Cancel
                 </button>

@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import { formatINR, fetchLeads } from '../services/api';
 
-export default function Leads({ onScheduleVisit }) {
+export default function Leads({ onScheduleVisit, darkMode }) {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -85,15 +85,15 @@ export default function Leads({ onScheduleVisit }) {
   });
 
   function getSentimentIcon(s) {
-    if (s === 'Positive') return <Smile className="w-3.5 h-3.5 text-[#111111]" />;
-    if (s === 'Neutral') return <Meh className="w-3.5 h-3.5 text-[#111111]" />;
-    return <Frown className="w-3.5 h-3.5 text-[#111111]" />;
+    if (s === 'Positive') return <Smile className="w-3.5 h-3.5 text-[#111111] dark:text-[#FFDE59]" />;
+    if (s === 'Neutral') return <Meh className="w-3.5 h-3.5 text-[#111111] dark:text-[#B4A7FF]" />;
+    return <Frown className="w-3.5 h-3.5 text-rose-600 dark:text-[#FF8A80]" />;
   }
 
   function getTemperatureBadge(temp) {
     if (temp === 'Hot') {
       return (
-        <span className="neo-badge bg-[#FFDE59] text-[#111111] inline-flex items-center gap-1">
+        <span className="neo-badge bg-[#FFDE59] text-[#111111] border-2 border-[#111111] dark:border-[#E5E5E5] inline-flex items-center gap-1 font-black">
           <Flame className="w-3 h-3 text-[#111111]" />
           Hot
         </span>
@@ -101,14 +101,14 @@ export default function Leads({ onScheduleVisit }) {
     }
     if (temp === 'Warm') {
       return (
-        <span className="neo-badge bg-[#B4A7FF] text-[#111111] inline-flex items-center gap-1">
+        <span className="neo-badge bg-[#B4A7FF] text-[#111111] border-2 border-[#111111] dark:border-[#E5E5E5] inline-flex items-center gap-1 font-black">
           <Sun className="w-3 h-3 text-[#111111]" />
           Warm
         </span>
       );
     }
     return (
-      <span className="neo-badge bg-white text-[#111111] inline-flex items-center gap-1">
+      <span className="neo-badge bg-[#B8F4B8] text-[#111111] border-2 border-[#111111] dark:border-[#E5E5E5] inline-flex items-center gap-1 font-black">
         <Snowflake className="w-3 h-3 text-[#111111]" />
         Cold
       </span>
@@ -121,14 +121,14 @@ export default function Leads({ onScheduleVisit }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#111111] tracking-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#111111] dark:text-[#F5F5F5] tracking-tight">
               Customer Leads & Pipeline
             </h2>
-            <span className="neo-badge bg-[#FFDE59] text-[#111111]">
+            <span className="neo-badge bg-[#FFDE59] text-[#111111] border-2 border-[#111111] dark:border-[#E5E5E5] font-black">
               CRM Tables
             </span>
           </div>
-          <p className="font-sans text-xs sm:text-sm text-[#111111]/70 mt-1 font-medium">
+          <p className="font-sans text-xs sm:text-sm text-[#111111]/70 dark:text-[#B3B3B3] mt-1 font-medium">
             Track inquiries, extracted budget, AI qualification scores, and buyer sentiment from voice sessions.
           </p>
         </div>
@@ -136,101 +136,101 @@ export default function Leads({ onScheduleVisit }) {
         <div className="flex items-center gap-3">
           <button
             onClick={loadLeads}
-            className="neo-btn neo-btn-white p-2.5"
+            className="neo-btn neo-btn-white dark:bg-[#1E1E1E] dark:text-[#F5F5F5] dark:border-[#E5E5E5] p-2.5"
             title="Refresh database records"
           >
-            <RefreshCw className="w-4 h-4 text-[#111111]" />
+            <RefreshCw className="w-4 h-4 text-[#111111] dark:text-[#F5F5F5]" />
           </button>
         </div>
       </div>
 
       {error && (
-        <div className="neo-card bg-[#FF8A80]/20 border-2 border-[#111111] text-[#111111] px-4 py-3 text-xs font-mono font-bold">
+        <div className="neo-card bg-[#FF8A80]/20 dark:bg-[#FF8A80]/30 border-2 border-[#111111] dark:border-[#E5E5E5] text-[#111111] dark:text-[#F5F5F5] px-4 py-3 text-xs font-mono font-bold">
           {error}
         </div>
       )}
 
       {/* Bento Grid: 4 Quick Summary KPI Cards with Hot/Warm/Cold Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="neo-card p-5 bg-white">
-          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#111111] font-bold">
+        <div className="neo-card p-5 bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5] transition-colors">
+          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#111111] dark:text-[#B3B3B3] font-bold">
             <span>Total Leads</span>
-            <Users className="w-4 h-4 text-[#111111]" />
+            <Users className="w-4 h-4 text-[#111111] dark:text-[#FFDE59]" />
           </div>
-          <div className="font-heading text-3xl font-black text-[#111111] mt-2">
+          <div className="font-heading text-3xl font-black text-[#111111] dark:text-[#F5F5F5] mt-2">
             {leads.length}
           </div>
-          <div className="text-[11px] font-sans text-[#111111]/70 font-semibold mt-2">
+          <div className="text-[11px] font-sans text-[#111111]/70 dark:text-[#A3A3A3] font-semibold mt-2">
             Captured across all channels
           </div>
         </div>
 
-        <div className="neo-card p-5 bg-[#FFDE59]">
-          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#111111] font-bold">
+        <div className="neo-card p-5 bg-[#FFDE59] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5]">
+          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#111111] font-black">
             <span className="flex items-center gap-1.5">
               <Flame className="w-3.5 h-3.5 text-[#111111]" />
               Hot Leads
             </span>
-            <span className="neo-badge bg-white text-[#111111] text-[10px]">
+            <span className="neo-badge bg-white text-[#111111] border-2 border-[#111111] text-[10px] font-black">
               High Intent
             </span>
           </div>
           <div className="font-heading text-3xl font-black text-[#111111] mt-2">
             {hotCount}
           </div>
-          <div className="text-[11px] font-sans text-[#111111]/80 font-bold mt-2">
+          <div className="text-[11px] font-sans text-[#111111]/90 font-bold mt-2">
             Score ≥ 80 or visit booked
           </div>
         </div>
 
-        <div className="neo-card p-5 bg-[#B4A7FF]">
-          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#111111] font-bold">
+        <div className="neo-card p-5 bg-[#B4A7FF] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5]">
+          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#111111] font-black">
             <span className="flex items-center gap-1.5">
               <Sun className="w-3.5 h-3.5 text-[#111111]" />
               Warm Leads
             </span>
-            <span className="neo-badge bg-white text-[#111111] text-[10px]">
+            <span className="neo-badge bg-white text-[#111111] border-2 border-[#111111] text-[10px] font-black">
               Engaged
             </span>
           </div>
           <div className="font-heading text-3xl font-black text-[#111111] mt-2">
             {warmCount}
           </div>
-          <div className="text-[11px] font-sans text-[#111111]/80 font-bold mt-2">
+          <div className="text-[11px] font-sans text-[#111111]/90 font-bold mt-2">
             Score 60 to 79
           </div>
         </div>
 
-        <div className="neo-card p-5 bg-[#B8F4B8]">
-          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#111111] font-bold">
+        <div className="neo-card p-5 bg-[#B8F4B8] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5]">
+          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#111111] font-black">
             <span className="flex items-center gap-1.5">
               <Snowflake className="w-3.5 h-3.5 text-[#111111]" />
               Cold Leads
             </span>
-            <span className="neo-badge bg-white text-[#111111] text-[10px]">
+            <span className="neo-badge bg-white text-[#111111] border-2 border-[#111111] text-[10px] font-black">
               Nurturing
             </span>
           </div>
           <div className="font-heading text-3xl font-black text-[#111111] mt-2">
             {coldCount}
           </div>
-          <div className="text-[11px] font-sans text-[#111111]/80 font-bold mt-2">
+          <div className="text-[11px] font-sans text-[#111111]/90 font-bold mt-2">
             Score &lt; 60
           </div>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="neo-card p-4 flex flex-col md:flex-row items-center justify-between gap-3 bg-white">
+      <div className="neo-card p-4 flex flex-col md:flex-row items-center justify-between gap-3 bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5] transition-colors">
         {/* Search */}
         <div className="relative flex-1 w-full">
-          <Search className="w-4 h-4 text-[#111111] absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#111111] dark:text-[#FFDE59] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search leads by customer name, phone number, or locality..."
-            className="neo-input w-full pl-10 pr-4 py-2 text-xs font-medium text-[#111111]"
+            className="neo-input w-full pl-10 pr-4 py-2 text-xs font-medium text-[#111111] dark:text-[#F5F5F5] dark:bg-[#181818] dark:border-[#E5E5E5] dark:placeholder-[#A3A3A3]"
           />
         </div>
 
@@ -240,10 +240,10 @@ export default function Leads({ onScheduleVisit }) {
             <button
               key={t}
               onClick={() => setTempFilter(t)}
-              className={`px-3 py-1.5 text-xs font-mono font-bold rounded-sm border-2 border-[#111111] transition-all cursor-pointer ${
+              className={`px-3 py-1.5 text-xs font-mono font-bold rounded-sm border-2 border-[#111111] dark:border-[#E5E5E5] transition-all cursor-pointer ${
                 tempFilter === t
-                  ? 'bg-[#FFDE59] text-[#111111] shadow-[2px_2px_0px_#111111]'
-                  : 'bg-white text-[#111111] hover:bg-[#FFFDF5] shadow-[1px_1px_0px_#111111]'
+                  ? 'bg-[#FFDE59] text-[#111111] shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5]'
+                  : 'bg-white dark:bg-[#181818] text-[#111111] dark:text-[#F5F5F5] hover:bg-[#FFFDF5] dark:hover:bg-[#252525] shadow-[1px_1px_0px_#111111] dark:shadow-[1px_1px_0px_#E5E5E5]'
               }`}
             >
               {t === 'All' ? 'All Leads' : `${t} Leads`}
@@ -253,11 +253,11 @@ export default function Leads({ onScheduleVisit }) {
 
         {/* Status Dropdown */}
         <div className="flex items-center gap-2 w-full md:w-auto">
-          <Filter className="w-4 h-4 text-[#111111] flex-shrink-0" />
+          <Filter className="w-4 h-4 text-[#111111] dark:text-[#FFDE59] flex-shrink-0" />
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="neo-input px-3 py-2 text-xs font-mono font-bold text-[#111111] bg-white"
+            className="neo-input px-3 py-2 text-xs font-mono font-bold text-[#111111] dark:text-[#F5F5F5] bg-white dark:bg-[#181818] dark:border-[#E5E5E5]"
           >
             <option value="All">All Statuses</option>
             <option value="New">New</option>
@@ -269,16 +269,16 @@ export default function Leads({ onScheduleVisit }) {
       </div>
 
       {loading && (
-        <div className="text-center py-16 text-[#111111] text-xs font-mono font-bold">
+        <div className="text-center py-16 text-[#111111] dark:text-[#B3B3B3] text-xs font-mono font-bold">
           Loading leads from SQLite database...
         </div>
       )}
 
       {!loading && leads.length === 0 && (
-        <div className="neo-card p-12 text-center bg-white">
-          <Users className="w-10 h-10 text-[#111111]/40 mx-auto mb-3" />
-          <p className="text-[#111111] text-base font-heading font-extrabold">No leads recorded yet.</p>
-          <p className="text-[#111111]/70 text-xs mt-1 font-sans font-medium">
+        <div className="neo-card p-12 text-center bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5]">
+          <Users className="w-10 h-10 text-[#111111]/40 dark:text-[#B3B3B3]/40 mx-auto mb-3" />
+          <p className="text-[#111111] dark:text-[#F5F5F5] text-base font-heading font-extrabold">No leads recorded yet.</p>
+          <p className="text-[#111111]/70 dark:text-[#B3B3B3] text-xs mt-1 font-sans font-medium">
             Inquiries and callers from AI voice sessions will appear here automatically with verified details.
           </p>
         </div>
@@ -286,11 +286,11 @@ export default function Leads({ onScheduleVisit }) {
 
       {/* Leads Table */}
       {!loading && filtered.length > 0 && (
-        <div className="neo-card overflow-hidden bg-white">
+        <div className="neo-card overflow-hidden bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5] transition-colors">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-[#FFDE59] border-b-2 border-[#111111] text-[#111111] font-mono text-[11px] uppercase tracking-wider font-extrabold">
+                <tr className="bg-[#FFDE59] border-b-2 border-[#111111] dark:border-[#E5E5E5] text-[#111111] font-mono text-[11px] uppercase tracking-wider font-extrabold">
                   <th className="py-3.5 px-4">Lead ID & Customer</th>
                   <th className="py-3.5 px-4">Preferences</th>
                   <th className="py-3.5 px-4">Budget</th>
@@ -301,35 +301,35 @@ export default function Leads({ onScheduleVisit }) {
                   <th className="py-3.5 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y-2 divide-[#111111]/15">
+              <tbody className="divide-y-2 divide-[#111111]/15 dark:divide-[#E5E5E5]/15">
                 {filtered.map((lead) => (
-                  <tr key={lead.id} className="hover:bg-[#FFFDF5] transition-colors">
+                  <tr key={lead.id} className="hover:bg-[#FFFDF5] dark:hover:bg-[#252525] transition-colors">
                     <td className="py-3.5 px-4">
-                      <div className="font-heading font-black text-[#111111] text-sm">{lead.name}</div>
-                      <div className="text-[11px] font-mono text-[#111111]/70 font-bold flex items-center gap-2 mt-0.5">
+                      <div className="font-heading font-black text-[#111111] dark:text-[#F5F5F5] text-sm">{lead.name}</div>
+                      <div className="text-[11px] font-mono text-[#111111]/70 dark:text-[#B3B3B3] font-bold flex items-center gap-2 mt-0.5">
                         <span className="flex items-center gap-1">
-                          <Phone className="w-3 h-3 text-[#111111]" /> {lead.phone}
+                          <Phone className="w-3 h-3 text-[#111111] dark:text-[#FFDE59]" /> {lead.phone}
                         </span>
                         <span>•</span>
                         <span>{lead.id}</span>
                       </div>
                     </td>
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-[#111111] flex items-center gap-1 font-sans">
-                        <MapPin className="w-3 h-3 text-[#111111]" />
+                      <div className="font-bold text-[#111111] dark:text-[#F5F5F5] flex items-center gap-1 font-sans">
+                        <MapPin className="w-3 h-3 text-[#111111] dark:text-[#FFDE59]" />
                         {lead.location}
                       </div>
-                      <div className="font-mono font-bold text-[11px] text-[#111111]/70 mt-0.5">{lead.bhk}</div>
+                      <div className="font-mono font-bold text-[11px] text-[#111111]/70 dark:text-[#B3B3B3] mt-0.5">{lead.bhk}</div>
                     </td>
-                    <td className="py-3.5 px-4 font-mono font-extrabold text-[#111111]">
+                    <td className="py-3.5 px-4 font-mono font-extrabold text-[#111111] dark:text-[#F5F5F5]">
                       {lead.budget ? formatINR(lead.budget) : 'Open Budget'}
                     </td>
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-2">
-                        <div className="font-mono font-extrabold text-xs text-[#111111] w-6 text-right">
+                        <div className="font-mono font-extrabold text-xs text-[#111111] dark:text-[#F5F5F5] w-6 text-right">
                           {lead.score}
                         </div>
-                        <div className="w-16 h-2.5 bg-white rounded-sm overflow-hidden border-2 border-[#111111]">
+                        <div className="w-16 h-2.5 bg-white dark:bg-[#181818] rounded-sm overflow-hidden border-2 border-[#111111] dark:border-[#E5E5E5]">
                           <div
                             className={`h-full ${
                               lead.score >= 80 ? 'bg-[#B8F4B8]' : lead.score >= 60 ? 'bg-[#FFDE59]' : 'bg-[#FF8A80]'
@@ -343,19 +343,19 @@ export default function Leads({ onScheduleVisit }) {
                       {getTemperatureBadge(lead.temperature)}
                     </td>
                     <td className="py-3.5 px-4">
-                      <span className="neo-badge bg-[#FFFDF5] text-[#111111] inline-flex items-center gap-1">
+                      <span className="neo-badge bg-[#FFFDF5] dark:bg-[#181818] text-[#111111] dark:text-[#F5F5F5] border-2 border-[#111111] dark:border-[#E5E5E5] inline-flex items-center gap-1 font-bold">
                         {getSentimentIcon(lead.sentiment)}
                         {lead.sentiment}
                       </span>
                     </td>
                     <td className="py-3.5 px-4">
                       <span
-                        className={`neo-badge ${
+                        className={`neo-badge border-2 border-[#111111] dark:border-[#E5E5E5] font-black ${
                           lead.status === 'Visit Scheduled'
                             ? 'bg-[#B8F4B8] text-[#111111]'
                             : lead.status === 'Qualified'
                             ? 'bg-[#FFDE59] text-[#111111]'
-                            : 'bg-white text-[#111111]'
+                            : 'bg-white dark:bg-[#181818] text-[#111111] dark:text-[#F5F5F5]'
                         }`}
                       >
                         {lead.status}

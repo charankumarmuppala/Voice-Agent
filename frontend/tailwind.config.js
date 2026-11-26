@@ -20,6 +20,18 @@ export default {
           border: '#111111',
           muted: '#666666',
         },
+        dark: {
+          bg: '#121212',
+          card: '#1E1E1E',
+          sidebar: '#181818',
+          text: '#F5F5F5',
+          secondary: '#B3B3B3',
+          muted: '#A3A3A3',
+          border: '#E5E5E5',
+          yellow: '#FFDE59',
+          purple: '#B4A7FF',
+          green: '#B8F4B8',
+        }
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -42,6 +54,10 @@ export default {
         'neo-xl': '8px 8px 0px #111111',
         'neo-yellow': '4px 4px 0px #FFDE59',
         'neo-purple': '4px 4px 0px #B4A7FF',
+        'neo-dark-sm': '2px 2px 0px #E5E5E5',
+        'neo-dark': '4px 4px 0px #E5E5E5',
+        'neo-dark-lg': '6px 6px 0px #E5E5E5',
+        'neo-dark-xl': '8px 8px 0px #E5E5E5',
         'neo-inset': 'inset 2px 2px 0px #111111',
       },
       borderWidth: {

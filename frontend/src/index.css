@@ -7,6 +7,11 @@
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background-color: #FFFDF5;
     color: #111111;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .dark body {
+    background-color: #121212;
+    color: #F5F5F5;
   }
 }
 
@@ -17,9 +22,10 @@
   background-size: 24px 24px;
 }
 
-.dark .bg-neo-grid {
-  background-color: #0E1116;
-  background-image: radial-gradient(#30363D 0.85px, transparent 0.85px);
+.dark .bg-neo-grid,
+.dark.bg-neo-grid {
+  background-color: #121212 !important;
+  background-image: radial-gradient(#333333 0.85px, transparent 0.85px) !important;
   background-size: 24px 24px;
 }
 
@@ -41,8 +47,8 @@
 }
 
 .dark ::-webkit-scrollbar-track {
-  background: #0E1116;
-  border-left: 2px solid #30363D;
+  background: #121212;
+  border-left: 2px solid #E5E5E5;
 }
 .dark ::-webkit-scrollbar-thumb {
   background: #FFDE59;
@@ -104,28 +110,34 @@
   box-shadow: 0px 0px 0px #111111;
 }
 
-.neo-btn-yellow {
-  background-color: #FFDE59;
-  color: #111111;
+.neo-btn-yellow,
+.dark .neo-btn-yellow {
+  background-color: #FFDE59 !important;
+  color: #111111 !important;
 }
-.neo-btn-yellow:hover {
-  background-color: #FACC15;
-}
-
-.neo-btn-purple {
-  background-color: #B4A7FF;
-  color: #111111;
-}
-.neo-btn-purple:hover {
-  background-color: #A393FF;
+.neo-btn-yellow:hover,
+.dark .neo-btn-yellow:hover {
+  background-color: #FACC15 !important;
 }
 
-.neo-btn-green {
-  background-color: #B8F4B8;
-  color: #111111;
+.neo-btn-purple,
+.dark .neo-btn-purple {
+  background-color: #B4A7FF !important;
+  color: #111111 !important;
 }
-.neo-btn-green:hover {
-  background-color: #98EE98;
+.neo-btn-purple:hover,
+.dark .neo-btn-purple:hover {
+  background-color: #A393FF !important;
+}
+
+.neo-btn-green,
+.dark .neo-btn-green {
+  background-color: #B8F4B8 !important;
+  color: #111111 !important;
+}
+.neo-btn-green:hover,
+.dark .neo-btn-green:hover {
+  background-color: #98EE98 !important;
 }
 
 .neo-btn-white {
@@ -164,41 +176,61 @@
   background-color: #FFFDF5;
 }
 
-/* Dark Mode Overrides */
+/* -------------------------------------------------------------
+   DARK MODE OVERRIDES (Exact Palette: #121212, #1E1E1E, #181818, #F5F5F5, #B3B3B3, #A3A3A3, #E5E5E5)
+   ------------------------------------------------------------- */
 .dark .neo-card,
 .dark .neo-card-interactive {
-  background-color: #161B22;
-  border-color: #F0F6FC;
-  box-shadow: 4px 4px 0px #F0F6FC;
-  color: #F0F6FC;
+  background-color: #1E1E1E;
+  border-color: #E5E5E5;
+  box-shadow: 4px 4px 0px #E5E5E5;
+  color: #F5F5F5;
 }
 .dark .neo-card-interactive:hover {
-  box-shadow: 5px 5px 0px #F0F6FC;
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px #E5E5E5;
 }
 
 .dark .neo-btn {
-  border-color: #F0F6FC;
-  box-shadow: 3px 3px 0px #F0F6FC;
+  border-color: #E5E5E5;
+  box-shadow: 3px 3px 0px #E5E5E5;
 }
 .dark .neo-btn:hover {
-  box-shadow: 4px 4px 0px #F0F6FC;
+  box-shadow: 4px 4px 0px #E5E5E5;
 }
 .dark .neo-btn:active {
-  box-shadow: 0px 0px 0px #F0F6FC;
+  box-shadow: 0px 0px 0px #E5E5E5;
+}
+
+.dark .neo-btn-white {
+  background-color: #1E1E1E;
+  color: #F5F5F5;
+  border-color: #E5E5E5;
+  box-shadow: 3px 3px 0px #E5E5E5;
+}
+.dark .neo-btn-white:hover {
+  background-color: #262626;
 }
 
 .dark .neo-badge {
-  border-color: #F0F6FC;
-  box-shadow: 1.5px 1.5px 0px #F0F6FC;
+  border-color: #E5E5E5;
+  box-shadow: 1.5px 1.5px 0px #E5E5E5;
 }
 
 .dark .neo-input {
-  background-color: #161B22;
-  border-color: #F0F6FC;
-  color: #F0F6FC;
-  box-shadow: 2px 2px 0px #F0F6FC;
+  background-color: #1E1E1E;
+  border-color: #E5E5E5;
+  color: #F5F5F5;
+  box-shadow: 2px 2px 0px #E5E5E5;
+}
+.dark .neo-input::placeholder {
+  color: #A3A3A3;
 }
 .dark .neo-input:focus {
-  background-color: #0E1116;
+  background-color: #181818;
   box-shadow: 4px 4px 0px #FFDE59;
+}
+.dark select.neo-input option {
+  background-color: #1E1E1E;
+  color: #F5F5F5;
 }

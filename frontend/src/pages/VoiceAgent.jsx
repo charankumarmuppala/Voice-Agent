@@ -121,7 +121,7 @@ function cleanSpeechText(text) {
     .trim();
 }
 
-export default function VoiceAgent({ onVisitBooked }) {
+export default function VoiceAgent({ onVisitBooked, darkMode }) {
   const [callActive, setCallActive] = useState(false);
   const [sessionId, setSessionId] = useState(null);
   const [isMuted, setIsMuted] = useState(false);
@@ -772,31 +772,31 @@ export default function VoiceAgent({ onVisitBooked }) {
     <div className="p-6 sm:p-8 space-y-6 max-w-7xl mx-auto">
       {/* Speech Support or Error Alert */}
       {(!speechSupported || speechError) && (
-        <div className="neo-card bg-[#FF8A80]/20 border-2 border-[#111111] text-[#111111] px-4 py-3 rounded-sm flex items-center justify-between text-xs font-mono font-bold">
+        <div className="neo-card bg-[#FF8A80]/20 dark:bg-[#FF8A80]/10 border-2 border-[#111111] dark:border-[#E5E5E5] text-[#111111] dark:text-[#F5F5F5] px-4 py-3 rounded-sm flex items-center justify-between text-xs font-mono font-bold">
           <div className="flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-[#111111] flex-shrink-0" />
+            <AlertCircle className="w-4 h-4 text-[#111111] dark:text-[#FF8A80] flex-shrink-0" />
             <span>
               {!speechSupported
                 ? 'Web Speech API is not natively supported in this browser. Text input fallback is active below.'
                 : speechError}
             </span>
           </div>
-          <span className="neo-badge bg-[#FF8A80] text-[#111111]">Text Fallback Active</span>
+          <span className="neo-badge bg-[#FF8A80] text-[#111111] dark:border-[#E5E5E5]">Text Fallback Active</span>
         </div>
       )}
 
       {/* Top Banner & Call Controls */}
-      <div className="neo-card p-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-white">
+      <div className="neo-card p-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5]">
         <div className="flex items-center gap-4 w-full md:w-auto">
           <div
-            className={`w-14 h-14 rounded-sm flex items-center justify-center transition-all duration-300 border-2 border-[#111111] shadow-[3px_3px_0px_#111111] ${
+            className={`w-14 h-14 rounded-sm flex items-center justify-center transition-all duration-300 border-2 border-[#111111] dark:border-[#E5E5E5] shadow-[3px_3px_0px_#111111] dark:shadow-[3px_3px_0px_#E5E5E5] ${
               isSpeaking
                 ? 'bg-[#FFDE59] text-[#111111]'
                 : isListening
                 ? 'bg-[#B4A7FF] text-[#111111]'
                 : callActive
                 ? 'bg-[#B8F4B8] text-[#111111]'
-                : 'bg-[#FFFDF5] text-[#111111]'
+                : 'bg-[#FFFDF5] dark:bg-[#181818] text-[#111111] dark:text-[#F5F5F5]'
             }`}
           >
             {isSpeaking ? (
@@ -804,24 +804,24 @@ export default function VoiceAgent({ onVisitBooked }) {
             ) : isListening ? (
               <Mic className="w-7 h-7 text-[#111111] animate-pulse" />
             ) : isMuted ? (
-              <MicOff className="w-7 h-7 text-rose-600" />
+              <MicOff className="w-7 h-7 text-rose-600 dark:text-rose-400" />
             ) : (
-              <Mic className="w-7 h-7 text-[#111111]" />
+              <Mic className="w-7 h-7 text-[#111111] dark:text-[#F5F5F5]" />
             )}
           </div>
 
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-xl font-heading font-black text-[#111111] tracking-tight">EstateVoice AI Assistant</h2>
+              <h2 className="text-xl font-heading font-black text-[#111111] dark:text-[#F5F5F5] tracking-tight">EstateVoice AI Assistant</h2>
               <span
                 className={`neo-badge ${
                   isSpeaking
-                    ? 'bg-[#FFDE59] text-[#111111] animate-pulse'
+                    ? 'bg-[#FFDE59] text-[#111111] animate-pulse dark:border-[#E5E5E5]'
                     : isListening
-                    ? 'bg-[#B4A7FF] text-[#111111]'
+                    ? 'bg-[#B4A7FF] text-[#111111] dark:border-[#E5E5E5]'
                     : callActive
-                    ? 'bg-[#B8F4B8] text-[#111111]'
-                    : 'bg-white text-[#111111]'
+                    ? 'bg-[#B8F4B8] text-[#111111] dark:border-[#E5E5E5]'
+                    : 'bg-white dark:bg-[#181818] text-[#111111] dark:text-[#F5F5F5] dark:border dark:border-[#E5E5E5]'
                 }`}
               >
                 {isSpeaking
@@ -833,13 +833,13 @@ export default function VoiceAgent({ onVisitBooked }) {
                   : 'READY TO CONNECT'}
               </span>
               {callActive && (
-                <span className="neo-badge bg-[#111111] text-[#FFDE59] inline-flex items-center gap-1.5">
+                <span className="neo-badge bg-[#111111] dark:bg-[#181818] text-[#FFDE59] dark:border dark:border-[#E5E5E5] inline-flex items-center gap-1.5">
                   <Clock className="w-3 h-3 text-[#FFDE59] animate-pulse" />
                   {formatDuration(callDuration)}
                 </span>
               )}
             </div>
-            <p className="text-xs text-[#111111]/70 mt-1 font-sans font-medium">
+            <p className="text-xs text-[#111111]/70 dark:text-[#B3B3B3] mt-1 font-sans font-medium">
               Multilingual Real Estate Voice Agent • English, Hindi, Kannada, Telugu, Tamil
             </p>
           </div>
@@ -848,20 +848,20 @@ export default function VoiceAgent({ onVisitBooked }) {
         {/* Controls: Waveform, Language, Mute, Call Start/End */}
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
           {/* Animated Voice Waveform Indicator */}
-          <div className="flex items-center gap-1 h-9 px-3 py-1 bg-white rounded-sm border-2 border-[#111111] shadow-[2px_2px_0px_#111111]">
-            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] animate-wave-bar-1' : isListening ? 'bg-[#111111] animate-wave-bar-1' : 'bg-[#111111]/30 h-2'}`} />
-            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] animate-wave-bar-2' : isListening ? 'bg-[#111111] animate-wave-bar-2' : 'bg-[#111111]/30 h-3'}`} />
-            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] animate-wave-bar-3' : isListening ? 'bg-[#111111] animate-wave-bar-3' : 'bg-[#111111]/30 h-5'}`} />
-            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] animate-wave-bar-4' : isListening ? 'bg-[#111111] animate-wave-bar-4' : 'bg-[#111111]/30 h-3'}`} />
-            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] animate-wave-bar-5' : isListening ? 'bg-[#111111] animate-wave-bar-5' : 'bg-[#111111]/30 h-2'}`} />
-            <span className="font-mono text-[10px] uppercase font-bold text-[#111111] ml-1.5 hidden sm:inline">
+          <div className="flex items-center gap-1 h-9 px-3 py-1 bg-white dark:bg-[#181818] rounded-sm border-2 border-[#111111] dark:border-[#E5E5E5] shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5]">
+            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] dark:bg-[#FFDE59] animate-wave-bar-1' : isListening ? 'bg-[#111111] dark:bg-[#FFDE59] animate-wave-bar-1' : 'bg-[#111111]/30 dark:bg-[#F5F5F5]/30 h-2'}`} />
+            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] dark:bg-[#FFDE59] animate-wave-bar-2' : isListening ? 'bg-[#111111] dark:bg-[#FFDE59] animate-wave-bar-2' : 'bg-[#111111]/30 dark:bg-[#F5F5F5]/30 h-3'}`} />
+            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] dark:bg-[#FFDE59] animate-wave-bar-3' : isListening ? 'bg-[#111111] dark:bg-[#FFDE59] animate-wave-bar-3' : 'bg-[#111111]/30 dark:bg-[#F5F5F5]/30 h-5'}`} />
+            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] dark:bg-[#FFDE59] animate-wave-bar-4' : isListening ? 'bg-[#111111] dark:bg-[#FFDE59] animate-wave-bar-4' : 'bg-[#111111]/30 dark:bg-[#F5F5F5]/30 h-3'}`} />
+            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] dark:bg-[#FFDE59] animate-wave-bar-5' : isListening ? 'bg-[#111111] dark:bg-[#FFDE59] animate-wave-bar-5' : 'bg-[#111111]/30 dark:bg-[#F5F5F5]/30 h-2'}`} />
+            <span className="font-mono text-[10px] uppercase font-bold text-[#111111] dark:text-[#F5F5F5] ml-1.5 hidden sm:inline">
               {isSpeaking ? 'AI Output' : isListening ? 'Mic Active' : 'Standby'}
             </span>
           </div>
 
           {/* Language Selector supporting 5 languages */}
-          <div className="flex items-center gap-2 bg-white border-2 border-[#111111] rounded-sm px-3 py-2 text-xs font-mono font-bold text-[#111111] shadow-[2px_2px_0px_#111111]">
-            <Languages className="w-4 h-4 text-[#111111]" />
+          <div className="flex items-center gap-2 bg-white dark:bg-[#181818] border-2 border-[#111111] dark:border-[#E5E5E5] rounded-sm px-3 py-2 text-xs font-mono font-bold text-[#111111] dark:text-[#F5F5F5] shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5]">
+            <Languages className="w-4 h-4 text-[#111111] dark:text-[#FFDE59]" />
             <select
               value={language}
               onChange={(e) => {
@@ -869,13 +869,13 @@ export default function VoiceAgent({ onVisitBooked }) {
                 languageRef.current = e.target.value;
               }}
               disabled={callActive}
-              className="bg-transparent border-none focus:outline-none text-xs cursor-pointer font-mono font-bold disabled:opacity-60 text-[#111111]"
+              className="bg-transparent border-none focus:outline-none text-xs cursor-pointer font-mono font-bold disabled:opacity-60 text-[#111111] dark:text-[#F5F5F5]"
             >
-              <option value="English">English (en-IN)</option>
-              <option value="Hindi">हिन्दी (hi-IN)</option>
-              <option value="Kannada">ಕನ್ನಡ (kn-IN)</option>
-              <option value="Telugu">తెలుగు (te-IN)</option>
-              <option value="Tamil">தமிழ் (ta-IN)</option>
+              <option value="English" className="dark:bg-[#181818] dark:text-[#F5F5F5]">English (en-IN)</option>
+              <option value="Hindi" className="dark:bg-[#181818] dark:text-[#F5F5F5]">हिन्दी (hi-IN)</option>
+              <option value="Kannada" className="dark:bg-[#181818] dark:text-[#F5F5F5]">ಕನ್ನಡ (kn-IN)</option>
+              <option value="Telugu" className="dark:bg-[#181818] dark:text-[#F5F5F5]">తెలుగు (te-IN)</option>
+              <option value="Tamil" className="dark:bg-[#181818] dark:text-[#F5F5F5]">தமிழ் (ta-IN)</option>
             </select>
           </div>
 
@@ -883,23 +883,23 @@ export default function VoiceAgent({ onVisitBooked }) {
           <button
             onClick={() => setIsMuted(!isMuted)}
             disabled={!callActive}
-            className={`neo-btn p-2.5 rounded-sm ${
+            className={`neo-btn p-2.5 rounded-sm dark:border-[#E5E5E5] ${
               !callActive
-                ? 'opacity-40 cursor-not-allowed bg-white'
+                ? 'opacity-40 cursor-not-allowed bg-white dark:bg-[#181818] dark:text-[#B3B3B3]'
                 : isMuted
                 ? 'bg-[#FF8A80] text-[#111111]'
-                : 'neo-btn-white'
+                : 'neo-btn-white dark:bg-[#181818] dark:text-[#F5F5F5]'
             }`}
             title={isMuted ? 'Unmute microphone' : 'Mute microphone'}
           >
-            {isMuted ? <MicOff className="w-4 h-4 text-[#111111]" /> : <Mic className="w-4 h-4 text-[#111111]" />}
+            {isMuted ? <MicOff className="w-4 h-4 text-[#111111]" /> : <Mic className="w-4 h-4 text-[#111111] dark:text-[#F5F5F5]" />}
           </button>
 
           {/* Start / End Call */}
           {!callActive ? (
             <button
               onClick={handleStartCall}
-              className="neo-btn neo-btn-yellow px-5 py-2.5 text-xs font-bold gap-2"
+              className="neo-btn neo-btn-yellow dark:border-[#E5E5E5] px-5 py-2.5 text-xs font-bold gap-2"
             >
               <Phone className="w-4 h-4 text-[#111111]" />
               Start Voice Call
@@ -907,7 +907,7 @@ export default function VoiceAgent({ onVisitBooked }) {
           ) : (
             <button
               onClick={handleEndCall}
-              className="neo-btn bg-[#FF8A80] hover:bg-rose-400 text-[#111111] px-5 py-2.5 text-xs font-bold gap-2"
+              className="neo-btn bg-[#FF8A80] hover:bg-rose-400 text-[#111111] dark:border-[#E5E5E5] px-5 py-2.5 text-xs font-bold gap-2"
             >
               <PhoneOff className="w-4 h-4 text-[#111111]" />
               End Call
@@ -919,9 +919,9 @@ export default function VoiceAgent({ onVisitBooked }) {
       {/* Main Grid: Transcript vs Customer Profile & Recommended Properties */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Live Conversation Stream */}
-        <div className="lg:col-span-2 neo-card flex flex-col h-[620px] overflow-hidden bg-white">
+        <div className="lg:col-span-2 neo-card flex flex-col h-[620px] overflow-hidden bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5]">
           {/* Transcript Header */}
-          <div className="p-4 border-b-2 border-[#111111] flex items-center justify-between bg-[#FFDE59]">
+          <div className="p-4 border-b-2 border-[#111111] dark:border-[#E5E5E5] flex items-center justify-between bg-[#FFDE59]">
             <div className="flex items-center gap-2">
               <span
                 className={`w-2.5 h-2.5 rounded-full border border-[#111111] ${
@@ -949,12 +949,12 @@ export default function VoiceAgent({ onVisitBooked }) {
           </div>
 
           {/* Transcript Message Scroll */}
-          <div ref={transcriptContainerRef} className="flex-1 p-5 overflow-y-auto space-y-4 bg-white">
+          <div ref={transcriptContainerRef} className="flex-1 p-5 overflow-y-auto space-y-4 bg-white dark:bg-[#1E1E1E]">
             {messages.map((msg) => {
               if (msg.sender === 'system') {
                 return (
                   <div key={msg.id} className="text-center my-2">
-                    <span className="neo-badge bg-[#FFFDF5] text-[#111111] inline-block">
+                    <span className="neo-badge bg-[#FFFDF5] dark:bg-[#181818] text-[#111111] dark:text-[#F5F5F5] dark:border dark:border-[#E5E5E5] inline-block">
                       {msg.text} • {msg.time}
                     </span>
                   </div>
@@ -968,23 +968,23 @@ export default function VoiceAgent({ onVisitBooked }) {
                   className={`flex items-start gap-3 ${isAgent ? 'justify-start' : 'justify-end'}`}
                 >
                   {isAgent && (
-                    <div className="w-8 h-8 rounded-sm bg-[#FFDE59] text-[#111111] flex items-center justify-center flex-shrink-0 text-xs font-bold border-2 border-[#111111] shadow-[2px_2px_0px_#111111]">
+                    <div className="w-8 h-8 rounded-sm bg-[#FFDE59] text-[#111111] flex items-center justify-center flex-shrink-0 text-xs font-bold border-2 border-[#111111] dark:border-[#E5E5E5] shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5]">
                       <Sparkles className="w-4 h-4 text-[#111111]" />
                     </div>
                   )}
 
                   <div
-                    className={`max-w-[80%] rounded-sm p-4 text-xs leading-relaxed border-2 border-[#111111] ${
+                    className={`max-w-[80%] rounded-sm p-4 text-xs leading-relaxed border-2 border-[#111111] dark:border-[#E5E5E5] ${
                       isAgent
-                        ? 'bg-[#FFFDF5] text-[#111111] shadow-[2px_2px_0px_#111111]'
-                        : 'bg-[#FFDE59] text-[#111111] shadow-[2px_2px_0px_#111111]'
+                        ? 'bg-[#FFFDF5] dark:bg-[#181818] text-[#111111] dark:text-[#F5F5F5] shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5]'
+                        : 'bg-[#FFDE59] text-[#111111] shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5]'
                     }`}
                   >
                     <div className="flex items-center justify-between gap-4 mb-1">
-                      <span className="font-mono font-black text-[10px] uppercase tracking-wider text-[#111111]">
+                      <span className="font-mono font-black text-[10px] uppercase tracking-wider text-[#111111] dark:text-[#FFDE59]">
                         {isAgent ? 'EstateVoice Sales AI' : 'Buyer'}
                       </span>
-                      <span className="text-[10px] font-mono font-bold text-[#111111]/70">
+                      <span className="text-[10px] font-mono font-bold text-[#111111]/70 dark:text-[#B3B3B3]">
                         {msg.time}
                       </span>
                     </div>
@@ -992,7 +992,7 @@ export default function VoiceAgent({ onVisitBooked }) {
                   </div>
 
                   {!isAgent && (
-                    <div className="w-8 h-8 rounded-sm bg-[#B4A7FF] border-2 border-[#111111] text-[#111111] flex items-center justify-center flex-shrink-0 text-xs font-bold shadow-[2px_2px_0px_#111111]">
+                    <div className="w-8 h-8 rounded-sm bg-[#B4A7FF] border-2 border-[#111111] dark:border-[#E5E5E5] text-[#111111] flex items-center justify-center flex-shrink-0 text-xs font-bold shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5]">
                       <User className="w-4 h-4 text-[#111111]" />
                     </div>
                   )}
@@ -1002,34 +1002,34 @@ export default function VoiceAgent({ onVisitBooked }) {
 
             {/* Live speech accumulation feedback with adaptive silence indicator */}
             {liveHeardText && (
-              <div className="p-3.5 rounded-sm bg-[#FFFDF5] border-2 border-[#111111] text-xs font-mono text-[#111111] space-y-2 shadow-[2px_2px_0px_#111111] animate-pulse">
+              <div className="p-3.5 rounded-sm bg-[#FFFDF5] dark:bg-[#181818] border-2 border-[#111111] dark:border-[#E5E5E5] text-xs font-mono text-[#111111] dark:text-[#F5F5F5] space-y-2 shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5] animate-pulse">
                 <div className="flex items-center justify-between font-black text-[11px] uppercase tracking-wider flex-wrap gap-2">
                   <span className="flex items-center gap-1.5">
-                    <Radio className="w-3.5 h-3.5 text-[#111111] animate-ping" />
+                    <Radio className="w-3.5 h-3.5 text-[#111111] dark:text-[#FFDE59] animate-ping" />
                     {sentenceStatus}
                   </span>
                   <span
                     className={`neo-badge ${
                       isSentenceCompleteState
-                        ? 'bg-[#B8F4B8] text-[#111111]'
-                        : 'bg-[#FFDE59] text-[#111111]'
+                        ? 'bg-[#B8F4B8] text-[#111111] dark:border-[#E5E5E5]'
+                        : 'bg-[#FFDE59] text-[#111111] dark:border-[#E5E5E5]'
                     }`}
                   >
                     {isSentenceCompleteState ? `Quick Submit: ${silenceCountdown}s` : `Waiting: ${silenceCountdown}s`}
                   </span>
                 </div>
-                <p className="text-xs text-[#111111] font-sans font-medium italic bg-white p-2.5 rounded-sm border-2 border-[#111111]">
+                <p className="text-xs text-[#111111] dark:text-[#F5F5F5] font-sans font-medium italic bg-white dark:bg-[#121212] p-2.5 rounded-sm border-2 border-[#111111] dark:border-[#E5E5E5]">
                   "{liveHeardText}"
                 </p>
                 <div className="flex items-center justify-between text-[10px] font-mono font-bold">
-                  <span className="text-[#111111]/70">
+                  <span className="text-[#111111]/70 dark:text-[#B3B3B3]">
                     {isSentenceCompleteState
                       ? '✓ Complete thought detected — submitting in ~1s'
                       : '... Incomplete thought — pausing up to 5s for more words'}
                   </span>
                   <button
                     onClick={submitBufferedSpeech}
-                    className="neo-btn neo-btn-yellow px-3 py-1 text-[10px] font-mono font-bold"
+                    className="neo-btn neo-btn-yellow dark:border-[#E5E5E5] px-3 py-1 text-[10px] font-mono font-bold"
                   >
                     Send Now
                   </button>
@@ -1038,10 +1038,10 @@ export default function VoiceAgent({ onVisitBooked }) {
             )}
 
             {isTyping && (
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#111111] italic">
-                <span className="w-2 h-2 rounded-full bg-[#111111] animate-bounce" />
-                <span className="w-2 h-2 rounded-full bg-[#111111] animate-bounce [animation-delay:0.2s]" />
-                <span className="w-2 h-2 rounded-full bg-[#111111] animate-bounce [animation-delay:0.4s]" />
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#111111] dark:text-[#F5F5F5] italic">
+                <span className="w-2 h-2 rounded-full bg-[#111111] dark:bg-[#FFDE59] animate-bounce" />
+                <span className="w-2 h-2 rounded-full bg-[#111111] dark:bg-[#FFDE59] animate-bounce [animation-delay:0.2s]" />
+                <span className="w-2 h-2 rounded-full bg-[#111111] dark:bg-[#FFDE59] animate-bounce [animation-delay:0.4s]" />
                 Gemini is consulting Bangalore property portfolio...
               </div>
             )}
@@ -1049,12 +1049,12 @@ export default function VoiceAgent({ onVisitBooked }) {
           </div>
 
           {/* Quick Multilingual Prompts */}
-          <div className="px-4 py-2.5 border-t-2 border-[#111111] bg-[#FFFDF5] overflow-x-auto flex gap-2 no-scrollbar">
+          <div className="px-4 py-2.5 border-t-2 border-[#111111] dark:border-[#E5E5E5] bg-[#FFFDF5] dark:bg-[#181818] overflow-x-auto flex gap-2 no-scrollbar">
             {samplePrompts.map((prompt, idx) => (
               <button
                 key={idx}
                 onClick={() => setInputText(prompt)}
-                className="neo-btn neo-btn-white text-[11px] font-mono font-bold px-3 py-1 flex-shrink-0 whitespace-nowrap"
+                className="neo-btn neo-btn-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:text-[#F5F5F5] hover:dark:bg-[#252525] text-[11px] font-mono font-bold px-3 py-1 flex-shrink-0 whitespace-nowrap"
               >
                 "{prompt}"
               </button>
@@ -1064,19 +1064,19 @@ export default function VoiceAgent({ onVisitBooked }) {
           {/* Text Fallback Form */}
           <form
             onSubmit={handleSendForm}
-            className="p-3 border-t-2 border-[#111111] flex items-center gap-2 bg-white"
+            className="p-3 border-t-2 border-[#111111] dark:border-[#E5E5E5] flex items-center gap-2 bg-white dark:bg-[#1E1E1E]"
           >
             <input
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="Speak via mic (waits for 5s silence) or type in English, Telugu, Kannada, Hindi, Tamil..."
-              className="neo-input flex-1 px-4 py-2.5 text-xs text-[#111111] font-medium"
+              className="neo-input flex-1 px-4 py-2.5 text-xs text-[#111111] dark:text-[#F5F5F5] dark:bg-[#181818] dark:border-[#E5E5E5] dark:placeholder-[#A3A3A3] font-medium"
             />
             <button
               type="submit"
               disabled={!inputText.trim() || isTyping}
-              className="neo-btn neo-btn-yellow p-2.5 rounded-sm disabled:opacity-40"
+              className="neo-btn neo-btn-yellow dark:border-[#E5E5E5] p-2.5 rounded-sm disabled:opacity-40"
             >
               <Send className="w-4 h-4 text-[#111111]" />
             </button>
@@ -1086,102 +1086,102 @@ export default function VoiceAgent({ onVisitBooked }) {
         {/* Right Column: Customer Profile & Real-time Recommended Properties */}
         <div className="space-y-6">
           {/* Customer Profile Card */}
-          <div className="neo-card p-5 bg-white">
+          <div className="neo-card p-5 bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5]">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="text-xs font-mono font-black uppercase tracking-wider text-[#111111] flex items-center gap-1.5">
-                <User className="w-4 h-4 text-[#111111]" />
+              <h4 className="text-xs font-mono font-black uppercase tracking-wider text-[#111111] dark:text-[#F5F5F5] flex items-center gap-1.5">
+                <User className="w-4 h-4 text-[#111111] dark:text-[#FFDE59]" />
                 Gemini Buyer Profile
               </h4>
-              <span className="neo-badge bg-[#FFDE59] text-[#111111]">
+              <span className="neo-badge bg-[#FFDE59] text-[#111111] dark:border-[#E5E5E5]">
                 Score: {profile.lead_score || 75}/100
               </span>
             </div>
 
             <div className="space-y-2 text-xs">
-              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Caller Name</span>
-                <span className="font-extrabold text-[#111111]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/20">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">Caller Name</span>
+                <span className="font-extrabold text-[#111111] dark:text-[#F5F5F5]">
                   {profile.customer_name || 'Prospective Buyer'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Language</span>
-                <span className="font-black text-[#111111] font-mono uppercase">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/20">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">Language</span>
+                <span className="font-black text-[#111111] dark:text-[#F5F5F5] font-mono uppercase">
                   {language}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Location</span>
-                <span className="font-extrabold text-[#111111]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/20">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">Location</span>
+                <span className="font-extrabold text-[#111111] dark:text-[#F5F5F5]">
                   {profile.location || 'Not Specified'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Configuration</span>
-                <span className="font-extrabold text-[#111111]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/20">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">Configuration</span>
+                <span className="font-extrabold text-[#111111] dark:text-[#F5F5F5]">
                   {profile.bhk ? `${profile.bhk} BHK` : 'Flexible'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Budget</span>
-                <span className="font-extrabold text-[#111111]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/20">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">Budget</span>
+                <span className="font-extrabold text-[#111111] dark:text-[#F5F5F5]">
                   {profile.budget || 'In Discussion'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Timeline</span>
-                <span className="font-extrabold text-[#111111]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/20">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">Timeline</span>
+                <span className="font-extrabold text-[#111111] dark:text-[#F5F5F5]">
                   {profile.timeline || 'Exploring'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Visit Interest</span>
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/20">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">Visit Interest</span>
                 <span
                   className={`neo-badge ${
                     profile.visit_interest === 'Requested' || profile.visit_interest === 'Interested'
-                      ? 'bg-[#B8F4B8] text-[#111111]'
-                      : 'bg-white text-[#111111]'
+                      ? 'bg-[#B8F4B8] text-[#111111] dark:border-[#E5E5E5]'
+                      : 'bg-white dark:bg-[#181818] text-[#111111] dark:text-[#F5F5F5] dark:border dark:border-[#E5E5E5]'
                   }`}
                 >
                   {profile.visit_slot ? `${profile.visit_slot}` : profile.visit_interest || 'Unknown'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Sentiment</span>
-                <span className="neo-badge bg-[#B8F4B8] text-[#111111]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/20">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">Sentiment</span>
+                <span className="neo-badge bg-[#B8F4B8] text-[#111111] dark:border-[#E5E5E5]">
                   {profile.sentiment || 'Positive'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Stage</span>
-                <span className="neo-badge bg-[#FFFDF5] text-[#111111]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/20">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">Stage</span>
+                <span className="neo-badge bg-[#FFFDF5] dark:bg-[#181818] text-[#111111] dark:text-[#F5F5F5] dark:border dark:border-[#E5E5E5]">
                   {profile.conv_state || 'GREET'}
                 </span>
               </div>
               {profile.customer_phone && (
-                <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Phone</span>
-                  <span className="font-mono text-xs font-black text-[#111111]">
+                <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/20">
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">Phone</span>
+                  <span className="font-mono text-xs font-black text-[#111111] dark:text-[#F5F5F5]">
                     {profile.customer_phone} {profile.phone_confirmed ? '✓' : ''}
                   </span>
                 </div>
               )}
               {profile.customer_email && (
-                <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Email</span>
-                  <span className="font-mono text-xs font-black text-[#111111] truncate max-w-[60%]">
+                <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15 dark:border-[#E5E5E5]/20">
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">Email</span>
+                  <span className="font-mono text-xs font-black text-[#111111] dark:text-[#F5F5F5] truncate max-w-[60%]">
                     {profile.customer_email} {profile.email_confirmed ? '✓' : ''}
                   </span>
                 </div>
               )}
               <div className="flex items-center justify-between py-1.5">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Intent</span>
-                <span className="font-black text-[#111111] text-right max-w-[60%] truncate font-mono text-xs">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 dark:text-[#B3B3B3] font-bold">Intent</span>
+                <span className="font-black text-[#111111] dark:text-[#F5F5F5] text-right max-w-[60%] truncate font-mono text-xs">
                   {profile.intent || 'Bangalore Inquiry'}
                 </span>
               </div>
               {bookingId && (
-                <div className="mt-3 p-3 rounded-sm bg-[#B8F4B8] border-2 border-[#111111] space-y-1 shadow-[2px_2px_0px_#111111]">
+                <div className="mt-3 p-3 rounded-sm bg-[#B8F4B8] border-2 border-[#111111] dark:border-[#E5E5E5] space-y-1 shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5]">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[#111111] flex-shrink-0" />
                     <div>
@@ -1201,27 +1201,27 @@ export default function VoiceAgent({ onVisitBooked }) {
           </div>
 
           {/* Recommended Properties matching extraction */}
-          <div className="neo-card p-5 bg-white">
+          <div className="neo-card p-5 bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:shadow-[4px_4px_0px_#E5E5E5]">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="text-xs font-mono font-black uppercase tracking-wider text-[#111111] flex items-center gap-1.5">
-                <Building2 className="w-4 h-4 text-[#111111]" />
+              <h4 className="text-xs font-mono font-black uppercase tracking-wider text-[#111111] dark:text-[#F5F5F5] flex items-center gap-1.5">
+                <Building2 className="w-4 h-4 text-[#111111] dark:text-[#FFDE59]" />
                 Recommended Matches ({recommended.length})
               </h4>
-              <span className="neo-badge bg-[#B4A7FF] text-[#111111]">
+              <span className="neo-badge bg-[#B4A7FF] text-[#111111] dark:border-[#E5E5E5]">
                 Live RAG Inventory
               </span>
             </div>
 
             <div className="space-y-3 max-h-[460px] overflow-y-auto pr-1">
               {recommended.length === 0 ? (
-                <div className="p-4 text-center rounded-sm bg-[#FFFDF5] border-2 border-dashed border-[#111111]/30 text-xs font-mono text-[#111111]/70 italic font-bold">
+                <div className="p-4 text-center rounded-sm bg-[#FFFDF5] dark:bg-[#181818] border-2 border-dashed border-[#111111]/30 dark:border-[#E5E5E5]/30 text-xs font-mono text-[#111111]/70 dark:text-[#B3B3B3] italic font-bold">
                   No properties matched yet. Mention your preferred location, budget, or BHK configuration.
                 </div>
               ) : (
                 recommended.map((prop) => (
                   <div
                     key={prop.id}
-                    className="p-3 rounded-sm border-2 border-[#111111] bg-[#FFFDF5] hover:bg-white transition-all flex gap-3 items-center group cursor-pointer shadow-[2px_2px_0px_#111111] active:translate-x-[1px] active:translate-y-[1px]"
+                    className="p-3 rounded-sm border-2 border-[#111111] dark:border-[#E5E5E5] bg-[#FFFDF5] dark:bg-[#181818] hover:bg-white dark:hover:bg-[#252525] transition-all flex gap-3 items-center group cursor-pointer shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5] active:translate-x-[1px] active:translate-y-[1px]"
                     onClick={() => {
                       if (callActive) {
                         processUserMessage(`Tell me more about ${prop.name} and can we visit?`);
@@ -1233,14 +1233,14 @@ export default function VoiceAgent({ onVisitBooked }) {
                     <img
                       src={prop.image_url}
                       alt={prop.name}
-                      className="w-16 h-16 rounded-sm object-cover flex-shrink-0 border-2 border-[#111111] group-hover:scale-105 transition-transform"
+                      className="w-16 h-16 rounded-sm object-cover flex-shrink-0 border-2 border-[#111111] dark:border-[#E5E5E5] group-hover:scale-105 transition-transform"
                     />
                     <div className="flex-1 min-w-0">
-                      <div className="text-[11px] font-extrabold text-[#111111] truncate font-heading">{prop.name}</div>
-                      <div className="text-[10px] font-mono font-bold text-[#111111]/70">
+                      <div className="text-[11px] font-extrabold text-[#111111] dark:text-[#F5F5F5] truncate font-heading">{prop.name}</div>
+                      <div className="text-[10px] font-mono font-bold text-[#111111]/70 dark:text-[#B3B3B3]">
                         {prop.location} • {prop.bhk} BHK • {prop.property_type}
                       </div>
-                      <div className="text-xs font-heading font-black text-[#111111] mt-1">
+                      <div className="text-xs font-heading font-black text-[#111111] dark:text-[#FFDE59] mt-1">
                         {formatINR(prop.price)}
                       </div>
                     </div>

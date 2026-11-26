@@ -28,23 +28,23 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
 
   return (
     <aside
-      className={`bg-[#FFFDF5] border-r-2 border-[#111111] transition-all duration-200 flex flex-col justify-between select-none z-20 ${
+      className={`bg-[#FFFDF5] dark:bg-[#181818] border-r-2 border-[#111111] dark:border-[#E5E5E5] transition-all duration-200 flex flex-col justify-between select-none z-20 ${
         collapsed ? 'w-20' : 'w-64'
       }`}
     >
       {/* Top Branding */}
       <div>
-        <div className="h-20 flex items-center px-4 border-b-2 border-[#111111] justify-between bg-[#FFFDF5]">
+        <div className="h-20 flex items-center px-4 border-b-2 border-[#111111] dark:border-[#E5E5E5] justify-between bg-[#FFFDF5] dark:bg-[#181818] transition-colors">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-10 h-10 rounded-md bg-[#FFDE59] flex items-center justify-center text-[#111111] flex-shrink-0 border-2 border-[#111111] shadow-neo-sm">
+            <div className="w-10 h-10 rounded-md bg-[#FFDE59] flex items-center justify-center text-[#111111] flex-shrink-0 border-2 border-[#111111] dark:border-[#E5E5E5] shadow-neo-sm dark:shadow-[2px_2px_0px_#E5E5E5]">
               <Building2 className="w-5 h-5 text-[#111111]" />
             </div>
             {!collapsed && (
               <div className="leading-tight truncate">
-                <div className="font-heading font-black text-lg text-[#111111] flex items-center gap-1.5 tracking-tight">
-                  EstateVoice <span className="font-mono text-[9px] uppercase tracking-wider bg-[#B4A7FF] text-[#111111] border border-[#111111] font-black px-1.5 py-0.2 rounded-sm shadow-[1px_1px_0px_#111111]">AI</span>
+                <div className="font-heading font-black text-lg text-[#111111] dark:text-[#F5F5F5] flex items-center gap-1.5 tracking-tight">
+                  EstateVoice <span className="font-mono text-[9px] uppercase tracking-wider bg-[#B4A7FF] text-[#111111] border border-[#111111] dark:border-[#E5E5E5] font-black px-1.5 py-0.2 rounded-sm shadow-[1px_1px_0px_#111111] dark:shadow-[1px_1px_0px_#E5E5E5]">AI</span>
                 </div>
-                <div className="font-mono text-[10px] uppercase tracking-wider text-[#111111] font-bold mt-0.5">
+                <div className="font-mono text-[10px] uppercase tracking-wider text-[#111111] dark:text-[#B3B3B3] font-bold mt-0.5">
                   Autonomous Broker
                 </div>
               </div>
@@ -52,10 +52,10 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
           </div>
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="neo-btn bg-white p-1 text-[#111111]"
+            className="neo-btn bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:text-[#F5F5F5] p-1 text-[#111111]"
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
-            {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+            {collapsed ? <ChevronRight className="w-4 h-4 text-[#111111] dark:text-[#F5F5F5]" /> : <ChevronLeft className="w-4 h-4 text-[#111111] dark:text-[#F5F5F5]" />}
           </button>
         </div>
 
@@ -68,15 +68,17 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-md text-xs transition-all cursor-pointer ${
+                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-md text-xs transition-all cursor-pointer group ${
                   isActive
-                    ? 'bg-[#FFDE59] text-[#111111] font-black border-2 border-[#111111] shadow-[3px_3px_0px_#111111] translate-x-[-1px] translate-y-[-1px]'
-                    : 'text-[#111111] font-bold hover:bg-[#B4A7FF] hover:border-2 hover:border-[#111111] hover:shadow-[2px_2px_0px_#111111] border-2 border-transparent'
+                    ? 'bg-[#FFDE59] text-[#111111] font-black border-2 border-[#111111] dark:border-[#E5E5E5] shadow-[3px_3px_0px_#111111] dark:shadow-[3px_3px_0px_#E5E5E5] translate-x-[-1px] translate-y-[-1px]'
+                    : 'text-[#111111] dark:text-[#F5F5F5] font-bold hover:bg-[#B4A7FF] hover:text-[#111111] dark:hover:bg-[#B4A7FF] dark:hover:text-[#111111] hover:border-2 hover:border-[#111111] dark:hover:border-[#E5E5E5] hover:shadow-[2px_2px_0px_#111111] dark:hover:shadow-[2px_2px_0px_#E5E5E5] border-2 border-transparent'
                 }`}
                 title={collapsed ? item.label : undefined}
               >
                 <Icon
-                  className="w-4 h-4 flex-shrink-0 text-[#111111]"
+                  className={`w-4 h-4 flex-shrink-0 ${
+                    isActive ? 'text-[#111111]' : 'text-[#111111] dark:text-[#F5F5F5] group-hover:text-[#111111]'
+                  }`}
                 />
                 {!collapsed && (
                   <span className="truncate flex-1 text-left font-heading font-bold text-xs uppercase tracking-tight">
@@ -85,7 +87,7 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
                 )}
                 {!collapsed && item.badge && (
                   <span
-                    className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded-sm font-black border border-[#111111] bg-[#B8F4B8] text-[#111111] shadow-[1px_1px_0px_#111111]"
+                    className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded-sm font-black border border-[#111111] dark:border-[#E5E5E5] bg-[#B8F4B8] text-[#111111] shadow-[1px_1px_0px_#111111] dark:shadow-[1px_1px_0px_#E5E5E5]"
                   >
                     {item.badge}
                   </span>
@@ -97,10 +99,10 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
       </div>
 
       {/* Bottom Status Info */}
-      <div className="p-3 border-t-2 border-[#111111] space-y-2 bg-[#FFFDF5]">
+      <div className="p-3 border-t-2 border-[#111111] dark:border-[#E5E5E5] space-y-2 bg-[#FFFDF5] dark:bg-[#181818] transition-colors">
         {!collapsed ? (
           <>
-            <div className="bg-[#B8F4B8] rounded-md p-3 border-2 border-[#111111] shadow-[2px_2px_0px_#111111] text-xs">
+            <div className="bg-[#B8F4B8] rounded-md p-3 border-2 border-[#111111] dark:border-[#E5E5E5] shadow-[2px_2px_0px_#111111] dark:shadow-[2px_2px_0px_#E5E5E5] text-xs">
               <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-[#111111] font-black mb-1">
                 <span className="flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-[#111111]" />
@@ -115,20 +117,20 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
 
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="neo-btn bg-white w-full py-1.5 px-3 flex items-center justify-between text-xs font-mono font-bold"
+              className="neo-btn bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:text-[#F5F5F5] w-full py-1.5 px-3 flex items-center justify-between text-xs font-mono font-bold text-[#111111]"
               title={darkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
             >
               <span className="flex items-center gap-2">
                 {darkMode ? <Sun className="w-3.5 h-3.5 text-[#FFDE59]" /> : <Moon className="w-3.5 h-3.5 text-[#111111]" />}
-                <span>{darkMode ? 'LIGHT' : 'DARK'}</span>
+                <span className="text-[#111111] dark:text-[#F5F5F5]">{darkMode ? 'LIGHT' : 'DARK'}</span>
               </span>
-              <span className="text-[10px] uppercase font-black">{darkMode ? 'ON' : 'OFF'}</span>
+              <span className="text-[10px] uppercase font-black text-[#111111] dark:text-[#FFDE59]">{darkMode ? 'ON' : 'OFF'}</span>
             </button>
           </>
         ) : (
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="neo-btn bg-white w-10 h-10 mx-auto flex items-center justify-center"
+            className="neo-btn bg-white dark:bg-[#1E1E1E] dark:border-[#E5E5E5] dark:text-[#F5F5F5] w-10 h-10 mx-auto flex items-center justify-center text-[#111111]"
             title={darkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
           >
             {darkMode ? <Sun className="w-4 h-4 text-[#FFDE59]" /> : <Moon className="w-4 h-4 text-[#111111]" />}

@@ -55,7 +55,7 @@ export default function App() {
   };
 
   return (
-    <div className={`flex h-screen bg-neo-grid bg-[#FFFDF5] text-[#111111] font-sans overflow-hidden ${darkMode ? 'dark' : ''}`}>
+    <div className={`flex h-screen bg-neo-grid bg-[#FFFDF5] dark:bg-[#121212] text-[#111111] dark:text-[#F5F5F5] font-sans overflow-hidden ${darkMode ? 'dark' : ''}`}>
       {/* Collapsible Neo-Brutalist Sidebar */}
       <Sidebar
         activeTab={activeTab}
@@ -67,7 +67,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-transparent">
         <Navbar
           activeTabTitle={titles[activeTab] || 'EstateVoice AI'}
           darkMode={darkMode}
@@ -75,20 +75,20 @@ export default function App() {
         />
 
         <main className="flex-1 overflow-y-auto">
-          {activeTab === 'dashboard' && <Dashboard setActiveTab={setActiveTab} />}
+          {activeTab === 'dashboard' && <Dashboard setActiveTab={setActiveTab} darkMode={darkMode} />}
           {activeTab === 'voice-agent' && (
-            <VoiceAgent />
+            <VoiceAgent darkMode={darkMode} />
           )}
           {activeTab === 'properties' && (
-            <Properties onScheduleVisit={handleScheduleVisitFromCard} />
+            <Properties onScheduleVisit={handleScheduleVisitFromCard} darkMode={darkMode} />
           )}
           {activeTab === 'leads' && (
-            <Leads onScheduleVisit={handleScheduleVisitFromCard} />
+            <Leads onScheduleVisit={handleScheduleVisitFromCard} darkMode={darkMode} />
           )}
           {activeTab === 'appointments' && (
-            <Appointments initialProperty={selectedPropertyForVisit} />
+            <Appointments initialProperty={selectedPropertyForVisit} darkMode={darkMode} />
           )}
-          {activeTab === 'call-history' && <CallHistory />}
+          {activeTab === 'call-history' && <CallHistory darkMode={darkMode} />}
           {activeTab === 'settings' && <Settings darkMode={darkMode} setDarkMode={setDarkMode} />}
         </main>
       </div>
