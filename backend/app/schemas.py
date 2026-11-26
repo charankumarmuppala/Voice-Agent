@@ -137,15 +137,15 @@ class ChatMessageResponse(BaseModel):
 class CallSessionItem(BaseModel):
     id: int
     session_id: str
-    customer_name: str
-    customer_phone: str
-    language: str
-    status: str
+    customer_name: Optional[str] = None
+    customer_phone: Optional[str] = None
+    language: str = "English"
+    status: str = "active"
     summary: Optional[str] = None
-    outcome: str
+    outcome: Optional[str] = None
     started_at: datetime
     ended_at: Optional[datetime] = None
-    duration_seconds: int
+    duration_seconds: Optional[int] = 0
     extracted_profile: Dict[str, Any] = {}
 
     model_config = ConfigDict(from_attributes=True)
