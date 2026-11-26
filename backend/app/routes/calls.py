@@ -390,13 +390,16 @@ def end_call(session_id: str, background_tasks: BackgroundTasks, req: Optional[C
 
     # Record in CallRecord for backward compatibility / reporting (prevent duplicate)
     call_record = db.query(CallRecord).filter(CallRecord.call_id == session_id).first()
+    safe_phone = session.customer_phone or updated_profile.get("customer_phone") if 'updated_profile' in locals() else session.customer_phone
+    if not safe_phone:
+        safe_phone = "Not Provided"
     if not call_record:
         call_record = CallRecord(
             call_id=session_id,
-            customer_name=session.customer_name,
-            customer_phone=session.customer_phone,
+            customer_name=session.customer_name or "Prospective Buyer",
+            customer_phone=safe_phone,
             duration_seconds=duration_sec,
-            language=session.language,
+            language=session.language or "English",
             sentiment=final_profile.get("sentiment", "Positive"),
             summary=summary_text,
             transcript=history,
@@ -409,8 +412,8 @@ def end_call(session_id: str, background_tasks: BackgroundTasks, req: Optional[C
         call_record.summary = summary_text
         call_record.outcome = outcome_text
         call_record.transcript = history
-        call_record.customer_name = session.customer_name
-        call_record.customer_phone = session.customer_phone
+        call_record.customer_name = session.customer_name or "Prospective Buyer"
+        call_record.customer_phone = safe_phone
 
     # If booking_ready or visit was requested with a slot, save Appointment + Lead
     notes = req.notes if req else None
