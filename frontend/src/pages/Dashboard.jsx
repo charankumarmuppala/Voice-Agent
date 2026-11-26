@@ -11,7 +11,10 @@ import {
   RefreshCw,
   Layers,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Activity,
+  Compass,
+  Clock
 } from 'lucide-react';
 import {
   BarChart,
@@ -48,7 +51,6 @@ export default function Dashboard({ setActiveTab }) {
   useEffect(() => {
     loadDashboardData();
 
-    // Auto-refresh stats when window receives focus and periodically every 8s
     const handleFocus = () => loadDashboardData(false);
     window.addEventListener('focus', handleFocus);
     const interval = setInterval(() => loadDashboardData(false), 8000);
@@ -99,26 +101,31 @@ export default function Dashboard({ setActiveTab }) {
   }));
 
   return (
-    <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto">
-      {/* Top Header matching reference */}
+    <div className="p-6 sm:p-8 space-y-7 max-w-7xl mx-auto">
+      {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-[#171717] tracking-tight">
-            Executive Dashboard
-          </h2>
-          <p className="font-sans text-xs sm:text-sm text-[#171717]/60 mt-1">
-            DreamSpace Realty • Multilingual AI Sales Operations & Real-Time Pipeline
+          <div className="flex items-center gap-2">
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#171717] tracking-tight">
+              Executive Dashboard
+            </h2>
+            <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20 font-bold">
+              Real-time
+            </span>
+          </div>
+          <p className="font-sans text-xs sm:text-sm text-[#737373] mt-1 font-normal">
+            DreamSpace Realty • Autonomous Conversational Sales Operations & Pipeline Intelligence
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-[11px] uppercase tracking-wider px-3.5 py-1.5 rounded-full bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20 font-bold flex items-center gap-1.5 shadow-none">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[#D6CDBB] bg-[#FFFCF7] font-mono text-[11px] text-[#171717] font-medium shadow-sm">
             <span className="w-2 h-2 rounded-full bg-[#14532D] animate-pulse" />
-            LIVE PIPELINE SYNC
-          </span>
+            <span className="uppercase tracking-wider">Pipeline Synced</span>
+          </div>
           <button
             onClick={() => loadDashboardData(true)}
-            className="p-2.5 rounded-xl border border-[#D6CDBB] bg-[#FFFCF7] text-[#171717]/60 hover:text-[#171717] hover:bg-[#F5F2E9] transition-colors"
+            className="p-2 rounded-xl border border-[#D6CDBB] bg-[#FFFCF7] text-[#737373] hover:text-[#171717] hover:border-[#14532D] transition-colors cursor-pointer shadow-sm"
             title="Refresh database records"
           >
             <RefreshCw className="w-4 h-4" />
@@ -128,115 +135,167 @@ export default function Dashboard({ setActiveTab }) {
 
       {error && (
         <div className="bg-[#FFF1CC] border border-[#E5D8A8] text-[#854D0E] px-4 py-3 rounded-2xl text-xs flex items-center justify-between font-medium">
-          <span>{error}</span>
-          <button onClick={() => loadDashboardData(true)} className="font-bold underline ml-2">Retry</button>
+          <span className="flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            {error}
+          </span>
+          <button onClick={() => loadDashboardData(true)} className="font-bold underline ml-2 cursor-pointer">
+            Retry
+          </button>
         </div>
       )}
 
-      {/* 4 Spacious KPI Cards in a row matching reference */}
+      {/* 4 Spacious KPI Bento Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <StatsCard
-          title="Properties Catalogued"
+          title="Catalogued Homes"
           value={stats ? stats.total_properties : 30}
-          subtitle="Active Bangalore inventory"
+          subtitle="Verified Bengaluru portfolio"
           icon={Building2}
-          badge="Verified"
+          badge="Ground Truth"
         />
 
         <StatsCard
-          title="Total Leads"
+          title="Qualified Leads"
           value={crmStats.leads}
-          subtitle={crmStats.leads === 0 ? "No leads recorded yet" : "Extracted buyer prospects"}
+          subtitle={crmStats.leads === 0 ? "Listening for inquiries" : "Extracted buyer profiles"}
           icon={Users}
-          badge="SQLite CRM"
+          badge="CRM Active"
         />
 
         <StatsCard
           title="Scheduled Visits"
           value={crmStats.appointments}
-          subtitle={crmStats.appointments === 0 ? "No visits scheduled yet" : "Confirmed site walkthroughs"}
+          subtitle={crmStats.appointments === 0 ? "Awaiting first booking" : "Confirmed site passes"}
           icon={CalendarCheck}
-          badge="Site Visits"
+          badge="Brochures Sent"
         />
 
         <StatsCard
           title="Voice Inquiries"
           value={crmStats.calls}
-          subtitle={crmStats.calls === 0 ? "No calls completed yet" : "Total voice calls logged"}
+          subtitle={crmStats.calls === 0 ? "Ready to simulate" : "Conversational sessions"}
           icon={PhoneCall}
-          badge="Gemini AI"
+          badge="Gemini Multimodal"
         />
       </div>
 
-      {/* Pastel Yellow Highlight Card matching reference image */}
-      <div className="bg-[#FFF1CC] border border-[#E5D8A8] rounded-3xl p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <div className="max-w-2xl">
-          <div className="font-mono text-[10px] uppercase tracking-wider text-[#854D0E] font-bold mb-1">
-            ESTATEVOICE AI • LIVE OPERATION
+      {/* Bento Grid: Hero Action Banner + Live Operations Matrix */}
+      <div className="grid grid-cols-12 gap-5">
+        {/* Left Hero Bento Banner (8 columns) */}
+        <div className="col-span-12 lg:col-span-8 bento-card p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden bg-gradient-to-br from-[#FFFCF7] to-[#F5F2E9]/70">
+          <div className="max-w-xl relative z-10">
+            <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-[#14532D] font-bold mb-2">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>EstateVoice AI • Conversational Lead Qualification</span>
+            </div>
+            <h3 className="font-heading text-xl sm:text-2xl font-bold text-[#171717] tracking-tight leading-snug">
+              Autonomous Real Estate Voice Agent for Bengaluru
+            </h3>
+            <p className="font-sans text-xs sm:text-sm text-[#737373] mt-2 leading-relaxed">
+              Speaks English, Kannada, and Hindi. Extracts buyer requirements, conducts real-time FAISS semantic search across 30+ developments, books site visits, and instantly dispatches vector PDF brochures.
+            </p>
           </div>
-          <h3 className="font-heading text-xl sm:text-2xl font-bold text-[#171717] tracking-tight">
-            Turning conversations into verified property walkthroughs
-          </h3>
-          <p className="font-sans text-xs sm:text-sm text-[#171717]/75 mt-1.5 leading-relaxed">
-            Multilingual real estate voice assistant for Bangalore. Recommends verified properties, qualifies prospective buyers, and books visits directly to SQLite.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-3">
+
+          <div className="mt-6 flex flex-wrap items-center gap-3 relative z-10">
             <button
               onClick={() => setActiveTab('voice-agent')}
-              className="px-5 py-2.5 rounded-xl bg-[#14532D] hover:bg-[#1e7842] text-white font-heading text-xs font-bold transition-all flex items-center gap-2 border border-[#14532D] cursor-pointer shadow-none"
+              className="btn-forest px-5 py-2.5 text-xs font-bold flex items-center gap-2 cursor-pointer shadow-sm"
             >
               <PhoneCall className="w-4 h-4 text-[#E2F1E7]" />
-              Start Voice Conversation
+              Launch Voice Simulator
             </button>
             <button
               onClick={() => setActiveTab('properties')}
-              className="px-5 py-2.5 rounded-xl bg-[#FFFCF7] hover:bg-[#F5F2E9] text-[#171717] font-heading text-xs font-bold transition-all border border-[#D6CDBB] flex items-center gap-2 cursor-pointer shadow-none"
+              className="btn-secondary px-5 py-2.5 text-xs font-bold flex items-center gap-2 cursor-pointer shadow-sm"
             >
               <Building2 className="w-4 h-4 text-[#14532D]" />
-              Browse 30 Properties
+              Explore 30 Properties
+            </button>
+            <button
+              onClick={() => setActiveTab('appointments')}
+              className="btn-secondary px-5 py-2.5 text-xs font-bold flex items-center gap-2 cursor-pointer shadow-sm"
+            >
+              <CalendarCheck className="w-4 h-4 text-[#14532D]" />
+              View Site Passes
             </button>
           </div>
         </div>
 
-        <div className="lg:border-l lg:border-[#E5D8A8] lg:pl-8 space-y-3 min-w-[220px]">
-          <div className="flex items-center justify-between text-xs">
-            <span className="font-sans text-[#171717]/70 font-medium">Conversion Rate</span>
-            <span className="font-heading text-base font-bold text-[#171717]">
-              {crmStats.leads > 0 ? `${Math.round((crmStats.appointments / crmStats.leads) * 100)}%` : '0.0%'}
-            </span>
+        {/* Right Live Operational Matrix Bento (4 columns) */}
+        <div className="col-span-12 lg:col-span-4 bento-card p-6 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <span className="font-heading text-sm font-bold text-[#171717] tracking-tight">
+                Operational Metrics
+              </span>
+              <span className="font-mono text-[10px] uppercase font-bold text-[#14532D] bg-[#E2F1E7] px-2 py-0.5 rounded-full border border-[#14532D]/20">
+                SaaS CRM
+              </span>
+            </div>
+
+            <div className="space-y-3.5">
+              <div className="flex items-center justify-between text-xs pb-3 border-b border-[#D6CDBB]/40">
+                <span className="font-sans text-[#737373] font-medium">Conversion Rate</span>
+                <span className="font-mono text-sm font-bold text-[#171717]">
+                  {crmStats.leads > 0 ? `${Math.round((crmStats.appointments / crmStats.leads) * 100)}%` : '0.0%'}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between text-xs pb-3 border-b border-[#D6CDBB]/40">
+                <span className="font-sans text-[#737373] font-medium">Average Property Price</span>
+                <span className="font-mono text-sm font-bold text-[#171717]">
+                  {stats ? formatINR(stats.avg_price) : '₹1.85 Cr'}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between text-xs pb-3 border-b border-[#D6CDBB]/40">
+                <span className="font-sans text-[#737373] font-medium">Micro-Market Zones</span>
+                <span className="font-mono text-sm font-bold text-[#171717]">
+                  {stats ? `${stats.locations_count} Core Corridors` : '5 Corridors'}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-sans text-[#737373] font-medium">Ready-to-Move Ratio</span>
+                <span className="font-mono text-sm font-bold text-[#14532D]">
+                  {stats && stats.total_properties > 0 ? `${Math.round((stats.ready_to_move / stats.total_properties) * 100)}%` : '60%'}
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center justify-between text-xs">
-            <span className="font-sans text-[#171717]/70 font-medium">Avg Property Value</span>
-            <span className="font-heading text-base font-bold text-[#171717]">
-              {stats ? formatINR(stats.avg_price) : '₹1.85 Cr'}
+
+          <div className="mt-5 pt-3 border-t border-[#D6CDBB]/40 flex items-center justify-between text-[11px] font-mono text-[#737373]">
+            <span className="flex items-center gap-1.5">
+              <Activity className="w-3.5 h-3.5 text-[#14532D]" />
+              Response Latency: &lt; 1.2s
             </span>
-          </div>
-          <div className="flex items-center justify-between text-xs">
-            <span className="font-sans text-[#171717]/70 font-medium">Active Micro-Markets</span>
-            <span className="font-heading text-base font-bold text-[#171717]">
-              {stats ? `${stats.locations_count} Zones` : '5 Zones'}
-            </span>
+            <span className="text-[#14532D] font-bold">FAISS Active</span>
           </div>
         </div>
       </div>
 
-      {/* Inventory Distribution Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Locations Bar Chart */}
-        <div className="lg:col-span-2 bg-[#FFFCF7] p-6 sm:p-7 rounded-3xl border border-[#D6CDBB] shadow-none">
-          <div className="flex items-center justify-between mb-6">
+      {/* Bento Grid: Inventory Analytics (Micro-Markets & BHK Spread) */}
+      <div className="grid grid-cols-12 gap-5">
+        {/* Micro-Markets Bar Chart (8 columns) */}
+        <div className="col-span-12 lg:col-span-8 bento-card p-6 sm:p-7">
+          <div className="flex items-center justify-between mb-5">
             <div>
-              <h4 className="font-heading font-bold text-[#171717] text-base tracking-tight">Inventory by Micro-Market</h4>
-              <p className="font-sans text-xs text-[#171717]/60 mt-0.5">Bangalore property distribution and volume</p>
+              <h4 className="font-heading font-bold text-[#171717] text-base tracking-tight">
+                Inventory Volume by Micro-Market
+              </h4>
+              <p className="font-sans text-xs text-[#737373] mt-0.5">
+                Ground-truth property concentration across Whitefield, Sarjapur, Electronic City, and Hebbal
+              </p>
             </div>
             <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-[#14532D] bg-[#E2F1E7] px-2.5 py-1 rounded-full border border-[#14532D]/20">
-              Live DB Stats
+              Live SQLite Data
             </span>
           </div>
 
           <div className="h-64 w-full">
             {locationChartData.length === 0 ? (
-              <div className="h-full flex items-center justify-center font-mono text-xs text-[#171717]/40 uppercase tracking-wider">
+              <div className="h-full flex items-center justify-center font-mono text-xs text-[#737373] uppercase tracking-wider">
                 No location records in database.
               </div>
             ) : (
@@ -244,9 +303,9 @@ export default function Dashboard({ setActiveTab }) {
                 <BarChart data={locationChartData} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#EFE9DC" />
                   <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#171717', fontFamily: 'Space Grotesk' }} interval={0} angle={-15} textAnchor="end" />
-                  <YAxis tick={{ fontSize: 11, fill: '#171717', fontFamily: 'IBM Plex Mono' }} allowDecimals={false} />
+                  <YAxis tick={{ fontSize: 11, fill: '#737373', fontFamily: 'IBM Plex Mono' }} allowDecimals={false} />
                   <Tooltip
-                    formatter={(val, name) => [val, name === 'properties' ? 'Properties' : name]}
+                    formatter={(val, name) => [val, name === 'properties' ? 'Units Listed' : name]}
                     contentStyle={{ backgroundColor: '#FFFCF7', borderRadius: '16px', border: '1px solid #D6CDBB', fontSize: '12px', fontFamily: 'Inter' }}
                   />
                   <Bar dataKey="properties" fill="#14532D" radius={[8, 8, 0, 0]} />
@@ -256,19 +315,21 @@ export default function Dashboard({ setActiveTab }) {
           </div>
         </div>
 
-        {/* BHK Distribution Donut Chart */}
-        <div className="bg-[#FFFCF7] p-6 sm:p-7 rounded-3xl border border-[#D6CDBB] shadow-none flex flex-col justify-between">
+        {/* BHK Configuration Donut Chart (4 columns) */}
+        <div className="col-span-12 lg:col-span-4 bento-card p-6 sm:p-7 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h4 className="font-heading font-bold text-[#171717] text-base tracking-tight">BHK Configuration</h4>
-                <p className="font-sans text-xs text-[#171717]/60 mt-0.5">Inventory spread by room configuration</p>
+                <h4 className="font-heading font-bold text-[#171717] text-base tracking-tight">
+                  BHK Configuration
+                </h4>
+                <p className="font-sans text-xs text-[#737373] mt-0.5">Distribution by apartment size</p>
               </div>
             </div>
 
-            <div className="h-48 w-full flex items-center justify-center">
+            <div className="h-44 w-full flex items-center justify-center">
               {bhkChartData.length === 0 ? (
-                <div className="font-mono text-xs text-[#171717]/40 uppercase tracking-wider">No BHK records.</div>
+                <div className="font-mono text-xs text-[#737373] uppercase tracking-wider">No BHK records.</div>
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -276,8 +337,8 @@ export default function Dashboard({ setActiveTab }) {
                       data={bhkChartData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={50}
-                      outerRadius={75}
+                      innerRadius={46}
+                      outerRadius={72}
                       paddingAngle={4}
                       dataKey="value"
                     >
@@ -295,14 +356,14 @@ export default function Dashboard({ setActiveTab }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 pt-4 border-t border-[#D6CDBB]/50">
+          <div className="grid grid-cols-2 gap-2 pt-4 border-t border-[#D6CDBB]/40">
             {bhkChartData.map((item, i) => (
               <div key={i} className="flex items-center gap-2 text-xs">
                 <span
                   className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                   style={{ backgroundColor: COLORS[i % COLORS.length] }}
                 />
-                <span className="font-sans text-[#171717]/70 truncate">{item.name}:</span>
+                <span className="font-sans text-[#737373] truncate">{item.name}:</span>
                 <span className="font-mono font-bold text-[#171717] ml-auto">{item.value}</span>
               </div>
             ))}
@@ -314,14 +375,18 @@ export default function Dashboard({ setActiveTab }) {
       <div>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="font-heading text-lg sm:text-xl font-bold text-[#171717] tracking-tight">Verified Bangalore Properties</h3>
-            <p className="font-sans text-xs text-[#171717]/60">Direct ground truth from SQLite database</p>
+            <h3 className="font-heading text-lg sm:text-xl font-bold text-[#171717] tracking-tight">
+              Featured Verified Developments
+            </h3>
+            <p className="font-sans text-xs text-[#737373]">
+              Ground-truth inventory indexed in FAISS vector database
+            </p>
           </div>
           <button
             onClick={() => setActiveTab('properties')}
             className="font-heading text-xs font-bold text-[#14532D] hover:underline flex items-center gap-1 cursor-pointer"
           >
-            View all 30 properties <ArrowUpRight className="w-3.5 h-3.5" />
+            Browse all 30 properties <ArrowUpRight className="w-3.5 h-3.5" />
           </button>
         </div>
 

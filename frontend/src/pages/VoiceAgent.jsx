@@ -786,7 +786,7 @@ export default function VoiceAgent({ onVisitBooked }) {
       )}
 
       {/* Top Banner & Call Controls */}
-      <div className="bg-[#FFFCF7] rounded-3xl p-6 border border-[#D6CDBB] shadow-none flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="bento-card p-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-4 w-full md:w-auto">
           <div
             className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 border ${
@@ -812,16 +812,16 @@ export default function VoiceAgent({ onVisitBooked }) {
 
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-xl font-heading font-bold text-[#171717]">EstateVoice AI Assistant</h2>
+              <h2 className="text-xl font-heading font-bold text-[#171717] tracking-tight">EstateVoice AI Assistant</h2>
               <span
                 className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
                   isSpeaking
-                    ? 'bg-[#E2F1E7] text-[#14532D] border-[#D6CDBB] animate-pulse'
+                    ? 'bg-[#E2F1E7] text-[#14532D] border-[#14532D]/20 animate-pulse'
                     : isListening
                     ? 'bg-[#FFF1CC] text-[#854D0E] border-[#E5D8A8]'
                     : callActive
-                    ? 'bg-[#E2F1E7] text-[#14532D] border-[#D6CDBB]'
-                    : 'bg-[#F5F2E9] text-[#171717]/60 border-[#D6CDBB]'
+                    ? 'bg-[#E2F1E7] text-[#14532D] border-[#14532D]/20'
+                    : 'bg-[#F5F2E9] text-[#737373] border-[#D6CDBB]'
                 }`}
               >
                 {isSpeaking
@@ -839,16 +839,28 @@ export default function VoiceAgent({ onVisitBooked }) {
                 </span>
               )}
             </div>
-            <p className="text-xs text-[#171717]/60 mt-1 font-sans">
+            <p className="text-xs text-[#737373] mt-1 font-sans">
               Multilingual Real Estate Voice Agent • English, Hindi, Kannada, Telugu, Tamil
             </p>
           </div>
         </div>
 
-        {/* Controls: Language, Mute, Call Start/End */}
+        {/* Controls: Waveform, Language, Mute, Call Start/End */}
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
+          {/* Animated Voice Waveform Indicator */}
+          <div className="flex items-center gap-1 h-9 px-3 py-1 bg-[#F5F2E9] rounded-xl border border-[#D6CDBB] shadow-sm">
+            <div className={`w-1 rounded-full transition-all ${isSpeaking ? 'bg-[#14532D] animate-wave-bar-1' : isListening ? 'bg-amber-600 animate-wave-bar-1' : 'bg-[#D6CDBB] h-2'}`} />
+            <div className={`w-1 rounded-full transition-all ${isSpeaking ? 'bg-[#14532D] animate-wave-bar-2' : isListening ? 'bg-amber-600 animate-wave-bar-2' : 'bg-[#D6CDBB] h-3'}`} />
+            <div className={`w-1 rounded-full transition-all ${isSpeaking ? 'bg-[#14532D] animate-wave-bar-3' : isListening ? 'bg-amber-600 animate-wave-bar-3' : 'bg-[#D6CDBB] h-5'}`} />
+            <div className={`w-1 rounded-full transition-all ${isSpeaking ? 'bg-[#14532D] animate-wave-bar-4' : isListening ? 'bg-amber-600 animate-wave-bar-4' : 'bg-[#D6CDBB] h-3'}`} />
+            <div className={`w-1 rounded-full transition-all ${isSpeaking ? 'bg-[#14532D] animate-wave-bar-5' : isListening ? 'bg-amber-600 animate-wave-bar-5' : 'bg-[#D6CDBB] h-2'}`} />
+            <span className="font-mono text-[10px] uppercase font-bold text-[#737373] ml-1.5 hidden sm:inline">
+              {isSpeaking ? 'AI Output' : isListening ? 'Mic Active' : 'Standby'}
+            </span>
+          </div>
+
           {/* Language Selector supporting 5 languages */}
-          <div className="flex items-center gap-2 bg-[#F5F2E9] border border-[#D6CDBB] rounded-2xl px-3 py-2 text-xs font-mono font-semibold text-[#171717]">
+          <div className="flex items-center gap-2 bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl px-3 py-2 text-xs font-mono font-semibold text-[#171717] shadow-sm">
             <Languages className="w-4 h-4 text-[#14532D]" />
             <select
               value={language}
@@ -871,23 +883,23 @@ export default function VoiceAgent({ onVisitBooked }) {
           <button
             onClick={() => setIsMuted(!isMuted)}
             disabled={!callActive}
-            className={`p-2.5 rounded-2xl border text-xs font-mono font-medium transition-colors ${
+            className={`p-2.5 rounded-xl border text-xs font-mono font-medium transition-all cursor-pointer shadow-sm ${
               !callActive
-                ? 'border-[#D6CDBB]/50 text-[#171717]/30 bg-[#F5F2E9] cursor-not-allowed'
+                ? 'border-[#D6CDBB]/50 text-[#737373]/40 bg-[#F5F2E9] cursor-not-allowed'
                 : isMuted
                 ? 'bg-[#FFF1CC] border-[#E5D8A8] text-[#854D0E]'
-                : 'bg-[#F5F2E9] border-[#D6CDBB] text-[#171717] hover:bg-[#D6CDBB]/30'
+                : 'bg-[#F5F2E9] border-[#D6CDBB] text-[#171717] hover:border-[#14532D]'
             }`}
             title={isMuted ? 'Unmute microphone' : 'Mute microphone'}
           >
-            {isMuted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+            {isMuted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-[#14532D]" />}
           </button>
 
           {/* Start / End Call */}
           {!callActive ? (
             <button
               onClick={handleStartCall}
-              className="px-5 py-2.5 rounded-2xl bg-[#14532D] hover:bg-[#14532D]/90 text-white text-xs font-heading font-bold transition-all shadow-none flex items-center gap-2 border border-[#14532D]"
+              className="btn-forest px-5 py-2.5 text-xs flex items-center gap-2 cursor-pointer shadow-sm active:translate-y-0.5"
             >
               <Phone className="w-4 h-4 text-[#E2F1E7]" />
               Start Voice Call
@@ -895,7 +907,7 @@ export default function VoiceAgent({ onVisitBooked }) {
           ) : (
             <button
               onClick={handleEndCall}
-              className="px-5 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-heading font-bold transition-all shadow-none flex items-center gap-2 border border-rose-700"
+              className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-heading font-bold transition-all flex items-center gap-2 border border-rose-700 cursor-pointer shadow-sm active:translate-y-0.5"
             >
               <PhoneOff className="w-4 h-4" />
               End Call
@@ -907,7 +919,7 @@ export default function VoiceAgent({ onVisitBooked }) {
       {/* Main Grid: Transcript vs Customer Profile & Recommended Properties */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Live Conversation Stream */}
-        <div className="lg:col-span-2 bg-[#FFFCF7] rounded-3xl border border-[#D6CDBB] shadow-none flex flex-col h-[620px] overflow-hidden">
+        <div className="lg:col-span-2 bento-card flex flex-col h-[620px] overflow-hidden">
           {/* Transcript Header */}
           <div className="p-4 border-b border-[#D6CDBB] flex items-center justify-between bg-[#F5F2E9]">
             <div className="flex items-center gap-2">
@@ -1074,7 +1086,7 @@ export default function VoiceAgent({ onVisitBooked }) {
         {/* Right Column: Customer Profile & Real-time Recommended Properties */}
         <div className="space-y-6">
           {/* Customer Profile Card */}
-          <div className="bg-[#FFFCF7] rounded-3xl p-5 border border-[#D6CDBB] shadow-none">
+          <div className="bento-card p-5">
             <div className="flex items-center justify-between mb-4">
               <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[#171717] flex items-center gap-1.5">
                 <User className="w-4 h-4 text-[#14532D]" />
@@ -1189,7 +1201,7 @@ export default function VoiceAgent({ onVisitBooked }) {
           </div>
 
           {/* Recommended Properties matching extraction */}
-          <div className="bg-[#FFFCF7] rounded-3xl p-5 border border-[#D6CDBB] shadow-none">
+          <div className="bento-card p-5">
             <div className="flex items-center justify-between mb-4">
               <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[#171717] flex items-center gap-1.5">
                 <Building2 className="w-4 h-4 text-[#14532D]" />

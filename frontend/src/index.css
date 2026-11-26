@@ -16,7 +16,7 @@
   }
 }
 
-/* Dotted grid pattern matching reference */
+/* Warm Minimalism Dotted Grid Texture */
 .bg-dotted-grid {
   background-color: #F5F2E9;
   background-image: radial-gradient(#D6CDBB 1.25px, transparent 1.25px);
@@ -29,26 +29,24 @@
   background-size: 20px 20px;
 }
 
-/* Warm neo-brutalist custom scrollbars */
+/* Warm Neo-Brutalist Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F5F2E9;
+  background: transparent;
 }
 .dark ::-webkit-scrollbar-track {
-  background: #0B0F14;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #D6CDBB;
   border-radius: 9999px;
-  border: 1px solid #F5F2E9;
 }
 .dark ::-webkit-scrollbar-thumb {
   background: #30363D;
-  border: 1px solid #0B0F14;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -58,14 +56,86 @@
   background: #484F58;
 }
 
+/* Hide scrollbar for clean horizontal carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* -------------------------------------------------------------
-   COMPREHENSIVE DARK MODE SYSTEM
+   WARM MINIMALISM + BENTO GRID + SUBTLE NEO-BRUTALISM UTILITIES
    ------------------------------------------------------------- */
+
+/* Bento Grid Cards */
+.bento-card {
+  background-color: #FFFCF7;
+  border: 1px solid #D6CDBB;
+  border-radius: 20px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bento-card:hover {
+  border-color: #14532D;
+  box-shadow: 2px 2px 0px #D6CDBB;
+  transform: translateY(-1px);
+}
+
+.dark .bento-card {
+  background-color: #161B22;
+  border-color: #30363D;
+}
+.dark .bento-card:hover {
+  border-color: #238636;
+  box-shadow: 2px 2px 0px #21262D;
+}
+
+/* Subtle Neo-Brutalist Buttons */
+.btn-forest {
+  background-color: #14532D;
+  color: #FFFFFF;
+  border: 1px solid #14532D;
+  border-radius: 14px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  transition: all 0.15s ease-in-out;
+}
+.btn-forest:hover {
+  background-color: #1e7842;
+  box-shadow: 2px 2px 0px #D6CDBB;
+  transform: translateY(-1px);
+}
+.btn-forest:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background-color: #FFFCF7;
+  color: #171717;
+  border: 1px solid #D6CDBB;
+  border-radius: 14px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  transition: all 0.15s ease-in-out;
+}
+.btn-secondary:hover {
+  background-color: #F5F2E9;
+  border-color: #14532D;
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 0px #D6CDBB;
+}
+.btn-secondary:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* Dark Mode Overrides */
 .dark {
   color-scheme: dark;
 }
 
-/* Surfaces & Containers */
 .dark .bg-\[\#FFFCF7\] {
   background-color: #161B22 !important;
 }
@@ -94,7 +164,6 @@
   background-color: rgba(22, 27, 34, 0.7) !important;
 }
 
-/* Borders */
 .dark .border-\[\#D6CDBB\] {
   border-color: #30363D !important;
 }
@@ -111,7 +180,6 @@
   border-color: #30363D !important;
 }
 
-/* Typography */
 .dark .text-\[\#171717\] {
   color: #F0F6FC !important;
 }
@@ -140,6 +208,10 @@
   color: rgba(240, 246, 252, 0.4) !important;
 }
 
+.dark .text-\[\#737373\] {
+  color: #8B949E !important;
+}
+
 .dark .text-slate-500 {
   color: #8B949E !important;
 }
@@ -152,7 +224,6 @@
   color: #F0F6FC !important;
 }
 
-/* Interactive & Hover States */
 .dark .hover\:bg-\[\#F5F2E9\]:hover {
   background-color: #21262D !important;
 }
@@ -161,7 +232,6 @@
   color: #F0F6FC !important;
 }
 
-/* Accent Badges & Chips */
 .dark .bg-\[\#E2F1E7\] {
   background-color: rgba(20, 83, 45, 0.35) !important;
 }
@@ -190,7 +260,6 @@
   border-color: #3FB950 !important;
 }
 
-/* Amber / Warning Badges */
 .dark .bg-\[\#FFF1CC\] {
   background-color: rgba(133, 77, 14, 0.3) !important;
 }
@@ -207,7 +276,6 @@
   color: #FCD34D !important;
 }
 
-/* Form Controls */
 .dark input,
 .dark select,
 .dark textarea {
@@ -223,7 +291,6 @@
   border-color: #3FB950 !important;
 }
 
-/* Table rows & Dividers */
 .dark tr.hover\:bg-\[\#F5F2E9\]\/50:hover {
   background-color: rgba(33, 38, 45, 0.6) !important;
 }
@@ -236,7 +303,6 @@
   border-color: #30363D !important;
 }
 
-/* Charts (Recharts) */
 .dark .recharts-default-tooltip {
   background-color: #161B22 !important;
   border-color: #30363D !important;

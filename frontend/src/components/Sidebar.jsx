@@ -18,9 +18,9 @@ import {
 export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed, darkMode, setDarkMode }) {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'voice-agent', label: 'AI Voice Agent', icon: Mic, badge: 'LIVE' },
+    { id: 'voice-agent', label: 'AI Voice Simulator', icon: Mic, badge: 'LIVE' },
     { id: 'properties', label: 'Properties', icon: Building2 },
-    { id: 'leads', label: 'Leads', icon: Users },
+    { id: 'leads', label: 'Leads CRM', icon: Users },
     { id: 'appointments', label: 'Appointments', icon: CalendarCheck },
     { id: 'call-history', label: 'Call History', icon: History },
     { id: 'settings', label: 'Settings', icon: SettingsIcon },
@@ -36,7 +36,7 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
       <div>
         <div className="h-20 flex items-center px-4 border-b border-[#D6CDBB] justify-between">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-10 h-10 rounded-2xl bg-[#14532D] flex items-center justify-center text-white flex-shrink-0 border border-[#14532D]">
+            <div className="w-10 h-10 rounded-2xl bg-[#14532D] flex items-center justify-center text-white flex-shrink-0 border border-[#14532D] shadow-sm">
               <Building2 className="w-5 h-5 text-[#E2F1E7]" />
             </div>
             {!collapsed && (
@@ -44,13 +44,13 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
                 <div className="font-heading font-bold text-base text-[#171717] flex items-center gap-1.5 tracking-tight">
                   EstateVoice <span className="font-mono text-[9px] uppercase tracking-wider bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20 font-bold px-1.5 py-0.5 rounded-full">AI</span>
                 </div>
-                <div className="font-mono text-[10px] uppercase tracking-wider text-[#171717]/60 font-semibold mt-0.5">DreamSpace Realty</div>
+                <div className="font-mono text-[10px] uppercase tracking-wider text-[#737373] font-semibold mt-0.5">DreamSpace Realty</div>
               </div>
             )}
           </div>
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1.5 rounded-xl border border-[#D6CDBB] text-[#171717]/60 hover:text-[#171717] hover:bg-[#F5F2E9] transition-colors"
+            className="p-1.5 rounded-xl border border-[#D6CDBB] text-[#737373] hover:text-[#171717] hover:border-[#14532D] hover:bg-[#F5F2E9] transition-all cursor-pointer"
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -66,20 +66,20 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-medium transition-all ${
+                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-medium transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-[#14532D] text-white font-semibold border border-[#14532D]'
-                    : 'text-[#171717]/70 hover:bg-[#F5F2E9] hover:text-[#171717] border border-transparent'
+                    ? 'bg-[#14532D] text-white font-semibold border border-[#14532D] shadow-[2px_2px_0px_#D6CDBB]'
+                    : 'text-[#737373] hover:bg-[#F5F2E9] hover:text-[#171717] border border-transparent hover:border-[#D6CDBB]'
                 }`}
                 title={collapsed ? item.label : undefined}
               >
                 <Icon
                   className={`w-4 h-4 flex-shrink-0 ${
-                    isActive ? 'text-[#E2F1E7]' : 'text-[#171717]/50'
+                    isActive ? 'text-[#E2F1E7]' : 'text-[#737373]'
                   }`}
                 />
                 {!collapsed && (
-                  <span className="truncate flex-1 text-left font-sans">{item.label}</span>
+                  <span className="truncate flex-1 text-left font-sans font-medium">{item.label}</span>
                 )}
                 {!collapsed && item.badge && (
                   <span
@@ -108,8 +108,8 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
                 </span>
                 <span className="w-2 h-2 rounded-full bg-[#14532D] animate-pulse" />
               </div>
-              <p className="font-sans text-[#171717]/60 text-[11px] leading-relaxed">
-                Real-time voice agent & SQLite CRM connected.
+              <p className="font-sans text-[#737373] text-[11px] leading-relaxed">
+                Autonomous voice agent & SQLite CRM connected.
               </p>
             </div>
 
@@ -122,7 +122,7 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
                 {darkMode ? <Sun className="w-3.5 h-3.5 text-[#FCD34D]" /> : <Moon className="w-3.5 h-3.5 text-[#14532D]" />}
                 <span>{darkMode ? 'Light Theme' : 'Dark Theme'}</span>
               </span>
-              <span className="text-[10px] uppercase font-bold text-[#171717]/50">{darkMode ? 'Dark' : 'Light'}</span>
+              <span className="text-[10px] uppercase font-bold text-[#737373]">{darkMode ? 'Dark' : 'Light'}</span>
             </button>
           </>
         ) : (
