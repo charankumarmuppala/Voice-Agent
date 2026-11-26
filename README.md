@@ -103,6 +103,8 @@ EstateVoice AI completely automates the top-of-funnel real estate sales cycle:
 
 ## 5. System Architecture
 
+![EstateVoice AI System Architecture](docs/system-architecture.png)
+
 EstateVoice AI is organized into five decoupled layers ensuring low latency, high audio responsiveness, and clean separation of concerns.
 
 ### Architectural Flow Summary

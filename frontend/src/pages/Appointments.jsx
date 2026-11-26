@@ -182,14 +182,14 @@ export default function Appointments({ initialProperty }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#171717] tracking-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#111111] tracking-tight">
               Scheduled Property Walkthroughs
             </h2>
-            <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20 font-bold">
+            <span className="neo-badge bg-[#FFDE59] text-[#111111]">
               Site Passes
             </span>
           </div>
-          <p className="font-sans text-xs sm:text-sm text-[#737373] mt-1 font-normal">
+          <p className="font-sans text-xs sm:text-sm text-[#111111]/70 mt-1 font-medium">
             Automated calendar booking, PDF brochure dispatches, and confirmed client visit passes.
           </p>
         </div>
@@ -197,61 +197,61 @@ export default function Appointments({ initialProperty }) {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setModalOpen(true)}
-            className="btn-forest px-4 py-2.5 text-xs flex items-center gap-2 cursor-pointer shadow-sm active:translate-y-0.5"
+            className="neo-btn neo-btn-yellow px-4 py-2.5 text-xs gap-2"
           >
-            <Plus className="w-4 h-4 text-[#E2F1E7]" />
+            <Plus className="w-4 h-4 text-[#111111]" />
             Schedule Site Pass
           </button>
           <button
             onClick={loadAppointments}
-            className="p-2 rounded-xl border border-[#D6CDBB] bg-[#FFFCF7] text-[#737373] hover:text-[#171717] hover:border-[#14532D] transition-colors cursor-pointer shadow-sm"
+            className="neo-btn neo-btn-white p-2.5"
             title="Refresh database records"
           >
-            <RefreshCw className="w-4 h-4" />
+            <RefreshCw className="w-4 h-4 text-[#111111]" />
           </button>
         </div>
       </div>
 
       {error && (
-        <div className="bg-[#FFF1CC] border border-[#E5D8A8] text-[#854D0E] px-4 py-3 rounded-2xl text-xs font-mono">
+        <div className="neo-card bg-[#FF8A80]/20 border-2 border-[#111111] text-[#111111] px-4 py-3 text-xs font-mono font-bold">
           {error}
         </div>
       )}
 
-      {/* Bento Grid: 8-Column Minimal Calendar + 4-Column Day Timeline */}
+      {/* Bento Grid: 8-Column Calendar + 4-Column Day Timeline */}
       <div className="grid grid-cols-12 gap-5">
-        {/* Minimal Calendar (8 columns) */}
-        <div className="col-span-12 lg:col-span-8 bento-card p-6 sm:p-7">
+        {/* Calendar (8 columns) */}
+        <div className="col-span-12 lg:col-span-8 neo-card p-6 sm:p-7 bg-white">
           {/* Calendar Header */}
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-[#D6CDBB]/50">
+          <div className="flex items-center justify-between mb-6 pb-4 border-b-2 border-[#111111]/15">
             <div>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#737373] font-bold">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#111111]/70 font-bold">
                 Calendar View
               </span>
-              <h3 className="font-heading text-xl font-bold text-[#171717] mt-0.5">
+              <h3 className="font-heading text-xl font-extrabold text-[#111111] mt-0.5">
                 {monthName}
               </h3>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={prevMonth}
-                className="w-8 h-8 rounded-xl border border-[#D6CDBB] bg-[#FFFCF7] hover:bg-[#F5F2E9] text-[#171717] font-bold flex items-center justify-center transition-colors cursor-pointer shadow-sm"
+                className="neo-btn neo-btn-white w-8 h-8 font-bold"
                 title="Previous Month"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="w-4 h-4 text-[#111111]" />
               </button>
               <button
                 onClick={nextMonth}
-                className="w-8 h-8 rounded-xl border border-[#D6CDBB] bg-[#FFFCF7] hover:bg-[#F5F2E9] text-[#171717] font-bold flex items-center justify-center transition-colors cursor-pointer shadow-sm"
+                className="neo-btn neo-btn-white w-8 h-8 font-bold"
                 title="Next Month"
               >
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-4 h-4 text-[#111111]" />
               </button>
             </div>
           </div>
 
           {/* Days of week header */}
-          <div className="grid grid-cols-7 gap-2 text-center font-mono text-[10px] uppercase tracking-wider text-[#737373] font-bold mb-2.5">
+          <div className="grid grid-cols-7 gap-2 text-center font-mono text-[11px] uppercase tracking-wider text-[#111111] font-extrabold mb-2.5">
             <span>SUN</span>
             <span>MON</span>
             <span>TUE</span>
@@ -265,7 +265,7 @@ export default function Appointments({ initialProperty }) {
           <div className="grid grid-cols-7 gap-2">
             {/* Blank cells before 1st */}
             {Array.from({ length: firstDayOfMonth }).map((_, i) => (
-              <div key={`empty-${i}`} className="h-16 sm:h-20 rounded-xl bg-[#F5F2E9]/40 border border-[#D6CDBB]/30" />
+              <div key={`empty-${i}`} className="h-16 sm:h-20 rounded-sm bg-[#FFFDF5] border-2 border-dashed border-[#111111]/20" />
             ))}
 
             {/* Month days */}
@@ -282,22 +282,22 @@ export default function Appointments({ initialProperty }) {
                 <div
                   key={dateKey}
                   onClick={() => setSelectedDate(dateObj)}
-                  className={`h-16 sm:h-20 p-2 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
+                  className={`h-16 sm:h-20 p-2 rounded-sm border-2 border-[#111111] transition-all cursor-pointer flex flex-col justify-between ${
                     isSelected
-                      ? 'border-[#14532D] bg-[#E2F1E7]/50 shadow-[2px_2px_0px_#14532D]'
+                      ? 'bg-[#FFDE59] shadow-[3px_3px_0px_#111111]'
                       : count > 0
-                      ? 'border-[#14532D]/40 bg-[#E2F1E7] hover:border-[#14532D]'
-                      : 'border-[#D6CDBB] hover:border-[#14532D] bg-[#FFFCF7]'
+                      ? 'bg-[#B8F4B8] shadow-[2px_2px_0px_#111111] hover:bg-[#98EE98]'
+                      : 'bg-white hover:bg-[#FFFDF5] shadow-[1px_1px_0px_#111111]'
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <span
-                      className={`font-heading text-xs sm:text-sm font-bold w-5 h-5 rounded-md flex items-center justify-center ${
+                      className={`font-heading text-xs sm:text-sm font-bold w-5 h-5 rounded-sm flex items-center justify-center ${
                         isToday
-                          ? 'bg-[#14532D] text-white'
+                          ? 'bg-[#111111] text-[#FFDE59] font-black'
                           : isSelected
-                          ? 'text-[#14532D] font-extrabold'
-                          : 'text-[#171717]'
+                          ? 'text-[#111111] font-black'
+                          : 'text-[#111111]'
                       }`}
                     >
                       {dayNum}
@@ -306,7 +306,7 @@ export default function Appointments({ initialProperty }) {
 
                   {count > 0 && (
                     <div>
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full font-mono text-[9px] uppercase font-bold bg-[#14532D] text-white">
+                      <span className="neo-badge bg-[#111111] text-white text-[9px] px-1 py-0.5 inline-flex">
                         {count} {count === 1 ? 'Pass' : 'Passes'}
                       </span>
                     </div>
@@ -318,42 +318,42 @@ export default function Appointments({ initialProperty }) {
         </div>
 
         {/* Selected Date Timeline & Slots (4 columns) */}
-        <div className="col-span-12 lg:col-span-4 bento-card p-6 flex flex-col justify-between">
+        <div className="col-span-12 lg:col-span-4 neo-card p-6 flex flex-col justify-between bg-white">
           <div>
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#D6CDBB]/50">
+            <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-[#111111]/15">
               <div>
-                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#737373]">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#111111]/70">
                   Selected Date
                 </span>
-                <h4 className="font-heading text-base font-bold text-[#171717] mt-0.5">
+                <h4 className="font-heading text-base font-extrabold text-[#111111] mt-0.5">
                   {selectedDate.toLocaleDateString('en-IN', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' })}
                 </h4>
               </div>
-              <span className="font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20">
+              <span className="neo-badge bg-[#B8F4B8] text-[#111111]">
                 {selectedDateAppointments.length} Booked
               </span>
             </div>
 
             {/* Scheduled on this date */}
             <div className="space-y-2.5 mb-6">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#737373] block">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#111111] block">
                 Confirmed Walkthroughs
               </span>
               {selectedDateAppointments.length === 0 ? (
-                <div className="p-4 rounded-xl bg-[#F5F2E9] border border-[#D6CDBB]/60 text-center font-mono text-xs text-[#737373] uppercase tracking-wider">
+                <div className="p-4 rounded-sm bg-[#FFFDF5] border-2 border-dashed border-[#111111]/30 text-center font-mono text-xs text-[#111111]/60 uppercase tracking-wider font-bold">
                   No visits scheduled on this date.
                 </div>
               ) : (
                 selectedDateAppointments.map(a => (
-                  <div key={a.appointment_id} className="p-3 rounded-xl border border-[#14532D]/20 bg-[#E2F1E7]/70 text-xs space-y-1">
+                  <div key={a.appointment_id} className="p-3 rounded-sm border-2 border-[#111111] bg-[#B8F4B8] text-xs space-y-1 shadow-[2px_2px_0px_#111111]">
                     <div className="flex items-center justify-between">
-                      <span className="font-heading font-bold text-[#14532D]">{a.customer_name}</span>
-                      <span className="font-mono text-[10px] font-bold text-[#14532D] bg-[#FFFCF7] px-2 py-0.5 rounded-md border border-[#14532D]/20">
+                      <span className="font-heading font-black text-[#111111]">{a.customer_name}</span>
+                      <span className="neo-badge bg-white text-[#111111]">
                         {formatTime(a.date_time)}
                       </span>
                     </div>
-                    <div className="font-sans text-[#171717] font-semibold truncate">{a.property_name}</div>
-                    <div className="font-mono text-[#737373] text-[10px] flex items-center justify-between pt-1">
+                    <div className="font-sans text-[#111111] font-bold truncate">{a.property_name}</div>
+                    <div className="font-mono text-[#111111]/80 text-[10px] font-bold flex items-center justify-between pt-1">
                       <span>{a.location}</span>
                       <span>{a.customer_phone || 'Phone verified'}</span>
                     </div>
@@ -364,7 +364,7 @@ export default function Appointments({ initialProperty }) {
 
             {/* Time Slot Fast Booking */}
             <div>
-              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#737373] block mb-2">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#111111] block mb-2">
                 Available Walkthrough Slots
               </span>
               <div className="grid grid-cols-2 gap-2">
@@ -375,17 +375,17 @@ export default function Appointments({ initialProperty }) {
                       key={slot}
                       disabled={isBooked}
                       onClick={() => openModalForSlot(slot)}
-                      className={`p-2 rounded-xl text-xs font-medium text-left transition-all flex items-center justify-between ${
+                      className={`p-2.5 rounded-sm text-xs font-bold transition-all flex items-center justify-between ${
                         isBooked
-                          ? 'bg-[#F5F2E9] text-[#737373]/50 cursor-not-allowed border border-[#D6CDBB]/50'
-                          : 'bg-[#FFFCF7] hover:bg-[#E2F1E7] hover:border-[#14532D] text-[#171717] border border-[#D6CDBB] cursor-pointer shadow-sm'
+                          ? 'bg-[#111111]/5 text-[#111111]/40 border-2 border-[#111111]/20 cursor-not-allowed'
+                          : 'neo-btn neo-btn-white w-full'
                       }`}
                     >
                       <span className="flex items-center gap-1.5 font-mono text-[11px]">
-                        <Clock className="w-3.5 h-3.5 text-[#737373]" />
+                        <Clock className="w-3.5 h-3.5 text-[#111111]" />
                         {slot}
                       </span>
-                      <span className={`font-mono text-[9px] uppercase font-bold px-1.5 py-0.5 rounded ${isBooked ? 'bg-[#D6CDBB]/50 text-[#737373]' : 'bg-[#E2F1E7] text-[#14532D]'}`}>
+                      <span className={`neo-badge ${isBooked ? 'bg-[#111111]/10 text-[#111111]/50' : 'bg-[#FFDE59] text-[#111111]'}`}>
                         {isBooked ? 'Booked' : 'Open'}
                       </span>
                     </button>
@@ -400,26 +400,26 @@ export default function Appointments({ initialProperty }) {
       {/* Upcoming Scheduled Site Passes Grid */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-heading text-lg sm:text-xl font-bold text-[#171717] flex items-center gap-2 tracking-tight">
-            <CalendarCheck className="w-5 h-5 text-[#14532D]" />
+          <h3 className="font-heading text-lg sm:text-xl font-extrabold text-[#111111] flex items-center gap-2 tracking-tight">
+            <CalendarCheck className="w-5 h-5 text-[#111111]" />
             All Active Site Visit Passes ({appointments.length})
           </h3>
-          <span className="font-mono text-xs text-[#737373] uppercase tracking-wider">
+          <span className="neo-badge bg-[#FFDE59] text-[#111111]">
             SQLite Database Ground Truth
           </span>
         </div>
 
         {loading && (
-          <div className="text-center py-12 font-mono text-xs text-[#737373] uppercase tracking-wider">
+          <div className="text-center py-12 font-mono text-xs font-bold text-[#111111] uppercase tracking-wider">
             Loading site passes...
           </div>
         )}
 
         {!loading && appointments.length === 0 && (
-          <div className="bento-card p-12 text-center">
-            <CalendarCheck className="w-10 h-10 text-[#737373]/40 mx-auto mb-2" />
-            <p className="font-heading text-base font-bold text-[#171717]">No scheduled passes found.</p>
-            <p className="font-sans text-xs text-[#737373] mt-1">
+          <div className="neo-card p-12 text-center bg-white">
+            <CalendarCheck className="w-10 h-10 text-[#111111]/40 mx-auto mb-2" />
+            <p className="font-heading text-base font-extrabold text-[#111111]">No scheduled passes found.</p>
+            <p className="font-sans text-xs text-[#111111]/70 mt-1 font-medium">
               Start an AI voice call to generate site walkthroughs or click "Schedule Site Pass" above.
             </p>
           </div>
@@ -430,48 +430,48 @@ export default function Appointments({ initialProperty }) {
             {appointments.map((apt) => (
               <div
                 key={apt.appointment_id}
-                className="bento-card p-5 sm:p-6 flex flex-col justify-between"
+                className="neo-card-interactive p-5 sm:p-6 flex flex-col justify-between bg-white"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="font-mono text-[10px] font-bold text-[#737373]">{apt.appointment_id}</span>
-                    <span className="px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20 flex items-center gap-1">
-                      <CheckCircle2 className="w-3 h-3 text-[#14532D]" />
+                    <span className="font-mono text-[10px] font-bold text-[#111111]/70">{apt.appointment_id}</span>
+                    <span className="neo-badge bg-[#B8F4B8] text-[#111111] flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3 text-[#111111]" />
                       {apt.status}
                     </span>
                   </div>
 
-                  <h4 className="font-heading font-bold text-[#171717] text-base leading-snug">{apt.property_name}</h4>
-                  <div className="flex items-center gap-1 font-sans text-xs text-[#14532D] mt-1 font-semibold">
-                    <MapPin className="w-3.5 h-3.5 text-[#14532D]" />
+                  <h4 className="font-heading font-extrabold text-[#111111] text-base leading-snug">{apt.property_name}</h4>
+                  <div className="flex items-center gap-1 font-sans text-xs text-[#111111] mt-1 font-bold">
+                    <MapPin className="w-3.5 h-3.5 text-[#111111]" />
                     <span>{apt.location}, Bangalore</span>
                   </div>
 
-                  <div className="mt-4 p-3.5 rounded-xl bg-[#F5F2E9] border border-[#D6CDBB]/70 space-y-2 text-xs">
-                    <div className="flex items-center gap-2 text-[#171717]">
-                      <CalendarIcon className="w-3.5 h-3.5 text-[#737373]" />
-                      <span className="font-mono font-bold text-[#171717]">{formatDate(apt.date_time)} • {formatTime(apt.date_time)}</span>
+                  <div className="mt-4 p-3.5 rounded-sm bg-[#FFFDF5] border-2 border-[#111111] space-y-2 text-xs">
+                    <div className="flex items-center gap-2 text-[#111111]">
+                      <CalendarIcon className="w-3.5 h-3.5 text-[#111111]" />
+                      <span className="font-mono font-bold text-[#111111]">{formatDate(apt.date_time)} • {formatTime(apt.date_time)}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-[#171717]">
-                      <User className="w-3.5 h-3.5 text-[#737373]" />
-                      <span className="font-sans font-semibold text-[#171717]">{apt.customer_name}</span>
+                    <div className="flex items-center gap-2 text-[#111111]">
+                      <User className="w-3.5 h-3.5 text-[#111111]" />
+                      <span className="font-sans font-bold text-[#111111]">{apt.customer_name}</span>
                     </div>
                     {apt.customer_phone && (
-                      <div className="flex items-center gap-2 text-[#171717]">
-                        <Phone className="w-3.5 h-3.5 text-[#737373] shrink-0" />
-                        <span className="font-mono text-[#171717]">{apt.customer_phone}</span>
+                      <div className="flex items-center gap-2 text-[#111111]">
+                        <Phone className="w-3.5 h-3.5 text-[#111111] shrink-0" />
+                        <span className="font-mono font-bold text-[#111111]">{apt.customer_phone}</span>
                       </div>
                     )}
                     {apt.customer_email && (
-                      <div className="flex items-center justify-between text-[#171717] pt-0.5">
+                      <div className="flex items-center justify-between text-[#111111] pt-0.5">
                         <div className="flex items-center gap-2 truncate">
-                          <Mail className="w-3.5 h-3.5 text-[#737373] shrink-0" />
-                          <span className="font-mono text-[#171717] truncate">{apt.customer_email}</span>
+                          <Mail className="w-3.5 h-3.5 text-[#111111] shrink-0" />
+                          <span className="font-mono text-[#111111] font-bold truncate">{apt.customer_email}</span>
                         </div>
-                        <span className={`px-2 py-0.5 rounded font-mono text-[9px] uppercase font-bold tracking-wider shrink-0 ml-2 ${
+                        <span className={`neo-badge shrink-0 ml-2 ${
                           apt.email_status === 'Sent'
-                            ? 'bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20'
-                            : 'bg-[#FFF1CC] text-[#854D0E] border border-[#E5D8A8]'
+                            ? 'bg-[#B8F4B8] text-[#111111]'
+                            : 'bg-[#FFDE59] text-[#111111]'
                         }`}>
                           {apt.email_status === 'Sent' ? 'Brochure Sent' : (apt.email_status || 'Pending')}
                         </span>
@@ -480,9 +480,9 @@ export default function Appointments({ initialProperty }) {
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-[#D6CDBB]/50 flex items-center justify-between text-[11px] font-mono text-[#737373]">
+                <div className="mt-4 pt-3 border-t-2 border-[#111111] flex items-center justify-between text-[11px] font-mono text-[#111111] font-bold">
                   <span>Site Visit Pass</span>
-                  <span className="text-[#14532D] font-bold">Confirmed</span>
+                  <span className="neo-badge bg-[#FFDE59] text-[#111111]">Confirmed</span>
                 </div>
               </div>
             ))}
@@ -493,24 +493,25 @@ export default function Appointments({ initialProperty }) {
       {/* Manual Booking Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#FFFCF7] rounded-3xl max-w-md w-full p-6 border border-[#D6CDBB] shadow-neo-lg relative animate-fade-in">
+          <div className="neo-card bg-white max-w-md w-full p-6 border-3 border-[#111111] shadow-[8px_8px_0px_#111111] relative animate-fade-in">
             <button
               onClick={() => setModalOpen(false)}
-              className="absolute top-4 right-4 text-[#737373] hover:text-[#171717] cursor-pointer"
+              className="absolute top-4 right-4 text-[#111111] hover:opacity-70 cursor-pointer"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5 text-[#111111]" />
             </button>
 
-            <h3 className="font-heading text-lg font-bold text-[#171717] mb-1">
+            <div className="neo-badge bg-[#FFDE59] text-[#111111] inline-block mb-2">Walkthrough Pass</div>
+            <h3 className="font-heading text-lg font-black text-[#111111] mb-1">
               Manual Site Visit Pass
             </h3>
-            <p className="font-sans text-xs text-[#737373] mb-5">
+            <p className="font-sans text-xs text-[#111111]/70 mb-5 font-medium">
               Record a prospective client walkthrough directly to the database.
             </p>
 
             <form onSubmit={handleSchedule} className="space-y-4 text-xs">
               <div>
-                <label className="block font-mono text-[10px] uppercase text-[#737373] mb-1">
+                <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] mb-1">
                   Buyer Name
                 </label>
                 <input
@@ -519,12 +520,12 @@ export default function Appointments({ initialProperty }) {
                   value={form.customerName}
                   onChange={e => setForm(prev => ({ ...prev, customerName: e.target.value }))}
                   placeholder="e.g. Charan Kumar"
-                  className="w-full px-3 py-2 bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl text-[#171717] focus:outline-none focus:border-[#14532D]"
+                  className="neo-input w-full px-3 py-2 text-[#111111] font-medium bg-white"
                 />
               </div>
 
               <div>
-                <label className="block font-mono text-[10px] uppercase text-[#737373] mb-1">
+                <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] mb-1">
                   Contact Phone
                 </label>
                 <input
@@ -533,12 +534,12 @@ export default function Appointments({ initialProperty }) {
                   value={form.phone}
                   onChange={e => setForm(prev => ({ ...prev, phone: e.target.value }))}
                   placeholder="+91 98450 12345"
-                  className="w-full px-3 py-2 bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl text-[#171717] focus:outline-none focus:border-[#14532D]"
+                  className="neo-input w-full px-3 py-2 text-[#111111] font-medium bg-white"
                 />
               </div>
 
               <div>
-                <label className="block font-mono text-[10px] uppercase text-[#737373] mb-1">
+                <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] mb-1">
                   Target Development
                 </label>
                 <input
@@ -546,13 +547,13 @@ export default function Appointments({ initialProperty }) {
                   required
                   value={form.propertyName}
                   onChange={e => setForm(prev => ({ ...prev, propertyName: e.target.value }))}
-                  className="w-full px-3 py-2 bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl text-[#171717] focus:outline-none focus:border-[#14532D]"
+                  className="neo-input w-full px-3 py-2 text-[#111111] font-medium bg-white"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-mono text-[10px] uppercase text-[#737373] mb-1">
+                  <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] mb-1">
                     Locality
                   </label>
                   <input
@@ -560,11 +561,11 @@ export default function Appointments({ initialProperty }) {
                     required
                     value={form.location}
                     onChange={e => setForm(prev => ({ ...prev, location: e.target.value }))}
-                    className="w-full px-3 py-2 bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl text-[#171717] focus:outline-none focus:border-[#14532D]"
+                    className="neo-input w-full px-3 py-2 text-[#111111] font-medium bg-white"
                   />
                 </div>
                 <div>
-                  <label className="block font-mono text-[10px] uppercase text-[#737373] mb-1">
+                  <label className="block font-mono text-[10px] uppercase font-bold text-[#111111] mb-1">
                     Date & Time
                   </label>
                   <input
@@ -572,7 +573,7 @@ export default function Appointments({ initialProperty }) {
                     required
                     value={form.dateTime}
                     onChange={e => setForm(prev => ({ ...prev, dateTime: e.target.value }))}
-                    className="w-full px-3 py-2 bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl text-[#171717] focus:outline-none focus:border-[#14532D]"
+                    className="neo-input w-full px-3 py-2 text-[#111111] font-mono font-bold bg-white"
                   />
                 </div>
               </div>
@@ -581,16 +582,16 @@ export default function Appointments({ initialProperty }) {
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="btn-secondary px-4 py-2 text-xs font-bold cursor-pointer"
+                  className="neo-btn neo-btn-white px-4 py-2 text-xs font-bold"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="btn-forest px-5 py-2 text-xs font-bold cursor-pointer disabled:opacity-50"
+                  className="neo-btn neo-btn-yellow px-4 py-2 text-xs font-bold"
                 >
-                  {submitting ? 'Confirming...' : 'Save Site Pass'}
+                  {submitting ? 'Confirming...' : 'Create Site Pass'}
                 </button>
               </div>
             </form>

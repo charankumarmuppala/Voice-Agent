@@ -39,7 +39,7 @@ import {
   formatINR
 } from '../services/api';
 
-const COLORS = ['#14532D', '#10B981', '#059669', '#34D399', '#6ee7b7', '#047857'];
+const COLORS = ['#FFDE59', '#B4A7FF', '#B8F4B8', '#FF8A80', '#A6E1FA', '#FFC0CB'];
 
 export default function Dashboard({ setActiveTab }) {
   const [stats, setStats] = useState(null);
@@ -106,40 +106,40 @@ export default function Dashboard({ setActiveTab }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#171717] tracking-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#111111] tracking-tight">
               Executive Dashboard
             </h2>
-            <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20 font-bold">
+            <span className="neo-badge bg-[#FFDE59] text-[#111111]">
               Real-time
             </span>
           </div>
-          <p className="font-sans text-xs sm:text-sm text-[#737373] mt-1 font-normal">
+          <p className="font-sans text-xs sm:text-sm text-[#111111]/70 mt-1 font-medium">
             DreamSpace Realty • Autonomous Conversational Sales Operations & Pipeline Intelligence
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[#D6CDBB] bg-[#FFFCF7] font-mono text-[11px] text-[#171717] font-medium shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-[#14532D] animate-pulse" />
+          <div className="neo-card px-3 py-1.5 flex items-center gap-2 font-mono text-[11px] text-[#111111] font-bold">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#B8F4B8] border border-[#111111] animate-pulse" />
             <span className="uppercase tracking-wider">Pipeline Synced</span>
           </div>
           <button
             onClick={() => loadDashboardData(true)}
-            className="p-2 rounded-xl border border-[#D6CDBB] bg-[#FFFCF7] text-[#737373] hover:text-[#171717] hover:border-[#14532D] transition-colors cursor-pointer shadow-sm"
+            className="neo-btn neo-btn-white p-2.5"
             title="Refresh database records"
           >
-            <RefreshCw className="w-4 h-4" />
+            <RefreshCw className="w-4 h-4 text-[#111111]" />
           </button>
         </div>
       </div>
 
       {error && (
-        <div className="bg-[#FFF1CC] border border-[#E5D8A8] text-[#854D0E] px-4 py-3 rounded-2xl text-xs flex items-center justify-between font-medium">
+        <div className="neo-card bg-[#FF8A80]/20 border-2 border-[#111111] text-[#111111] px-4 py-3 text-xs flex items-center justify-between font-bold">
           <span className="flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            <AlertCircle className="w-4 h-4 flex-shrink-0 text-[#111111]" />
             {error}
           </span>
-          <button onClick={() => loadDashboardData(true)} className="font-bold underline ml-2 cursor-pointer">
+          <button onClick={() => loadDashboardData(true)} className="underline ml-2 cursor-pointer uppercase tracking-wider font-mono">
             Retry
           </button>
         </div>
@@ -153,6 +153,7 @@ export default function Dashboard({ setActiveTab }) {
           subtitle="Verified Bengaluru portfolio"
           icon={Building2}
           badge="Ground Truth"
+          color="bg-[#FFDE59]"
         />
 
         <StatsCard
@@ -161,6 +162,7 @@ export default function Dashboard({ setActiveTab }) {
           subtitle={crmStats.leads === 0 ? "Listening for inquiries" : "Extracted buyer profiles"}
           icon={Users}
           badge="CRM Active"
+          color="bg-[#B4A7FF]"
         />
 
         <StatsCard
@@ -169,6 +171,7 @@ export default function Dashboard({ setActiveTab }) {
           subtitle={crmStats.appointments === 0 ? "Awaiting first booking" : "Confirmed site passes"}
           icon={CalendarCheck}
           badge="Brochures Sent"
+          color="bg-[#B8F4B8]"
         />
 
         <StatsCard
@@ -177,22 +180,23 @@ export default function Dashboard({ setActiveTab }) {
           subtitle={crmStats.calls === 0 ? "Ready to simulate" : "Conversational sessions"}
           icon={PhoneCall}
           badge="Gemini Multimodal"
+          color="bg-[#FFFDF5]"
         />
       </div>
 
       {/* Bento Grid: Hero Action Banner + Live Operations Matrix */}
       <div className="grid grid-cols-12 gap-5">
         {/* Left Hero Bento Banner (8 columns) */}
-        <div className="col-span-12 lg:col-span-8 bento-card p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden bg-gradient-to-br from-[#FFFCF7] to-[#F5F2E9]/70">
+        <div className="col-span-12 lg:col-span-8 neo-card p-6 sm:p-8 flex flex-col justify-between relative bg-white">
           <div className="max-w-xl relative z-10">
-            <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-[#14532D] font-bold mb-2">
+            <div className="neo-badge bg-[#FFDE59] text-[#111111] inline-flex items-center gap-1.5 mb-3">
               <Sparkles className="w-3.5 h-3.5" />
               <span>EstateVoice AI • Conversational Lead Qualification</span>
             </div>
-            <h3 className="font-heading text-xl sm:text-2xl font-bold text-[#171717] tracking-tight leading-snug">
+            <h3 className="font-heading text-xl sm:text-2xl font-black text-[#111111] tracking-tight leading-snug">
               Autonomous Real Estate Voice Agent for Bengaluru
             </h3>
-            <p className="font-sans text-xs sm:text-sm text-[#737373] mt-2 leading-relaxed">
+            <p className="font-sans text-xs sm:text-sm text-[#111111]/80 mt-2 leading-relaxed font-medium">
               Speaks English, Kannada, and Hindi. Extracts buyer requirements, conducts real-time FAISS semantic search across 30+ developments, books site visits, and instantly dispatches vector PDF brochures.
             </p>
           </div>
@@ -200,77 +204,77 @@ export default function Dashboard({ setActiveTab }) {
           <div className="mt-6 flex flex-wrap items-center gap-3 relative z-10">
             <button
               onClick={() => setActiveTab('voice-agent')}
-              className="btn-forest px-5 py-2.5 text-xs font-bold flex items-center gap-2 cursor-pointer shadow-sm"
+              className="neo-btn neo-btn-yellow px-5 py-2.5 text-xs font-bold gap-2"
             >
-              <PhoneCall className="w-4 h-4 text-[#E2F1E7]" />
+              <PhoneCall className="w-4 h-4 text-[#111111]" />
               Launch Voice Simulator
             </button>
             <button
               onClick={() => setActiveTab('properties')}
-              className="btn-secondary px-5 py-2.5 text-xs font-bold flex items-center gap-2 cursor-pointer shadow-sm"
+              className="neo-btn neo-btn-white px-5 py-2.5 text-xs font-bold gap-2"
             >
-              <Building2 className="w-4 h-4 text-[#14532D]" />
+              <Building2 className="w-4 h-4 text-[#111111]" />
               Explore 30 Properties
             </button>
             <button
               onClick={() => setActiveTab('appointments')}
-              className="btn-secondary px-5 py-2.5 text-xs font-bold flex items-center gap-2 cursor-pointer shadow-sm"
+              className="neo-btn neo-btn-purple px-5 py-2.5 text-xs font-bold gap-2"
             >
-              <CalendarCheck className="w-4 h-4 text-[#14532D]" />
+              <CalendarCheck className="w-4 h-4 text-[#111111]" />
               View Site Passes
             </button>
           </div>
         </div>
 
         {/* Right Live Operational Matrix Bento (4 columns) */}
-        <div className="col-span-12 lg:col-span-4 bento-card p-6 flex flex-col justify-between">
+        <div className="col-span-12 lg:col-span-4 neo-card p-6 flex flex-col justify-between bg-white">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <span className="font-heading text-sm font-bold text-[#171717] tracking-tight">
+              <span className="font-heading text-sm font-extrabold text-[#111111] tracking-tight">
                 Operational Metrics
               </span>
-              <span className="font-mono text-[10px] uppercase font-bold text-[#14532D] bg-[#E2F1E7] px-2 py-0.5 rounded-full border border-[#14532D]/20">
+              <span className="neo-badge bg-[#B4A7FF] text-[#111111]">
                 SaaS CRM
               </span>
             </div>
 
             <div className="space-y-3.5">
-              <div className="flex items-center justify-between text-xs pb-3 border-b border-[#D6CDBB]/40">
-                <span className="font-sans text-[#737373] font-medium">Conversion Rate</span>
-                <span className="font-mono text-sm font-bold text-[#171717]">
+              <div className="flex items-center justify-between text-xs pb-3 border-b-2 border-[#111111]/15">
+                <span className="font-sans text-[#111111]/70 font-semibold">Conversion Rate</span>
+                <span className="font-mono text-sm font-extrabold text-[#111111]">
                   {crmStats.leads > 0 ? `${Math.round((crmStats.appointments / crmStats.leads) * 100)}%` : '0.0%'}
                 </span>
               </div>
 
-              <div className="flex items-center justify-between text-xs pb-3 border-b border-[#D6CDBB]/40">
-                <span className="font-sans text-[#737373] font-medium">Average Property Price</span>
-                <span className="font-mono text-sm font-bold text-[#171717]">
+              <div className="flex items-center justify-between text-xs pb-3 border-b-2 border-[#111111]/15">
+                <span className="font-sans text-[#111111]/70 font-semibold">Average Property Price</span>
+                <span className="font-mono text-sm font-extrabold text-[#111111]">
                   {stats ? formatINR(stats.avg_price) : '₹1.85 Cr'}
                 </span>
               </div>
 
-              <div className="flex items-center justify-between text-xs pb-3 border-b border-[#D6CDBB]/40">
-                <span className="font-sans text-[#737373] font-medium">Micro-Market Zones</span>
-                <span className="font-mono text-sm font-bold text-[#171717]">
+              <div className="flex items-center justify-between text-xs pb-3 border-b-2 border-[#111111]/15">
+                <span className="font-sans text-[#111111]/70 font-semibold">Micro-Market Zones</span>
+                <span className="font-mono text-sm font-extrabold text-[#111111]">
                   {stats ? `${stats.locations_count} Core Corridors` : '5 Corridors'}
                 </span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
-                <span className="font-sans text-[#737373] font-medium">Ready-to-Move Ratio</span>
-                <span className="font-mono text-sm font-bold text-[#14532D]">
+                <span className="font-sans text-[#111111]/70 font-semibold">Ready-to-Move Ratio</span>
+                <span className="font-mono text-sm font-extrabold text-[#111111]">
                   {stats && stats.total_properties > 0 ? `${Math.round((stats.ready_to_move / stats.total_properties) * 100)}%` : '60%'}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="mt-5 pt-3 border-t border-[#D6CDBB]/40 flex items-center justify-between text-[11px] font-mono text-[#737373]">
+          <div className="mt-5 pt-3 border-t-2 border-[#111111] flex items-center justify-between text-[11px] font-mono text-[#111111] font-bold">
             <span className="flex items-center gap-1.5">
-              <Activity className="w-3.5 h-3.5 text-[#14532D]" />
+              <Activity className="w-3.5 h-3.5 text-[#111111]" />
               Response Latency: &lt; 1.2s
             </span>
-            <span className="text-[#14532D] font-bold">FAISS Active</span>
+            <span className="neo-badge bg-[#B8F4B8] text-[#111111] px-1.5 py-0.5">FAISS Active</span>
           </div>
         </div>
       </div>
@@ -278,37 +282,37 @@ export default function Dashboard({ setActiveTab }) {
       {/* Bento Grid: Inventory Analytics (Micro-Markets & BHK Spread) */}
       <div className="grid grid-cols-12 gap-5">
         {/* Micro-Markets Bar Chart (8 columns) */}
-        <div className="col-span-12 lg:col-span-8 bento-card p-6 sm:p-7">
+        <div className="col-span-12 lg:col-span-8 neo-card p-6 sm:p-7 bg-white">
           <div className="flex items-center justify-between mb-5">
             <div>
-              <h4 className="font-heading font-bold text-[#171717] text-base tracking-tight">
+              <h4 className="font-heading font-extrabold text-[#111111] text-base tracking-tight">
                 Inventory Volume by Micro-Market
               </h4>
-              <p className="font-sans text-xs text-[#737373] mt-0.5">
+              <p className="font-sans text-xs text-[#111111]/70 mt-0.5 font-medium">
                 Ground-truth property concentration across Whitefield, Sarjapur, Electronic City, and Hebbal
               </p>
             </div>
-            <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-[#14532D] bg-[#E2F1E7] px-2.5 py-1 rounded-full border border-[#14532D]/20">
+            <span className="neo-badge bg-[#FFDE59] text-[#111111]">
               Live SQLite Data
             </span>
           </div>
 
           <div className="h-64 w-full">
             {locationChartData.length === 0 ? (
-              <div className="h-full flex items-center justify-center font-mono text-xs text-[#737373] uppercase tracking-wider">
+              <div className="h-full flex items-center justify-center font-mono text-xs text-[#111111]/60 uppercase tracking-wider font-bold">
                 No location records in database.
               </div>
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={locationChartData} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#EFE9DC" />
-                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#171717', fontFamily: 'Space Grotesk' }} interval={0} angle={-15} textAnchor="end" />
-                  <YAxis tick={{ fontSize: 11, fill: '#737373', fontFamily: 'IBM Plex Mono' }} allowDecimals={false} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#111111" strokeOpacity={0.15} />
+                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#111111', fontFamily: 'Space Grotesk', fontWeight: 600 }} interval={0} angle={-15} textAnchor="end" />
+                  <YAxis tick={{ fontSize: 11, fill: '#111111', fontFamily: 'IBM Plex Mono', fontWeight: 600 }} allowDecimals={false} />
                   <Tooltip
                     formatter={(val, name) => [val, name === 'properties' ? 'Units Listed' : name]}
-                    contentStyle={{ backgroundColor: '#FFFCF7', borderRadius: '16px', border: '1px solid #D6CDBB', fontSize: '12px', fontFamily: 'Inter' }}
+                    contentStyle={{ backgroundColor: '#FFFFFF', borderRadius: '6px', border: '2px solid #111111', boxShadow: '3px 3px 0px #111111', fontSize: '12px', fontFamily: 'Inter', fontWeight: 600, color: '#111111' }}
                   />
-                  <Bar dataKey="properties" fill="#14532D" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="properties" fill="#FFDE59" stroke="#111111" strokeWidth={2} radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -316,20 +320,20 @@ export default function Dashboard({ setActiveTab }) {
         </div>
 
         {/* BHK Configuration Donut Chart (4 columns) */}
-        <div className="col-span-12 lg:col-span-4 bento-card p-6 sm:p-7 flex flex-col justify-between">
+        <div className="col-span-12 lg:col-span-4 neo-card p-6 sm:p-7 flex flex-col justify-between bg-white">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h4 className="font-heading font-bold text-[#171717] text-base tracking-tight">
+                <h4 className="font-heading font-extrabold text-[#111111] text-base tracking-tight">
                   BHK Configuration
                 </h4>
-                <p className="font-sans text-xs text-[#737373] mt-0.5">Distribution by apartment size</p>
+                <p className="font-sans text-xs text-[#111111]/70 mt-0.5 font-medium">Distribution by apartment size</p>
               </div>
             </div>
 
             <div className="h-44 w-full flex items-center justify-center">
               {bhkChartData.length === 0 ? (
-                <div className="font-mono text-xs text-[#737373] uppercase tracking-wider">No BHK records.</div>
+                <div className="font-mono text-xs text-[#111111]/60 uppercase tracking-wider font-bold">No BHK records.</div>
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -341,6 +345,8 @@ export default function Dashboard({ setActiveTab }) {
                       outerRadius={72}
                       paddingAngle={4}
                       dataKey="value"
+                      stroke="#111111"
+                      strokeWidth={2}
                     >
                       {bhkChartData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -348,7 +354,7 @@ export default function Dashboard({ setActiveTab }) {
                     </Pie>
                     <Tooltip
                       formatter={(val) => [`${val} Units`, 'Count']}
-                      contentStyle={{ backgroundColor: '#FFFCF7', borderRadius: '16px', border: '1px solid #D6CDBB', fontSize: '12px' }}
+                      contentStyle={{ backgroundColor: '#FFFFFF', borderRadius: '6px', border: '2px solid #111111', boxShadow: '3px 3px 0px #111111', fontSize: '12px', fontWeight: 600, color: '#111111' }}
                     />
                   </PieChart>
                 </ResponsiveContainer>
@@ -356,15 +362,15 @@ export default function Dashboard({ setActiveTab }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 pt-4 border-t border-[#D6CDBB]/40">
+          <div className="grid grid-cols-2 gap-2 pt-4 border-t-2 border-[#111111]">
             {bhkChartData.map((item, i) => (
               <div key={i} className="flex items-center gap-2 text-xs">
                 <span
-                  className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                  className="w-3 h-3 rounded-sm border border-[#111111] flex-shrink-0"
                   style={{ backgroundColor: COLORS[i % COLORS.length] }}
                 />
-                <span className="font-sans text-[#737373] truncate">{item.name}:</span>
-                <span className="font-mono font-bold text-[#171717] ml-auto">{item.value}</span>
+                <span className="font-sans text-[#111111]/80 font-medium truncate">{item.name}:</span>
+                <span className="font-mono font-extrabold text-[#111111] ml-auto">{item.value}</span>
               </div>
             ))}
           </div>
@@ -375,16 +381,16 @@ export default function Dashboard({ setActiveTab }) {
       <div>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="font-heading text-lg sm:text-xl font-bold text-[#171717] tracking-tight">
+            <h3 className="font-heading text-lg sm:text-xl font-extrabold text-[#111111] tracking-tight">
               Featured Verified Developments
             </h3>
-            <p className="font-sans text-xs text-[#737373]">
+            <p className="font-sans text-xs text-[#111111]/70 font-medium">
               Ground-truth inventory indexed in FAISS vector database
             </p>
           </div>
           <button
             onClick={() => setActiveTab('properties')}
-            className="font-heading text-xs font-bold text-[#14532D] hover:underline flex items-center gap-1 cursor-pointer"
+            className="neo-btn neo-btn-yellow px-3 py-1.5 text-xs font-bold gap-1"
           >
             Browse all 30 properties <ArrowUpRight className="w-3.5 h-3.5" />
           </button>

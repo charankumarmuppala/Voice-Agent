@@ -18,27 +18,26 @@ export default function PropertyCard({ property, onScheduleVisit }) {
 
   return (
     <>
-      <div className="bento-card overflow-hidden flex flex-col group">
+      <div className="neo-card-interactive overflow-hidden flex flex-col group bg-white">
         {/* Property Image with Badges */}
-        <div className="relative h-48 w-full overflow-hidden bg-[#F5F2E9]">
+        <div className="relative h-48 w-full overflow-hidden border-b-2 border-[#111111] bg-[#FFFDF5]">
           <img
             src={property.image_url}
             alt={property.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/20" />
 
           {/* Top Badges */}
-          <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-            <span className="px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold bg-[#FFFCF7] text-[#171717] border border-[#D6CDBB] shadow-sm">
+          <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between">
+            <span className="neo-badge bg-[#FFFDF5] text-[#111111]">
               {property.property_id}
             </span>
             <span
-              className={`px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase font-bold border shadow-sm ${
+              className={`neo-badge ${
                 isReady
-                  ? 'bg-[#E2F1E7] text-[#14532D] border-[#14532D]/20'
-                  : 'bg-[#FFF1CC] text-[#854D0E] border-[#E5D8A8]'
+                  ? 'bg-[#B8F4B8] text-[#111111]'
+                  : 'bg-[#FFDE59] text-[#111111]'
               }`}
             >
               {property.availability}
@@ -46,49 +45,50 @@ export default function PropertyCard({ property, onScheduleVisit }) {
           </div>
 
           {/* Bottom Overlay Price & Location */}
-          <div className="absolute bottom-3 left-3 right-3 text-white">
-            <div className="font-heading text-xl font-bold tracking-tight text-white drop-shadow-sm">
+          <div className="absolute bottom-2.5 left-2.5 right-2.5">
+            <div className="inline-block bg-[#FFDE59] text-[#111111] px-2.5 py-0.5 border-2 border-[#111111] rounded-sm font-heading font-black text-base shadow-neo-sm">
               {formatINR(property.price)}
-            </div>
-            <div className="flex items-center gap-1 font-sans text-xs text-white/95 drop-shadow-sm mt-0.5">
-              <MapPin className="w-3.5 h-3.5 text-[#E2F1E7]" />
-              <span className="truncate">{property.location}, Bangalore</span>
             </div>
           </div>
         </div>
 
         {/* Content Details */}
-        <div className="p-5 flex-1 flex flex-col justify-between">
+        <div className="p-4 flex-1 flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#14532D] bg-[#E2F1E7] border border-[#14532D]/20 px-2 py-0.5 rounded-md">
+              <span className="neo-badge bg-[#B4A7FF] text-[#111111]">
                 {property.property_type}
               </span>
-              <span className="font-mono text-[11px] text-[#737373] font-semibold">
+              <span className="font-mono text-[11px] text-[#111111] font-bold">
                 {property.bhk} BHK • {property.area} SQFT
               </span>
             </div>
 
-            <h3 className="font-heading font-bold text-[#171717] text-base line-clamp-1 group-hover:text-[#14532D] transition-colors tracking-tight">
+            <h3 className="font-heading font-black text-[#111111] text-base line-clamp-1 group-hover:text-amber-600 transition-colors tracking-tight">
               {property.name}
             </h3>
 
-            <p className="font-sans text-xs text-[#737373] line-clamp-2 mt-1.5 leading-relaxed">
+            <div className="flex items-center gap-1 font-sans text-xs text-[#111111] font-semibold mt-1">
+              <MapPin className="w-3.5 h-3.5 text-[#111111] flex-shrink-0" />
+              <span className="truncate">{property.location}, Bengaluru</span>
+            </div>
+
+            <p className="font-sans text-xs text-[#111111]/70 line-clamp-2 mt-2 leading-relaxed">
               {property.description}
             </p>
 
             {/* Amenities chips */}
-            <div className="flex flex-wrap gap-1 mt-3">
+            <div className="flex flex-wrap gap-1.5 mt-3">
               {(property.amenities || []).slice(0, 3).map((amenity, idx) => (
                 <span
                   key={idx}
-                  className="font-mono text-[9px] uppercase tracking-wider bg-[#F5F2E9] text-[#171717] border border-[#D6CDBB] px-2 py-0.5 rounded-md font-semibold"
+                  className="font-mono text-[9px] uppercase font-bold bg-[#FFFDF5] text-[#111111] border border-[#111111] px-1.5 py-0.5 rounded-sm"
                 >
                   {amenity}
                 </span>
               ))}
               {(property.amenities || []).length > 3 && (
-                <span className="font-mono text-[9px] uppercase bg-[#F5F2E9] text-[#737373] border border-[#D6CDBB] px-1.5 py-0.5 rounded-md font-semibold">
+                <span className="font-mono text-[9px] uppercase font-bold bg-[#B4A7FF] text-[#111111] border border-[#111111] px-1.5 py-0.5 rounded-sm">
                   +{(property.amenities || []).length - 3}
                 </span>
               )}
@@ -96,19 +96,19 @@ export default function PropertyCard({ property, onScheduleVisit }) {
           </div>
 
           {/* Action buttons */}
-          <div className="mt-5 pt-3.5 border-t border-[#D6CDBB]/50 flex items-center gap-2">
+          <div className="mt-4 pt-3 border-t-2 border-[#111111] flex items-center gap-2">
             <button
               onClick={() => setModalOpen(true)}
-              className="flex-1 py-2 px-3 font-heading text-xs font-bold rounded-xl border border-[#D6CDBB] bg-[#FFFCF7] text-[#171717] hover:bg-[#F5F2E9] hover:border-[#14532D] transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm active:translate-y-0.5"
+              className="neo-btn neo-btn-white flex-1 py-1.5 px-2 text-xs"
             >
-              <Info className="w-3.5 h-3.5 text-[#737373]" />
+              <Info className="w-3.5 h-3.5 mr-1" />
               Specs
             </button>
             <button
               onClick={() => (onScheduleVisit ? onScheduleVisit(property) : setModalOpen(true))}
-              className="flex-1 py-2 px-3 font-heading text-xs font-bold rounded-xl bg-[#14532D] text-white hover:bg-[#1e7842] border border-[#14532D] transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm active:translate-y-0.5"
+              className="neo-btn neo-btn-yellow flex-1 py-1.5 px-2 text-xs"
             >
-              <Calendar className="w-3.5 h-3.5 text-[#E2F1E7]" />
+              <Calendar className="w-3.5 h-3.5 mr-1" />
               Book Visit
             </button>
           </div>
@@ -117,79 +117,84 @@ export default function PropertyCard({ property, onScheduleVisit }) {
 
       {/* Detail Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#FFFCF7] rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-neo-lg relative border border-[#D6CDBB] animate-fade-in">
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-none flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#FFFDF5] rounded-md max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-neo-xl relative border-3 border-[#111111] animate-pop">
             <button
               onClick={() => setModalOpen(false)}
-              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-[#171717]/70 text-white flex items-center justify-center hover:bg-[#171717] transition-colors cursor-pointer"
+              className="absolute top-3 right-3 z-10 w-8 h-8 rounded-sm bg-[#FF8A80] text-[#111111] border-2 border-[#111111] flex items-center justify-center shadow-neo-sm hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[1px] active:translate-y-[1px] cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
 
-            <div className="relative h-64 w-full">
+            <div className="relative h-64 w-full border-b-2 border-[#111111]">
               <img
                 src={property.image_url}
                 alt={property.name}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-              <div className="absolute bottom-4 left-6 right-6 text-white">
-                <span className="font-mono text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full bg-[#14532D] text-white mb-2 inline-block">
+              <div className="absolute bottom-3 left-4 right-4">
+                <span className="neo-badge bg-[#FFDE59] text-[#111111] mb-2 inline-block">
                   {property.property_id} • {property.property_type}
                 </span>
-                <h2 className="font-heading text-2xl font-bold tracking-tight text-white">{property.name}</h2>
-                <div className="flex items-center gap-2 text-xs font-sans text-white/90 mt-1">
-                  <MapPin className="w-3.5 h-3.5 text-[#E2F1E7]" />
-                  <span>{property.location}, Bangalore</span>
+                <div className="bg-white/95 p-3 border-2 border-[#111111] rounded-sm shadow-neo-sm inline-block">
+                  <h2 className="font-heading text-xl sm:text-2xl font-black text-[#111111] tracking-tight">{property.name}</h2>
+                  <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-[#111111] mt-0.5">
+                    <MapPin className="w-3.5 h-3.5 text-[#111111]" />
+                    <span>{property.location}, Bengaluru</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="p-6 space-y-6">
+            <div className="p-6 space-y-5 bg-[#FFFDF5]">
               {/* Highlight metrics */}
-              <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-[#F5F2E9] border border-[#D6CDBB]">
+              <div className="grid grid-cols-3 gap-3 p-4 rounded-sm bg-white border-2 border-[#111111] shadow-neo-sm">
                 <div>
-                  <div className="font-mono text-[10px] uppercase text-[#737373]">Configuration</div>
-                  <div className="font-heading font-bold text-base text-[#171717] mt-0.5">{property.bhk} BHK</div>
+                  <div className="font-mono text-[10px] uppercase font-bold text-[#111111]/70">Configuration</div>
+                  <div className="font-heading font-black text-base text-[#111111] mt-0.5">{property.bhk} BHK</div>
                 </div>
                 <div>
-                  <div className="font-mono text-[10px] uppercase text-[#737373]">Carpet Area</div>
-                  <div className="font-heading font-bold text-base text-[#171717] mt-0.5">{property.area} sq.ft</div>
+                  <div className="font-mono text-[10px] uppercase font-bold text-[#111111]/70">Carpet Area</div>
+                  <div className="font-heading font-black text-base text-[#111111] mt-0.5">{property.area} sq.ft</div>
                 </div>
                 <div>
-                  <div className="font-mono text-[10px] uppercase text-[#737373]">Price in INR</div>
-                  <div className="font-heading font-bold text-base text-[#14532D] mt-0.5">{formatINR(property.price)}</div>
+                  <div className="font-mono text-[10px] uppercase font-bold text-[#111111]/70">Price in INR</div>
+                  <div className="font-heading font-black text-base text-[#111111] mt-0.5 bg-[#FFDE59] inline-block px-1.5 border border-[#111111]">
+                    {formatINR(property.price)}
+                  </div>
                 </div>
               </div>
 
               <div>
-                <h4 className="font-heading font-bold text-sm text-[#171717] mb-2">Property Overview</h4>
-                <p className="font-sans text-xs text-[#737373] leading-relaxed">{property.description}</p>
+                <h4 className="font-heading font-black text-sm uppercase tracking-wider text-[#111111] mb-1.5">Property Overview</h4>
+                <p className="font-sans text-xs text-[#111111] leading-relaxed font-medium bg-white p-3 border-2 border-[#111111] rounded-sm">
+                  {property.description}
+                </p>
               </div>
 
               <div>
-                <h4 className="font-heading font-bold text-sm text-[#171717] mb-2.5">Curated Amenities</h4>
+                <h4 className="font-heading font-black text-sm uppercase tracking-wider text-[#111111] mb-2">Curated Amenities</h4>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   {(property.amenities || []).map((amenity, idx) => (
-                    <div key={idx} className="flex items-center gap-2 p-2.5 rounded-xl bg-[#F5F2E9] border border-[#D6CDBB]/70 font-sans text-xs text-[#171717]">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#14532D] flex-shrink-0" />
+                    <div key={idx} className="flex items-center gap-2 p-2 rounded-sm bg-white border-2 border-[#111111] font-sans text-xs font-bold text-[#111111]">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#111111] flex-shrink-0" />
                       <span>{amenity}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-[#D6CDBB] flex items-center justify-between">
+              <div className="pt-4 border-t-2 border-[#111111] flex items-center justify-between">
                 <div>
-                  <span className="font-mono text-[10px] uppercase text-[#737373]">Availability</span>
-                  <div className="font-heading font-bold text-xs text-[#171717]">{property.availability}</div>
+                  <span className="font-mono text-[10px] uppercase font-bold text-[#111111]/70">Availability</span>
+                  <div className="font-heading font-black text-xs text-[#111111] uppercase">{property.availability}</div>
                 </div>
                 <button
                   onClick={() => {
                     setModalOpen(false);
                     if (onScheduleVisit) onScheduleVisit(property);
                   }}
-                  className="px-6 py-2.5 rounded-xl bg-[#14532D] text-white font-heading font-bold text-xs hover:bg-[#1e7842] border border-[#14532D] transition-colors cursor-pointer shadow-sm active:translate-y-0.5"
+                  className="neo-btn neo-btn-yellow px-5 py-2 text-xs font-black uppercase"
                 >
                   Schedule Site Visit Pass
                 </button>

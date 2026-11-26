@@ -48,15 +48,15 @@ export default function App() {
     dashboard: 'Executive Dashboard',
     'voice-agent': 'AI Voice Assistant Simulator',
     properties: 'Property Portfolio',
-    leads: 'Customer Leads',
+    leads: 'Customer Leads CRM',
     appointments: 'Scheduled Property Visits',
-    'call-history': 'Call History & Logs',
+    'call-history': 'Call History & Transcripts',
     settings: 'Settings & Configuration'
   };
 
   return (
-    <div className={`flex h-screen bg-dotted-grid bg-[#F5F2E9] text-[#171717] font-sans overflow-hidden ${darkMode ? 'dark' : ''}`}>
-      {/* Collapsible Sidebar */}
+    <div className={`flex h-screen bg-neo-grid bg-[#FFFDF5] text-[#111111] font-sans overflow-hidden ${darkMode ? 'dark' : ''}`}>
+      {/* Collapsible Neo-Brutalist Sidebar */}
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}

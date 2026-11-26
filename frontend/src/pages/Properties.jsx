@@ -88,50 +88,50 @@ export default function Properties({ onScheduleVisit }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#171717] tracking-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#111111] tracking-tight">
               Bengaluru Property Portfolio
             </h2>
-            <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20 font-bold">
+            <span className="neo-badge bg-[#FFDE59] text-[#111111]">
               30 Verified
             </span>
           </div>
-          <p className="font-sans text-xs sm:text-sm text-[#737373] mt-1 font-normal">
+          <p className="font-sans text-xs sm:text-sm text-[#111111]/70 mt-1 font-medium">
             Ground-truth listings indexed with multilingual semantic embeddings across Bengaluru tech corridors.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-xl bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20 shadow-sm">
+          <span className="neo-badge bg-[#B8F4B8] text-[#111111] px-3 py-1.5 text-xs font-mono font-bold uppercase tracking-wider">
             {total} Properties Found
           </span>
           {hasActiveFilters && (
             <button
               onClick={handleResetFilters}
-              className="text-xs font-mono font-semibold px-3 py-1.5 rounded-xl bg-[#F5F2E9] text-[#171717] border border-[#D6CDBB] hover:border-[#14532D] transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+              className="neo-btn neo-btn-white text-xs px-3 py-1.5 flex items-center gap-1.5"
             >
-              <X className="w-3.5 h-3.5" />
+              <X className="w-3.5 h-3.5 text-[#111111]" />
               Reset Filters
             </button>
           )}
         </div>
       </div>
 
-      {/* Filter and Search Bento Box */}
-      <div className="bento-card p-5 space-y-4">
+      {/* Filter and Search Box */}
+      <div className="neo-card p-5 space-y-4 bg-white">
         {/* Search input */}
         <div className="relative">
-          <Search className="w-4 h-4 text-[#737373] absolute left-4 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#111111] absolute left-4 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by project name, developer, or lifestyle keywords (e.g. Prestige, Sobha, Smart Home, Infinity Pool)..."
-            className="w-full pl-11 pr-4 py-2.5 text-xs bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl text-[#171717] focus:outline-none focus:border-[#14532D]"
+            className="neo-input w-full pl-11 pr-10 py-2.5 text-xs font-medium text-[#111111]"
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#737373] hover:text-[#171717] cursor-pointer"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#111111] hover:opacity-70 cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -140,18 +140,18 @@ export default function Properties({ onScheduleVisit }) {
 
         {/* Micro-Market Quick Filter Chips */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-          <span className="font-mono text-[10px] uppercase font-bold text-[#737373] flex-shrink-0 flex items-center gap-1">
-            <MapPin className="w-3 h-3 text-[#14532D]" />
+          <span className="font-mono text-[10px] uppercase font-bold text-[#111111] flex-shrink-0 flex items-center gap-1">
+            <MapPin className="w-3 h-3 text-[#111111]" />
             Corridor:
           </span>
           {locationsList.map((loc) => (
             <button
               key={loc}
               onClick={() => setLocation(loc)}
-              className={`px-3 py-1 text-xs font-mono rounded-xl transition-all cursor-pointer font-bold whitespace-nowrap ${
+              className={`px-3 py-1 text-xs font-mono font-bold rounded-sm border-2 border-[#111111] transition-all cursor-pointer whitespace-nowrap ${
                 location === loc
-                  ? 'bg-[#14532D] text-white border border-[#14532D] shadow-sm'
-                  : 'bg-[#F5F2E9] text-[#737373] border border-[#D6CDBB] hover:text-[#171717]'
+                  ? 'bg-[#FFDE59] text-[#111111] shadow-[2px_2px_0px_#111111]'
+                  : 'bg-white text-[#111111] hover:bg-[#FFFDF5] shadow-[1px_1px_0px_#111111]'
               }`}
             >
               {loc}
@@ -160,16 +160,16 @@ export default function Properties({ onScheduleVisit }) {
         </div>
 
         {/* Secondary Filter Selectors Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-[#D6CDBB]/50">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t-2 border-[#111111]/15">
           {/* BHK */}
           <div>
-            <label className="block text-[10px] font-mono uppercase tracking-wider text-[#737373] mb-1">
+            <label className="block text-[10px] font-mono uppercase tracking-wider text-[#111111] font-bold mb-1">
               Configuration
             </label>
             <select
               value={bhk}
               onChange={(e) => setBhk(e.target.value)}
-              className="w-full px-3 py-2 text-xs font-mono bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl text-[#171717] focus:outline-none focus:border-[#14532D]"
+              className="neo-input w-full px-3 py-2 text-xs font-mono font-bold text-[#111111] bg-white"
             >
               <option value="All">All BHKs</option>
               <option value="1">1 BHK</option>
@@ -182,13 +182,13 @@ export default function Properties({ onScheduleVisit }) {
 
           {/* Budget Tier */}
           <div>
-            <label className="block text-[10px] font-mono uppercase tracking-wider text-[#737373] mb-1">
+            <label className="block text-[10px] font-mono uppercase tracking-wider text-[#111111] font-bold mb-1">
               Budget Range
             </label>
             <select
               value={budgetTier}
               onChange={(e) => setBudgetTier(e.target.value)}
-              className="w-full px-3 py-2 text-xs font-mono bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl text-[#171717] focus:outline-none focus:border-[#14532D]"
+              className="neo-input w-full px-3 py-2 text-xs font-mono font-bold text-[#111111] bg-white"
             >
               <option value="All">All Budgets</option>
               <option value="under1cr">Under ₹1.00 Cr</option>
@@ -200,13 +200,13 @@ export default function Properties({ onScheduleVisit }) {
 
           {/* Property Type */}
           <div>
-            <label className="block text-[10px] font-mono uppercase tracking-wider text-[#737373] mb-1">
+            <label className="block text-[10px] font-mono uppercase tracking-wider text-[#111111] font-bold mb-1">
               Asset Class
             </label>
             <select
               value={propertyType}
               onChange={(e) => setPropertyType(e.target.value)}
-              className="w-full px-3 py-2 text-xs font-mono bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl text-[#171717] focus:outline-none focus:border-[#14532D]"
+              className="neo-input w-full px-3 py-2 text-xs font-mono font-bold text-[#111111] bg-white"
             >
               <option value="All">All Types</option>
               <option value="Apartment">Apartment</option>
@@ -218,13 +218,13 @@ export default function Properties({ onScheduleVisit }) {
 
           {/* Availability */}
           <div>
-            <label className="block text-[10px] font-mono uppercase tracking-wider text-[#737373] mb-1">
+            <label className="block text-[10px] font-mono uppercase tracking-wider text-[#111111] font-bold mb-1">
               Possession Status
             </label>
             <select
               value={availability}
               onChange={(e) => setAvailability(e.target.value)}
-              className="w-full px-3 py-2 text-xs font-mono bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl text-[#171717] focus:outline-none focus:border-[#14532D]"
+              className="neo-input w-full px-3 py-2 text-xs font-mono font-bold text-[#111111] bg-white"
             >
               <option value="All">All Statuses</option>
               <option value="Ready to Move">Ready to Move</option>
@@ -236,19 +236,19 @@ export default function Properties({ onScheduleVisit }) {
 
       {/* Properties Bento Grid */}
       {loading ? (
-        <div className="text-center py-20 text-xs font-mono text-[#737373]">
+        <div className="text-center py-20 text-xs font-mono font-bold text-[#111111]">
           Loading properties from SQLite catalog...
         </div>
       ) : properties.length === 0 ? (
-        <div className="bento-card p-12 text-center">
-          <Building2 className="w-10 h-10 text-[#737373]/40 mx-auto mb-3" />
-          <h3 className="font-heading font-bold text-base text-[#171717]">No properties matched your criteria.</h3>
-          <p className="font-sans text-xs text-[#737373] mt-1">
+        <div className="neo-card p-12 text-center bg-white">
+          <Building2 className="w-10 h-10 text-[#111111]/40 mx-auto mb-3" />
+          <h3 className="font-heading font-extrabold text-base text-[#111111]">No properties matched your criteria.</h3>
+          <p className="font-sans text-xs text-[#111111]/70 mt-1 font-medium">
             Try resetting your filters or adjusting your budget parameters.
           </p>
           <button
             onClick={handleResetFilters}
-            className="btn-forest px-4 py-2 text-xs font-bold mt-4 cursor-pointer"
+            className="neo-btn neo-btn-yellow px-4 py-2 text-xs font-bold mt-4"
           >
             Reset Filters
           </button>

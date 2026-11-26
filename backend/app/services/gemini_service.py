@@ -989,7 +989,9 @@ class GeminiSalesService:
         history: List[Dict[str, str]],
         current_profile: Dict[str, Any],
         language: str = "English",
-        db = None
+        db = None,
+        session_id: Optional[str] = None,
+        **kwargs: Any
     ) -> Dict[str, Any]:
         client = self.get_client()
 

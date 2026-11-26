@@ -18,7 +18,7 @@ import {
 export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollapsed, darkMode, setDarkMode }) {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'voice-agent', label: 'AI Voice Simulator', icon: Mic, badge: 'LIVE' },
+    { id: 'voice-agent', label: 'AI Voice Agent', icon: Mic, badge: 'LIVE' },
     { id: 'properties', label: 'Properties', icon: Building2 },
     { id: 'leads', label: 'Leads CRM', icon: Users },
     { id: 'appointments', label: 'Appointments', icon: CalendarCheck },
@@ -28,29 +28,31 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
 
   return (
     <aside
-      className={`bg-[#FFFCF7] border-r border-[#D6CDBB] transition-all duration-300 flex flex-col justify-between select-none z-20 ${
+      className={`bg-[#FFFDF5] border-r-2 border-[#111111] transition-all duration-200 flex flex-col justify-between select-none z-20 ${
         collapsed ? 'w-20' : 'w-64'
       }`}
     >
       {/* Top Branding */}
       <div>
-        <div className="h-20 flex items-center px-4 border-b border-[#D6CDBB] justify-between">
+        <div className="h-20 flex items-center px-4 border-b-2 border-[#111111] justify-between bg-[#FFFDF5]">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-10 h-10 rounded-2xl bg-[#14532D] flex items-center justify-center text-white flex-shrink-0 border border-[#14532D] shadow-sm">
-              <Building2 className="w-5 h-5 text-[#E2F1E7]" />
+            <div className="w-10 h-10 rounded-md bg-[#FFDE59] flex items-center justify-center text-[#111111] flex-shrink-0 border-2 border-[#111111] shadow-neo-sm">
+              <Building2 className="w-5 h-5 text-[#111111]" />
             </div>
             {!collapsed && (
               <div className="leading-tight truncate">
-                <div className="font-heading font-bold text-base text-[#171717] flex items-center gap-1.5 tracking-tight">
-                  EstateVoice <span className="font-mono text-[9px] uppercase tracking-wider bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20 font-bold px-1.5 py-0.5 rounded-full">AI</span>
+                <div className="font-heading font-black text-lg text-[#111111] flex items-center gap-1.5 tracking-tight">
+                  EstateVoice <span className="font-mono text-[9px] uppercase tracking-wider bg-[#B4A7FF] text-[#111111] border border-[#111111] font-black px-1.5 py-0.2 rounded-sm shadow-[1px_1px_0px_#111111]">AI</span>
                 </div>
-                <div className="font-mono text-[10px] uppercase tracking-wider text-[#737373] font-semibold mt-0.5">DreamSpace Realty</div>
+                <div className="font-mono text-[10px] uppercase tracking-wider text-[#111111] font-bold mt-0.5">
+                  Autonomous Broker
+                </div>
               </div>
             )}
           </div>
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1.5 rounded-xl border border-[#D6CDBB] text-[#737373] hover:text-[#171717] hover:border-[#14532D] hover:bg-[#F5F2E9] transition-all cursor-pointer"
+            className="neo-btn bg-white p-1 text-[#111111]"
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -58,7 +60,7 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
         </div>
 
         {/* Navigation List */}
-        <nav className="p-3 space-y-1.5">
+        <nav className="p-3 space-y-2">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -66,26 +68,24 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-medium transition-all cursor-pointer ${
+                className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-md text-xs transition-all cursor-pointer ${
                   isActive
-                    ? 'bg-[#14532D] text-white font-semibold border border-[#14532D] shadow-[2px_2px_0px_#D6CDBB]'
-                    : 'text-[#737373] hover:bg-[#F5F2E9] hover:text-[#171717] border border-transparent hover:border-[#D6CDBB]'
+                    ? 'bg-[#FFDE59] text-[#111111] font-black border-2 border-[#111111] shadow-[3px_3px_0px_#111111] translate-x-[-1px] translate-y-[-1px]'
+                    : 'text-[#111111] font-bold hover:bg-[#B4A7FF] hover:border-2 hover:border-[#111111] hover:shadow-[2px_2px_0px_#111111] border-2 border-transparent'
                 }`}
                 title={collapsed ? item.label : undefined}
               >
                 <Icon
-                  className={`w-4 h-4 flex-shrink-0 ${
-                    isActive ? 'text-[#E2F1E7]' : 'text-[#737373]'
-                  }`}
+                  className="w-4 h-4 flex-shrink-0 text-[#111111]"
                 />
                 {!collapsed && (
-                  <span className="truncate flex-1 text-left font-sans font-medium">{item.label}</span>
+                  <span className="truncate flex-1 text-left font-heading font-bold text-xs uppercase tracking-tight">
+                    {item.label}
+                  </span>
                 )}
                 {!collapsed && item.badge && (
                   <span
-                    className={`font-mono text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full font-bold ${
-                      isActive ? 'bg-[#E2F1E7] text-[#14532D]' : 'bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20'
-                    }`}
+                    className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded-sm font-black border border-[#111111] bg-[#B8F4B8] text-[#111111] shadow-[1px_1px_0px_#111111]"
                   >
                     {item.badge}
                   </span>
@@ -96,42 +96,42 @@ export default function Sidebar({ activeTab, setActiveTab, collapsed, setCollaps
         </nav>
       </div>
 
-      {/* Bottom Status Info & Theme Toggle */}
-      <div className="p-3 border-t border-[#D6CDBB] space-y-2">
+      {/* Bottom Status Info */}
+      <div className="p-3 border-t-2 border-[#111111] space-y-2 bg-[#FFFDF5]">
         {!collapsed ? (
           <>
-            <div className="bg-[#F5F2E9] rounded-2xl p-3 border border-[#D6CDBB] text-xs">
-              <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-[#14532D] font-bold mb-1">
+            <div className="bg-[#B8F4B8] rounded-md p-3 border-2 border-[#111111] shadow-[2px_2px_0px_#111111] text-xs">
+              <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-[#111111] font-black mb-1">
                 <span className="flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-[#14532D]" />
+                  <Sparkles className="w-3.5 h-3.5 text-[#111111]" />
                   Gemini Sales AI
                 </span>
-                <span className="w-2 h-2 rounded-full bg-[#14532D] animate-pulse" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#111111] animate-pulse" />
               </div>
-              <p className="font-sans text-[#737373] text-[11px] leading-relaxed">
+              <p className="font-sans text-[#111111] text-[11px] font-semibold leading-relaxed">
                 Autonomous voice agent & SQLite CRM connected.
               </p>
             </div>
 
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-xl border border-[#D6CDBB] bg-[#F5F2E9] text-[#171717] font-mono text-xs font-semibold hover:border-[#14532D] transition-all cursor-pointer"
+              className="neo-btn bg-white w-full py-1.5 px-3 flex items-center justify-between text-xs font-mono font-bold"
               title={darkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
             >
               <span className="flex items-center gap-2">
-                {darkMode ? <Sun className="w-3.5 h-3.5 text-[#FCD34D]" /> : <Moon className="w-3.5 h-3.5 text-[#14532D]" />}
-                <span>{darkMode ? 'Light Theme' : 'Dark Theme'}</span>
+                {darkMode ? <Sun className="w-3.5 h-3.5 text-[#FFDE59]" /> : <Moon className="w-3.5 h-3.5 text-[#111111]" />}
+                <span>{darkMode ? 'LIGHT' : 'DARK'}</span>
               </span>
-              <span className="text-[10px] uppercase font-bold text-[#737373]">{darkMode ? 'Dark' : 'Light'}</span>
+              <span className="text-[10px] uppercase font-black">{darkMode ? 'ON' : 'OFF'}</span>
             </button>
           </>
         ) : (
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="w-10 h-10 mx-auto rounded-2xl bg-[#F5F2E9] border border-[#D6CDBB] flex items-center justify-center text-[#14532D] hover:border-[#14532D] transition-colors cursor-pointer"
+            className="neo-btn bg-white w-10 h-10 mx-auto flex items-center justify-center"
             title={darkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
           >
-            {darkMode ? <Sun className="w-4 h-4 text-[#FCD34D]" /> : <Moon className="w-4 h-4 text-[#14532D]" />}
+            {darkMode ? <Sun className="w-4 h-4 text-[#FFDE59]" /> : <Moon className="w-4 h-4 text-[#111111]" />}
           </button>
         )}
       </div>

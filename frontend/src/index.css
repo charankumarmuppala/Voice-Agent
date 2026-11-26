@@ -5,58 +5,50 @@
 @layer base {
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #F5F2E9;
-    color: #171717;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
-
-  .dark body {
-    background-color: #0B0F14;
-    color: #F0F6FC;
+    background-color: #FFFDF5;
+    color: #111111;
   }
 }
 
-/* Warm Minimalism Dotted Grid Texture */
-.bg-dotted-grid {
-  background-color: #F5F2E9;
-  background-image: radial-gradient(#D6CDBB 1.25px, transparent 1.25px);
-  background-size: 20px 20px;
+/* Neo-Brutalist Grid Background Texture */
+.bg-neo-grid {
+  background-color: #FFFDF5;
+  background-image: radial-gradient(#111111 0.85px, transparent 0.85px);
+  background-size: 24px 24px;
 }
 
-.dark .bg-dotted-grid {
-  background-color: #0B0F14;
-  background-image: radial-gradient(#21262D 1.25px, transparent 1.25px);
-  background-size: 20px 20px;
+.dark .bg-neo-grid {
+  background-color: #0E1116;
+  background-image: radial-gradient(#30363D 0.85px, transparent 0.85px);
+  background-size: 24px 24px;
 }
 
-/* Warm Neo-Brutalist Custom Scrollbars */
+/* Neo-Brutalist Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #FFFDF5;
+  border-left: 2px solid #111111;
 }
-.dark ::-webkit-scrollbar-track {
-  background: transparent;
+::-webkit-scrollbar-thumb {
+  background: #111111;
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333333;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #D6CDBB;
-  border-radius: 9999px;
+.dark ::-webkit-scrollbar-track {
+  background: #0E1116;
+  border-left: 2px solid #30363D;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #30363D;
+  background: #FFDE59;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #B8AC94;
-}
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #484F58;
-}
-
-/* Hide scrollbar for clean horizontal carousels */
+/* Hide scrollbar */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -66,253 +58,147 @@
 }
 
 /* -------------------------------------------------------------
-   WARM MINIMALISM + BENTO GRID + SUBTLE NEO-BRUTALISM UTILITIES
+   CORE NEO-BRUTALIST UTILITY CLASSES
    ------------------------------------------------------------- */
 
-/* Bento Grid Cards */
-.bento-card {
-  background-color: #FFFCF7;
-  border: 1px solid #D6CDBB;
-  border-radius: 20px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.bento-card:hover {
-  border-color: #14532D;
-  box-shadow: 2px 2px 0px #D6CDBB;
-  transform: translateY(-1px);
+/* Neo-Brutal Cards */
+.neo-card {
+  background-color: #FFFFFF;
+  border: 2px solid #111111;
+  border-radius: 6px;
+  box-shadow: 4px 4px 0px #111111;
+  transition: all 0.15s ease;
 }
 
-.dark .bento-card {
-  background-color: #161B22;
-  border-color: #30363D;
+.neo-card-interactive {
+  background-color: #FFFFFF;
+  border: 2px solid #111111;
+  border-radius: 6px;
+  box-shadow: 4px 4px 0px #111111;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.dark .bento-card:hover {
-  border-color: #238636;
-  box-shadow: 2px 2px 0px #21262D;
+.neo-card-interactive:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px #111111;
 }
 
-/* Subtle Neo-Brutalist Buttons */
-.btn-forest {
-  background-color: #14532D;
-  color: #FFFFFF;
-  border: 1px solid #14532D;
-  border-radius: 14px;
+/* Neo-Brutal Physical Buttons */
+.neo-btn {
+  border: 2px solid #111111;
+  border-radius: 6px;
   font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600;
-  transition: all 0.15s ease-in-out;
+  font-weight: 700;
+  box-shadow: 3px 3px 0px #111111;
+  transition: all 0.1s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-.btn-forest:hover {
-  background-color: #1e7842;
-  box-shadow: 2px 2px 0px #D6CDBB;
-  transform: translateY(-1px);
+.neo-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0px #111111;
 }
-.btn-forest:active {
-  transform: translateY(1px);
-  box-shadow: none;
+.neo-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #111111;
 }
 
-.btn-secondary {
-  background-color: #FFFCF7;
-  color: #171717;
-  border: 1px solid #D6CDBB;
-  border-radius: 14px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600;
-  transition: all 0.15s ease-in-out;
+.neo-btn-yellow {
+  background-color: #FFDE59;
+  color: #111111;
 }
-.btn-secondary:hover {
-  background-color: #F5F2E9;
-  border-color: #14532D;
-  transform: translateY(-1px);
-  box-shadow: 2px 2px 0px #D6CDBB;
+.neo-btn-yellow:hover {
+  background-color: #FACC15;
 }
-.btn-secondary:active {
-  transform: translateY(1px);
-  box-shadow: none;
+
+.neo-btn-purple {
+  background-color: #B4A7FF;
+  color: #111111;
+}
+.neo-btn-purple:hover {
+  background-color: #A393FF;
+}
+
+.neo-btn-green {
+  background-color: #B8F4B8;
+  color: #111111;
+}
+.neo-btn-green:hover {
+  background-color: #98EE98;
+}
+
+.neo-btn-white {
+  background-color: #FFFFFF;
+  color: #111111;
+}
+.neo-btn-white:hover {
+  background-color: #FFFDF5;
+}
+
+/* Neo-Brutal Badges */
+.neo-badge {
+  border: 2px solid #111111;
+  border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  box-shadow: 1.5px 1.5px 0px #111111;
+}
+
+/* Inputs & Form Controls */
+.neo-input {
+  background-color: #FFFFFF;
+  border: 2px solid #111111;
+  border-radius: 6px;
+  color: #111111;
+  box-shadow: 2px 2px 0px #111111;
+  transition: all 0.1s ease;
+}
+.neo-input:focus {
+  outline: none;
+  box-shadow: 4px 4px 0px #111111;
+  background-color: #FFFDF5;
 }
 
 /* Dark Mode Overrides */
-.dark {
-  color-scheme: dark;
+.dark .neo-card,
+.dark .neo-card-interactive {
+  background-color: #161B22;
+  border-color: #F0F6FC;
+  box-shadow: 4px 4px 0px #F0F6FC;
+  color: #F0F6FC;
+}
+.dark .neo-card-interactive:hover {
+  box-shadow: 5px 5px 0px #F0F6FC;
 }
 
-.dark .bg-\[\#FFFCF7\] {
-  background-color: #161B22 !important;
+.dark .neo-btn {
+  border-color: #F0F6FC;
+  box-shadow: 3px 3px 0px #F0F6FC;
+}
+.dark .neo-btn:hover {
+  box-shadow: 4px 4px 0px #F0F6FC;
+}
+.dark .neo-btn:active {
+  box-shadow: 0px 0px 0px #F0F6FC;
 }
 
-.dark .bg-\[\#F5F2E9\] {
-  background-color: #0D1117 !important;
+.dark .neo-badge {
+  border-color: #F0F6FC;
+  box-shadow: 1.5px 1.5px 0px #F0F6FC;
 }
 
-.dark .bg-\[\#F5F2E9\]\/60 {
-  background-color: rgba(13, 17, 23, 0.6) !important;
+.dark .neo-input {
+  background-color: #161B22;
+  border-color: #F0F6FC;
+  color: #F0F6FC;
+  box-shadow: 2px 2px 0px #F0F6FC;
 }
-
-.dark .bg-\[\#F5F2E9\]\/40 {
-  background-color: rgba(13, 17, 23, 0.4) !important;
-}
-
-.dark .bg-\[\#EFE9DC\] {
-  background-color: #21262D !important;
-}
-
-.dark .bg-white {
-  background-color: #161B22 !important;
-}
-
-.dark .bg-white\/70 {
-  background-color: rgba(22, 27, 34, 0.7) !important;
-}
-
-.dark .border-\[\#D6CDBB\] {
-  border-color: #30363D !important;
-}
-
-.dark .border-\[\#D6CDBB\]\/40 {
-  border-color: rgba(48, 54, 61, 0.4) !important;
-}
-
-.dark .border-\[\#D6CDBB\]\/60 {
-  border-color: rgba(48, 54, 61, 0.6) !important;
-}
-
-.dark .border-slate-200 {
-  border-color: #30363D !important;
-}
-
-.dark .text-\[\#171717\] {
-  color: #F0F6FC !important;
-}
-
-.dark .text-\[\#171717\]\/90 {
-  color: rgba(240, 246, 252, 0.9) !important;
-}
-
-.dark .text-\[\#171717\]\/80 {
-  color: rgba(240, 246, 252, 0.8) !important;
-}
-
-.dark .text-\[\#171717\]\/70 {
-  color: rgba(240, 246, 252, 0.7) !important;
-}
-
-.dark .text-\[\#171717\]\/60 {
-  color: rgba(240, 246, 252, 0.6) !important;
-}
-
-.dark .text-\[\#171717\]\/50 {
-  color: rgba(240, 246, 252, 0.5) !important;
-}
-
-.dark .text-\[\#171717\]\/40 {
-  color: rgba(240, 246, 252, 0.4) !important;
-}
-
-.dark .text-\[\#737373\] {
-  color: #8B949E !important;
-}
-
-.dark .text-slate-500 {
-  color: #8B949E !important;
-}
-
-.dark .text-slate-700 {
-  color: #C9D1D9 !important;
-}
-
-.dark .text-slate-900 {
-  color: #F0F6FC !important;
-}
-
-.dark .hover\:bg-\[\#F5F2E9\]:hover {
-  background-color: #21262D !important;
-}
-
-.dark .hover\:text-\[\#171717\]:hover {
-  color: #F0F6FC !important;
-}
-
-.dark .bg-\[\#E2F1E7\] {
-  background-color: rgba(20, 83, 45, 0.35) !important;
-}
-
-.dark .text-\[\#14532D\] {
-  color: #4ADE80 !important;
-}
-
-.dark .border-\[\#14532D\]\/20 {
-  border-color: rgba(74, 222, 128, 0.3) !important;
-}
-
-.dark .border-\[\#14532D\] {
-  border-color: #238636 !important;
-}
-
-.dark .bg-\[\#14532D\] {
-  background-color: #238636 !important;
-}
-
-.dark .hover\:bg-\[\#14532D\]\/90:hover {
-  background-color: #2ea043 !important;
-}
-
-.dark .hover\:border-\[\#14532D\]:hover {
-  border-color: #3FB950 !important;
-}
-
-.dark .bg-\[\#FFF1CC\] {
-  background-color: rgba(133, 77, 14, 0.3) !important;
-}
-
-.dark .border-\[\#E5D8A8\] {
-  border-color: rgba(217, 119, 6, 0.35) !important;
-}
-
-.dark .border-\[\#E5D8A8\]\/60 {
-  border-color: rgba(217, 119, 6, 0.25) !important;
-}
-
-.dark .text-\[\#854D0E\] {
-  color: #FCD34D !important;
-}
-
-.dark input,
-.dark select,
-.dark textarea {
-  color-scheme: dark;
-  background-color: #0D1117 !important;
-  color: #F0F6FC !important;
-  border-color: #30363D !important;
-}
-
-.dark input:focus,
-.dark select:focus,
-.dark textarea:focus {
-  border-color: #3FB950 !important;
-}
-
-.dark tr.hover\:bg-\[\#F5F2E9\]\/50:hover {
-  background-color: rgba(33, 38, 45, 0.6) !important;
-}
-
-.dark tr.hover\:bg-\[\#F5F2E9\]\/60:hover {
-  background-color: rgba(33, 38, 45, 0.7) !important;
-}
-
-.dark .divide-\[\#D6CDBB\] > :not([hidden]) ~ :not([hidden]) {
-  border-color: #30363D !important;
-}
-
-.dark .recharts-default-tooltip {
-  background-color: #161B22 !important;
-  border-color: #30363D !important;
-  color: #F0F6FC !important;
-}
-
-.dark .recharts-cartesian-grid line {
-  stroke: #21262D !important;
-}
-
-.dark .recharts-text {
-  fill: #8B949E !important;
+.dark .neo-input:focus {
+  background-color: #0E1116;
+  box-shadow: 4px 4px 0px #FFDE59;
 }

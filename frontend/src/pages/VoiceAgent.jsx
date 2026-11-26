@@ -772,56 +772,56 @@ export default function VoiceAgent({ onVisitBooked }) {
     <div className="p-6 sm:p-8 space-y-6 max-w-7xl mx-auto">
       {/* Speech Support or Error Alert */}
       {(!speechSupported || speechError) && (
-        <div className="bg-[#FFF1CC] border border-[#E5D8A8] text-[#171717] px-4 py-3 rounded-2xl flex items-center justify-between text-xs font-mono">
+        <div className="neo-card bg-[#FF8A80]/20 border-2 border-[#111111] text-[#111111] px-4 py-3 rounded-sm flex items-center justify-between text-xs font-mono font-bold">
           <div className="flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-amber-700 flex-shrink-0" />
+            <AlertCircle className="w-4 h-4 text-[#111111] flex-shrink-0" />
             <span>
               {!speechSupported
                 ? 'Web Speech API is not natively supported in this browser. Text input fallback is active below.'
                 : speechError}
             </span>
           </div>
-          <span className="font-semibold text-amber-800 uppercase tracking-wider">Text Fallback Active</span>
+          <span className="neo-badge bg-[#FF8A80] text-[#111111]">Text Fallback Active</span>
         </div>
       )}
 
       {/* Top Banner & Call Controls */}
-      <div className="bento-card p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="neo-card p-6 flex flex-col md:flex-row items-center justify-between gap-6 bg-white">
         <div className="flex items-center gap-4 w-full md:w-auto">
           <div
-            className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 border ${
+            className={`w-14 h-14 rounded-sm flex items-center justify-center transition-all duration-300 border-2 border-[#111111] shadow-[3px_3px_0px_#111111] ${
               isSpeaking
-                ? 'bg-[#14532D] text-white ring-4 ring-[#E2F1E7] border-[#14532D]'
+                ? 'bg-[#FFDE59] text-[#111111]'
                 : isListening
-                ? 'bg-[#14532D] text-white ring-4 ring-[#FFF1CC] border-[#14532D]'
+                ? 'bg-[#B4A7FF] text-[#111111]'
                 : callActive
-                ? 'bg-[#14532D] text-white border-[#14532D]'
-                : 'bg-[#F5F2E9] border-[#D6CDBB] text-[#171717]'
+                ? 'bg-[#B8F4B8] text-[#111111]'
+                : 'bg-[#FFFDF5] text-[#111111]'
             }`}
           >
             {isSpeaking ? (
-              <Volume2 className="w-7 h-7 animate-pulse text-[#E2F1E7]" />
+              <Volume2 className="w-7 h-7 animate-pulse text-[#111111]" />
             ) : isListening ? (
-              <Mic className="w-7 h-7 text-[#FFF1CC] animate-pulse" />
+              <Mic className="w-7 h-7 text-[#111111] animate-pulse" />
             ) : isMuted ? (
-              <MicOff className="w-7 h-7 text-rose-500" />
+              <MicOff className="w-7 h-7 text-rose-600" />
             ) : (
-              <Mic className="w-7 h-7" />
+              <Mic className="w-7 h-7 text-[#111111]" />
             )}
           </div>
 
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-xl font-heading font-bold text-[#171717] tracking-tight">EstateVoice AI Assistant</h2>
+              <h2 className="text-xl font-heading font-black text-[#111111] tracking-tight">EstateVoice AI Assistant</h2>
               <span
-                className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
+                className={`neo-badge ${
                   isSpeaking
-                    ? 'bg-[#E2F1E7] text-[#14532D] border-[#14532D]/20 animate-pulse'
+                    ? 'bg-[#FFDE59] text-[#111111] animate-pulse'
                     : isListening
-                    ? 'bg-[#FFF1CC] text-[#854D0E] border-[#E5D8A8]'
+                    ? 'bg-[#B4A7FF] text-[#111111]'
                     : callActive
-                    ? 'bg-[#E2F1E7] text-[#14532D] border-[#14532D]/20'
-                    : 'bg-[#F5F2E9] text-[#737373] border-[#D6CDBB]'
+                    ? 'bg-[#B8F4B8] text-[#111111]'
+                    : 'bg-white text-[#111111]'
                 }`}
               >
                 {isSpeaking
@@ -833,13 +833,13 @@ export default function VoiceAgent({ onVisitBooked }) {
                   : 'READY TO CONNECT'}
               </span>
               {callActive && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-mono font-bold bg-[#14532D] text-white border border-[#14532D]">
-                  <Clock className="w-3 h-3 text-[#E2F1E7] animate-pulse" />
+                <span className="neo-badge bg-[#111111] text-[#FFDE59] inline-flex items-center gap-1.5">
+                  <Clock className="w-3 h-3 text-[#FFDE59] animate-pulse" />
                   {formatDuration(callDuration)}
                 </span>
               )}
             </div>
-            <p className="text-xs text-[#737373] mt-1 font-sans">
+            <p className="text-xs text-[#111111]/70 mt-1 font-sans font-medium">
               Multilingual Real Estate Voice Agent • English, Hindi, Kannada, Telugu, Tamil
             </p>
           </div>
@@ -848,20 +848,20 @@ export default function VoiceAgent({ onVisitBooked }) {
         {/* Controls: Waveform, Language, Mute, Call Start/End */}
         <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
           {/* Animated Voice Waveform Indicator */}
-          <div className="flex items-center gap-1 h-9 px-3 py-1 bg-[#F5F2E9] rounded-xl border border-[#D6CDBB] shadow-sm">
-            <div className={`w-1 rounded-full transition-all ${isSpeaking ? 'bg-[#14532D] animate-wave-bar-1' : isListening ? 'bg-amber-600 animate-wave-bar-1' : 'bg-[#D6CDBB] h-2'}`} />
-            <div className={`w-1 rounded-full transition-all ${isSpeaking ? 'bg-[#14532D] animate-wave-bar-2' : isListening ? 'bg-amber-600 animate-wave-bar-2' : 'bg-[#D6CDBB] h-3'}`} />
-            <div className={`w-1 rounded-full transition-all ${isSpeaking ? 'bg-[#14532D] animate-wave-bar-3' : isListening ? 'bg-amber-600 animate-wave-bar-3' : 'bg-[#D6CDBB] h-5'}`} />
-            <div className={`w-1 rounded-full transition-all ${isSpeaking ? 'bg-[#14532D] animate-wave-bar-4' : isListening ? 'bg-amber-600 animate-wave-bar-4' : 'bg-[#D6CDBB] h-3'}`} />
-            <div className={`w-1 rounded-full transition-all ${isSpeaking ? 'bg-[#14532D] animate-wave-bar-5' : isListening ? 'bg-amber-600 animate-wave-bar-5' : 'bg-[#D6CDBB] h-2'}`} />
-            <span className="font-mono text-[10px] uppercase font-bold text-[#737373] ml-1.5 hidden sm:inline">
+          <div className="flex items-center gap-1 h-9 px-3 py-1 bg-white rounded-sm border-2 border-[#111111] shadow-[2px_2px_0px_#111111]">
+            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] animate-wave-bar-1' : isListening ? 'bg-[#111111] animate-wave-bar-1' : 'bg-[#111111]/30 h-2'}`} />
+            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] animate-wave-bar-2' : isListening ? 'bg-[#111111] animate-wave-bar-2' : 'bg-[#111111]/30 h-3'}`} />
+            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] animate-wave-bar-3' : isListening ? 'bg-[#111111] animate-wave-bar-3' : 'bg-[#111111]/30 h-5'}`} />
+            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] animate-wave-bar-4' : isListening ? 'bg-[#111111] animate-wave-bar-4' : 'bg-[#111111]/30 h-3'}`} />
+            <div className={`w-1.5 rounded-none transition-all ${isSpeaking ? 'bg-[#111111] animate-wave-bar-5' : isListening ? 'bg-[#111111] animate-wave-bar-5' : 'bg-[#111111]/30 h-2'}`} />
+            <span className="font-mono text-[10px] uppercase font-bold text-[#111111] ml-1.5 hidden sm:inline">
               {isSpeaking ? 'AI Output' : isListening ? 'Mic Active' : 'Standby'}
             </span>
           </div>
 
           {/* Language Selector supporting 5 languages */}
-          <div className="flex items-center gap-2 bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl px-3 py-2 text-xs font-mono font-semibold text-[#171717] shadow-sm">
-            <Languages className="w-4 h-4 text-[#14532D]" />
+          <div className="flex items-center gap-2 bg-white border-2 border-[#111111] rounded-sm px-3 py-2 text-xs font-mono font-bold text-[#111111] shadow-[2px_2px_0px_#111111]">
+            <Languages className="w-4 h-4 text-[#111111]" />
             <select
               value={language}
               onChange={(e) => {
@@ -869,7 +869,7 @@ export default function VoiceAgent({ onVisitBooked }) {
                 languageRef.current = e.target.value;
               }}
               disabled={callActive}
-              className="bg-transparent border-none focus:outline-none text-xs cursor-pointer font-mono font-medium disabled:opacity-60 text-[#171717]"
+              className="bg-transparent border-none focus:outline-none text-xs cursor-pointer font-mono font-bold disabled:opacity-60 text-[#111111]"
             >
               <option value="English">English (en-IN)</option>
               <option value="Hindi">हिन्दी (hi-IN)</option>
@@ -883,33 +883,33 @@ export default function VoiceAgent({ onVisitBooked }) {
           <button
             onClick={() => setIsMuted(!isMuted)}
             disabled={!callActive}
-            className={`p-2.5 rounded-xl border text-xs font-mono font-medium transition-all cursor-pointer shadow-sm ${
+            className={`neo-btn p-2.5 rounded-sm ${
               !callActive
-                ? 'border-[#D6CDBB]/50 text-[#737373]/40 bg-[#F5F2E9] cursor-not-allowed'
+                ? 'opacity-40 cursor-not-allowed bg-white'
                 : isMuted
-                ? 'bg-[#FFF1CC] border-[#E5D8A8] text-[#854D0E]'
-                : 'bg-[#F5F2E9] border-[#D6CDBB] text-[#171717] hover:border-[#14532D]'
+                ? 'bg-[#FF8A80] text-[#111111]'
+                : 'neo-btn-white'
             }`}
             title={isMuted ? 'Unmute microphone' : 'Mute microphone'}
           >
-            {isMuted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-[#14532D]" />}
+            {isMuted ? <MicOff className="w-4 h-4 text-[#111111]" /> : <Mic className="w-4 h-4 text-[#111111]" />}
           </button>
 
           {/* Start / End Call */}
           {!callActive ? (
             <button
               onClick={handleStartCall}
-              className="btn-forest px-5 py-2.5 text-xs flex items-center gap-2 cursor-pointer shadow-sm active:translate-y-0.5"
+              className="neo-btn neo-btn-yellow px-5 py-2.5 text-xs font-bold gap-2"
             >
-              <Phone className="w-4 h-4 text-[#E2F1E7]" />
+              <Phone className="w-4 h-4 text-[#111111]" />
               Start Voice Call
             </button>
           ) : (
             <button
               onClick={handleEndCall}
-              className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-heading font-bold transition-all flex items-center gap-2 border border-rose-700 cursor-pointer shadow-sm active:translate-y-0.5"
+              className="neo-btn bg-[#FF8A80] hover:bg-rose-400 text-[#111111] px-5 py-2.5 text-xs font-bold gap-2"
             >
-              <PhoneOff className="w-4 h-4" />
+              <PhoneOff className="w-4 h-4 text-[#111111]" />
               End Call
             </button>
           )}
@@ -919,24 +919,24 @@ export default function VoiceAgent({ onVisitBooked }) {
       {/* Main Grid: Transcript vs Customer Profile & Recommended Properties */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Live Conversation Stream */}
-        <div className="lg:col-span-2 bento-card flex flex-col h-[620px] overflow-hidden">
+        <div className="lg:col-span-2 neo-card flex flex-col h-[620px] overflow-hidden bg-white">
           {/* Transcript Header */}
-          <div className="p-4 border-b border-[#D6CDBB] flex items-center justify-between bg-[#F5F2E9]">
+          <div className="p-4 border-b-2 border-[#111111] flex items-center justify-between bg-[#FFDE59]">
             <div className="flex items-center gap-2">
               <span
-                className={`w-2.5 h-2.5 rounded-full ${
-                  isSpeaking ? 'bg-[#14532D] animate-ping' : isListening ? 'bg-amber-500 animate-pulse' : 'bg-[#D6CDBB]'
+                className={`w-2.5 h-2.5 rounded-full border border-[#111111] ${
+                  isSpeaking ? 'bg-[#111111] animate-ping' : isListening ? 'bg-[#111111] animate-pulse' : 'bg-[#111111]/40'
                 }`}
               />
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#171717]">
+              <span className="text-xs font-mono font-extrabold uppercase tracking-wider text-[#111111]">
                 Live Conversation Stream
               </span>
             </div>
-            <div className="flex items-center gap-2 text-[11px] font-mono text-[#171717]/60">
+            <div className="flex items-center gap-2 text-[11px] font-mono text-[#111111] font-bold">
               {callActive && (
                 <>
-                  <span className="text-[#14532D] font-bold flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
+                  <span className="text-[#111111] font-black flex items-center gap-1">
+                    <Clock className="w-3 h-3 text-[#111111]" />
                     {formatDuration(callDuration)}
                   </span>
                   <span>•</span>
@@ -944,17 +944,17 @@ export default function VoiceAgent({ onVisitBooked }) {
               )}
               <span>Session: {sessionId || 'Inactive'}</span>
               <span>•</span>
-              <span className="text-[#14532D] font-bold uppercase">{language}</span>
+              <span className="neo-badge bg-white text-[#111111] text-[9px] px-1.5 py-0.5">{language}</span>
             </div>
           </div>
 
           {/* Transcript Message Scroll */}
-          <div ref={transcriptContainerRef} className="flex-1 p-5 overflow-y-auto space-y-4">
+          <div ref={transcriptContainerRef} className="flex-1 p-5 overflow-y-auto space-y-4 bg-white">
             {messages.map((msg) => {
               if (msg.sender === 'system') {
                 return (
                   <div key={msg.id} className="text-center my-2">
-                    <span className="inline-block px-3.5 py-1 rounded-full text-[11px] font-mono bg-[#E2F1E7] text-[#14532D] font-semibold border border-[#D6CDBB]">
+                    <span className="neo-badge bg-[#FFFDF5] text-[#111111] inline-block">
                       {msg.text} • {msg.time}
                     </span>
                   </div>
@@ -968,32 +968,32 @@ export default function VoiceAgent({ onVisitBooked }) {
                   className={`flex items-start gap-3 ${isAgent ? 'justify-start' : 'justify-end'}`}
                 >
                   {isAgent && (
-                    <div className="w-8 h-8 rounded-2xl bg-[#14532D] text-white flex items-center justify-center flex-shrink-0 text-xs font-bold border border-[#14532D]">
-                      <Sparkles className="w-4 h-4 text-[#E2F1E7]" />
+                    <div className="w-8 h-8 rounded-sm bg-[#FFDE59] text-[#111111] flex items-center justify-center flex-shrink-0 text-xs font-bold border-2 border-[#111111] shadow-[2px_2px_0px_#111111]">
+                      <Sparkles className="w-4 h-4 text-[#111111]" />
                     </div>
                   )}
 
                   <div
-                    className={`max-w-[80%] rounded-2xl p-4 text-xs leading-relaxed ${
+                    className={`max-w-[80%] rounded-sm p-4 text-xs leading-relaxed border-2 border-[#111111] ${
                       isAgent
-                        ? 'bg-[#F5F2E9] text-[#171717] border border-[#D6CDBB] rounded-tl-sm'
-                        : 'bg-[#14532D] text-white rounded-tr-sm border border-[#14532D]'
+                        ? 'bg-[#FFFDF5] text-[#111111] shadow-[2px_2px_0px_#111111]'
+                        : 'bg-[#FFDE59] text-[#111111] shadow-[2px_2px_0px_#111111]'
                     }`}
                   >
                     <div className="flex items-center justify-between gap-4 mb-1">
-                      <span className={`font-mono font-bold text-[10px] uppercase tracking-wider ${isAgent ? 'text-[#14532D]' : 'text-[#E2F1E7]'}`}>
+                      <span className="font-mono font-black text-[10px] uppercase tracking-wider text-[#111111]">
                         {isAgent ? 'EstateVoice Sales AI' : 'Buyer'}
                       </span>
-                      <span className={`text-[10px] font-mono ${isAgent ? 'text-[#171717]/50' : 'text-white/60'}`}>
+                      <span className="text-[10px] font-mono font-bold text-[#111111]/70">
                         {msg.time}
                       </span>
                     </div>
-                    <p className="font-sans text-xs leading-relaxed">{msg.text}</p>
+                    <p className="font-sans text-xs leading-relaxed font-medium">{msg.text}</p>
                   </div>
 
                   {!isAgent && (
-                    <div className="w-8 h-8 rounded-2xl bg-[#F5F2E9] border border-[#D6CDBB] text-[#171717] flex items-center justify-center flex-shrink-0 text-xs font-bold">
-                      <User className="w-4 h-4 text-[#14532D]" />
+                    <div className="w-8 h-8 rounded-sm bg-[#B4A7FF] border-2 border-[#111111] text-[#111111] flex items-center justify-center flex-shrink-0 text-xs font-bold shadow-[2px_2px_0px_#111111]">
+                      <User className="w-4 h-4 text-[#111111]" />
                     </div>
                   )}
                 </div>
@@ -1002,34 +1002,34 @@ export default function VoiceAgent({ onVisitBooked }) {
 
             {/* Live speech accumulation feedback with adaptive silence indicator */}
             {liveHeardText && (
-              <div className="p-3.5 rounded-2xl bg-[#FFF1CC] border border-[#E5D8A8] text-xs font-mono text-[#854D0E] space-y-2 animate-pulse">
-                <div className="flex items-center justify-between font-bold text-[11px] uppercase tracking-wider flex-wrap gap-2">
+              <div className="p-3.5 rounded-sm bg-[#FFFDF5] border-2 border-[#111111] text-xs font-mono text-[#111111] space-y-2 shadow-[2px_2px_0px_#111111] animate-pulse">
+                <div className="flex items-center justify-between font-black text-[11px] uppercase tracking-wider flex-wrap gap-2">
                   <span className="flex items-center gap-1.5">
-                    <Radio className="w-3.5 h-3.5 text-[#14532D] animate-ping" />
+                    <Radio className="w-3.5 h-3.5 text-[#111111] animate-ping" />
                     {sentenceStatus}
                   </span>
                   <span
-                    className={`text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold ${
+                    className={`neo-badge ${
                       isSentenceCompleteState
-                        ? 'bg-[#14532D] text-white'
-                        : 'bg-[#854D0E] text-white'
+                        ? 'bg-[#B8F4B8] text-[#111111]'
+                        : 'bg-[#FFDE59] text-[#111111]'
                     }`}
                   >
                     {isSentenceCompleteState ? `Quick Submit: ${silenceCountdown}s` : `Waiting: ${silenceCountdown}s`}
                   </span>
                 </div>
-                <p className="text-xs text-[#171717] font-sans italic bg-white/70 p-2.5 rounded-xl border border-[#E5D8A8]/60">
+                <p className="text-xs text-[#111111] font-sans font-medium italic bg-white p-2.5 rounded-sm border-2 border-[#111111]">
                   "{liveHeardText}"
                 </p>
-                <div className="flex items-center justify-between text-[10px] font-mono">
-                  <span className="text-[#171717]/60">
+                <div className="flex items-center justify-between text-[10px] font-mono font-bold">
+                  <span className="text-[#111111]/70">
                     {isSentenceCompleteState
                       ? '✓ Complete thought detected — submitting in ~1s'
                       : '... Incomplete thought — pausing up to 5s for more words'}
                   </span>
                   <button
                     onClick={submitBufferedSpeech}
-                    className="px-3 py-1 rounded-xl bg-[#14532D] text-white text-[10px] font-mono font-bold hover:bg-[#14532D]/90 transition-colors"
+                    className="neo-btn neo-btn-yellow px-3 py-1 text-[10px] font-mono font-bold"
                   >
                     Send Now
                   </button>
@@ -1038,10 +1038,10 @@ export default function VoiceAgent({ onVisitBooked }) {
             )}
 
             {isTyping && (
-              <div className="flex items-center gap-2 text-xs font-mono text-[#171717]/60 italic">
-                <span className="w-2 h-2 rounded-full bg-[#14532D] animate-bounce" />
-                <span className="w-2 h-2 rounded-full bg-[#14532D] animate-bounce [animation-delay:0.2s]" />
-                <span className="w-2 h-2 rounded-full bg-[#14532D] animate-bounce [animation-delay:0.4s]" />
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#111111] italic">
+                <span className="w-2 h-2 rounded-full bg-[#111111] animate-bounce" />
+                <span className="w-2 h-2 rounded-full bg-[#111111] animate-bounce [animation-delay:0.2s]" />
+                <span className="w-2 h-2 rounded-full bg-[#111111] animate-bounce [animation-delay:0.4s]" />
                 Gemini is consulting Bangalore property portfolio...
               </div>
             )}
@@ -1049,12 +1049,12 @@ export default function VoiceAgent({ onVisitBooked }) {
           </div>
 
           {/* Quick Multilingual Prompts */}
-          <div className="px-4 py-2.5 border-t border-[#D6CDBB] bg-[#F5F2E9]/60 overflow-x-auto flex gap-2 no-scrollbar">
+          <div className="px-4 py-2.5 border-t-2 border-[#111111] bg-[#FFFDF5] overflow-x-auto flex gap-2 no-scrollbar">
             {samplePrompts.map((prompt, idx) => (
               <button
                 key={idx}
                 onClick={() => setInputText(prompt)}
-                className="text-[11px] font-mono bg-[#FFFCF7] border border-[#D6CDBB] text-[#171717] hover:bg-[#E2F1E7] hover:border-[#14532D] px-3 py-1 rounded-xl flex-shrink-0 whitespace-nowrap transition-colors"
+                className="neo-btn neo-btn-white text-[11px] font-mono font-bold px-3 py-1 flex-shrink-0 whitespace-nowrap"
               >
                 "{prompt}"
               </button>
@@ -1064,21 +1064,21 @@ export default function VoiceAgent({ onVisitBooked }) {
           {/* Text Fallback Form */}
           <form
             onSubmit={handleSendForm}
-            className="p-3 border-t border-[#D6CDBB] flex items-center gap-2 bg-[#FFFCF7]"
+            className="p-3 border-t-2 border-[#111111] flex items-center gap-2 bg-white"
           >
             <input
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="Speak via mic (waits for 5s silence) or type in English, Telugu, Kannada, Hindi, Tamil..."
-              className="flex-1 px-4 py-2.5 text-xs bg-[#F5F2E9] border border-[#D6CDBB] rounded-2xl text-[#171717] focus:outline-none focus:border-[#14532D]"
+              className="neo-input flex-1 px-4 py-2.5 text-xs text-[#111111] font-medium"
             />
             <button
               type="submit"
               disabled={!inputText.trim() || isTyping}
-              className="p-2.5 rounded-2xl bg-[#14532D] text-white hover:bg-[#14532D]/90 disabled:opacity-50 transition-colors shadow-none border border-[#14532D] flex items-center justify-center"
+              className="neo-btn neo-btn-yellow p-2.5 rounded-sm disabled:opacity-40"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-4 h-4 text-[#111111]" />
             </button>
           </form>
         </div>
@@ -1086,112 +1086,112 @@ export default function VoiceAgent({ onVisitBooked }) {
         {/* Right Column: Customer Profile & Real-time Recommended Properties */}
         <div className="space-y-6">
           {/* Customer Profile Card */}
-          <div className="bento-card p-5">
+          <div className="neo-card p-5 bg-white">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[#171717] flex items-center gap-1.5">
-                <User className="w-4 h-4 text-[#14532D]" />
+              <h4 className="text-xs font-mono font-black uppercase tracking-wider text-[#111111] flex items-center gap-1.5">
+                <User className="w-4 h-4 text-[#111111]" />
                 Gemini Buyer Profile
               </h4>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-[#E2F1E7] text-[#14532D] px-2.5 py-0.5 rounded-full border border-[#D6CDBB]">
+              <span className="neo-badge bg-[#FFDE59] text-[#111111]">
                 Score: {profile.lead_score || 75}/100
               </span>
             </div>
 
             <div className="space-y-2 text-xs">
-              <div className="flex items-center justify-between py-1.5 border-b border-[#D6CDBB]/40">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717]/60">Caller Name</span>
-                <span className="font-bold text-[#171717]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Caller Name</span>
+                <span className="font-extrabold text-[#111111]">
                   {profile.customer_name || 'Prospective Buyer'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-[#D6CDBB]/40">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717]/60">Language</span>
-                <span className="font-bold text-[#14532D] font-mono uppercase">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Language</span>
+                <span className="font-black text-[#111111] font-mono uppercase">
                   {language}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-[#D6CDBB]/40">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717]/60">Location</span>
-                <span className="font-bold text-[#14532D]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Location</span>
+                <span className="font-extrabold text-[#111111]">
                   {profile.location || 'Not Specified'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-[#D6CDBB]/40">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717]/60">Configuration</span>
-                <span className="font-bold text-[#171717]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Configuration</span>
+                <span className="font-extrabold text-[#111111]">
                   {profile.bhk ? `${profile.bhk} BHK` : 'Flexible'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-[#D6CDBB]/40">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717]/60">Budget</span>
-                <span className="font-bold text-[#171717]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Budget</span>
+                <span className="font-extrabold text-[#111111]">
                   {profile.budget || 'In Discussion'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-[#D6CDBB]/40">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717]/60">Timeline</span>
-                <span className="font-bold text-[#171717]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Timeline</span>
+                <span className="font-extrabold text-[#111111]">
                   {profile.timeline || 'Exploring'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-[#D6CDBB]/40">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717]/60">Visit Interest</span>
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Visit Interest</span>
                 <span
-                  className={`font-mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+                  className={`neo-badge ${
                     profile.visit_interest === 'Requested' || profile.visit_interest === 'Interested'
-                      ? 'bg-[#E2F1E7] text-[#14532D] border-[#D6CDBB]'
-                      : 'bg-[#F5F2E9] text-[#171717]/70 border-[#D6CDBB]'
+                      ? 'bg-[#B8F4B8] text-[#111111]'
+                      : 'bg-white text-[#111111]'
                   }`}
                 >
                   {profile.visit_slot ? `${profile.visit_slot}` : profile.visit_interest || 'Unknown'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-[#D6CDBB]/40">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717]/60">Sentiment</span>
-                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#14532D] bg-[#E2F1E7] px-2 py-0.5 rounded-full border border-[#D6CDBB]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Sentiment</span>
+                <span className="neo-badge bg-[#B8F4B8] text-[#111111]">
                   {profile.sentiment || 'Positive'}
                 </span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-[#D6CDBB]/40">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717]/60">Stage</span>
-                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#171717] bg-[#F5F2E9] px-2 py-0.5 rounded-full border border-[#D6CDBB]">
+              <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Stage</span>
+                <span className="neo-badge bg-[#FFFDF5] text-[#111111]">
                   {profile.conv_state || 'GREET'}
                 </span>
               </div>
               {profile.customer_phone && (
-                <div className="flex items-center justify-between py-1.5 border-b border-[#D6CDBB]/40">
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717]/60">Phone</span>
-                  <span className="font-mono text-xs font-bold text-[#171717]">
+                <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Phone</span>
+                  <span className="font-mono text-xs font-black text-[#111111]">
                     {profile.customer_phone} {profile.phone_confirmed ? '✓' : ''}
                   </span>
                 </div>
               )}
               {profile.customer_email && (
-                <div className="flex items-center justify-between py-1.5 border-b border-[#D6CDBB]/40">
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717]/60">Email</span>
-                  <span className="font-mono text-xs font-bold text-[#171717] truncate max-w-[60%]">
+                <div className="flex items-center justify-between py-1.5 border-b-2 border-[#111111]/15">
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Email</span>
+                  <span className="font-mono text-xs font-black text-[#111111] truncate max-w-[60%]">
                     {profile.customer_email} {profile.email_confirmed ? '✓' : ''}
                   </span>
                 </div>
               )}
               <div className="flex items-center justify-between py-1.5">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-[#171717]/60">Intent</span>
-                <span className="font-bold text-[#14532D] text-right max-w-[60%] truncate font-mono text-xs">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#111111]/70 font-bold">Intent</span>
+                <span className="font-black text-[#111111] text-right max-w-[60%] truncate font-mono text-xs">
                   {profile.intent || 'Bangalore Inquiry'}
                 </span>
               </div>
               {bookingId && (
-                <div className="mt-3 p-3 rounded-2xl bg-[#E2F1E7] border border-[#14532D]/30 space-y-1">
+                <div className="mt-3 p-3 rounded-sm bg-[#B8F4B8] border-2 border-[#111111] space-y-1 shadow-[2px_2px_0px_#111111]">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#14532D] flex-shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-[#111111] flex-shrink-0" />
                     <div>
-                      <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#14532D]">Booking Confirmed</div>
-                      <div className="text-[10px] text-[#14532D] font-mono font-bold">{bookingId}</div>
+                      <div className="text-[10px] font-mono font-black uppercase tracking-wider text-[#111111]">Booking Confirmed</div>
+                      <div className="text-[10px] text-[#111111] font-mono font-black">{bookingId}</div>
                     </div>
                   </div>
                   {profile.email_confirmed && (
-                    <div className="text-[10px] font-mono text-[#14532D]/80 flex items-center gap-1.5 pl-6">
-                      <Mail className="w-3 h-3 text-[#14532D]" />
+                    <div className="text-[10px] font-mono font-bold text-[#111111] flex items-center gap-1.5 pl-6">
+                      <Mail className="w-3 h-3 text-[#111111]" />
                       <span>Brochure & Visit Pass dispatched</span>
                     </div>
                   )}
@@ -1201,27 +1201,27 @@ export default function VoiceAgent({ onVisitBooked }) {
           </div>
 
           {/* Recommended Properties matching extraction */}
-          <div className="bento-card p-5">
+          <div className="neo-card p-5 bg-white">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[#171717] flex items-center gap-1.5">
-                <Building2 className="w-4 h-4 text-[#14532D]" />
+              <h4 className="text-xs font-mono font-black uppercase tracking-wider text-[#111111] flex items-center gap-1.5">
+                <Building2 className="w-4 h-4 text-[#111111]" />
                 Recommended Matches ({recommended.length})
               </h4>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-[#E2F1E7] text-[#14532D] px-2 py-0.5 rounded-full border border-[#D6CDBB]">
+              <span className="neo-badge bg-[#B4A7FF] text-[#111111]">
                 Live RAG Inventory
               </span>
             </div>
 
             <div className="space-y-3 max-h-[460px] overflow-y-auto pr-1">
               {recommended.length === 0 ? (
-                <div className="p-4 text-center rounded-2xl bg-[#F5F2E9]/60 border border-[#D6CDBB]/60 text-xs font-mono text-[#171717]/60 italic">
+                <div className="p-4 text-center rounded-sm bg-[#FFFDF5] border-2 border-dashed border-[#111111]/30 text-xs font-mono text-[#111111]/70 italic font-bold">
                   No properties matched yet. Mention your preferred location, budget, or BHK configuration.
                 </div>
               ) : (
                 recommended.map((prop) => (
                   <div
                     key={prop.id}
-                    className="p-3 rounded-2xl border border-[#D6CDBB] hover:border-[#14532D] bg-[#F5F2E9]/60 hover:bg-[#F5F2E9] transition-all flex gap-3 items-center group cursor-pointer"
+                    className="p-3 rounded-sm border-2 border-[#111111] bg-[#FFFDF5] hover:bg-white transition-all flex gap-3 items-center group cursor-pointer shadow-[2px_2px_0px_#111111] active:translate-x-[1px] active:translate-y-[1px]"
                     onClick={() => {
                       if (callActive) {
                         processUserMessage(`Tell me more about ${prop.name} and can we visit?`);
@@ -1233,14 +1233,14 @@ export default function VoiceAgent({ onVisitBooked }) {
                     <img
                       src={prop.image_url}
                       alt={prop.name}
-                      className="w-16 h-16 rounded-xl object-cover flex-shrink-0 border border-[#D6CDBB] group-hover:scale-105 transition-transform"
+                      className="w-16 h-16 rounded-sm object-cover flex-shrink-0 border-2 border-[#111111] group-hover:scale-105 transition-transform"
                     />
                     <div className="flex-1 min-w-0">
-                      <div className="text-[11px] font-bold text-[#14532D] truncate font-heading">{prop.name}</div>
-                      <div className="text-[10px] font-mono text-[#171717]/60">
+                      <div className="text-[11px] font-extrabold text-[#111111] truncate font-heading">{prop.name}</div>
+                      <div className="text-[10px] font-mono font-bold text-[#111111]/70">
                         {prop.location} • {prop.bhk} BHK • {prop.property_type}
                       </div>
-                      <div className="text-xs font-heading font-bold text-[#171717] mt-1">
+                      <div className="text-xs font-heading font-black text-[#111111] mt-1">
                         {formatINR(prop.price)}
                       </div>
                     </div>

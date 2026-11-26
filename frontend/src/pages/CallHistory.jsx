@@ -97,84 +97,84 @@ export default function CallHistory() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#171717] tracking-tight">
+            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#111111] tracking-tight">
               Call History & Voice Sessions
             </h2>
-            <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20 font-bold">
+            <span className="neo-badge bg-[#FFDE59] text-[#111111]">
               Full Transcripts
             </span>
           </div>
-          <p className="font-sans text-xs sm:text-sm text-[#737373] mt-1 font-normal">
+          <p className="font-sans text-xs sm:text-sm text-[#111111]/70 mt-1 font-medium">
             Audit recorded Gemini conversational sessions, buyer requirements, and automated booking outcomes.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-xl bg-[#E2F1E7] text-[#14532D] border border-[#14532D]/20 shadow-sm">
+          <span className="neo-badge bg-[#B8F4B8] text-[#111111] px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider">
             {calls.length} Sessions Logged
           </span>
           <button
             onClick={loadCallHistory}
-            className="p-2 rounded-xl border border-[#D6CDBB] bg-[#FFFCF7] text-[#737373] hover:text-[#171717] hover:border-[#14532D] transition-colors cursor-pointer shadow-sm"
+            className="neo-btn neo-btn-white p-2.5"
             title="Refresh database records"
           >
-            <RefreshCw className="w-4 h-4" />
+            <RefreshCw className="w-4 h-4 text-[#111111]" />
           </button>
         </div>
       </div>
 
       {/* Bento Grid: 3 Quick Summary KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="bento-card p-5">
-          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#737373]">
+        <div className="neo-card p-5 bg-white">
+          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#111111] font-bold">
             <span>Total Calls</span>
-            <PhoneCall className="w-4 h-4 text-[#14532D]" />
+            <PhoneCall className="w-4 h-4 text-[#111111]" />
           </div>
-          <div className="font-heading text-3xl font-bold text-[#171717] mt-2">
+          <div className="font-heading text-3xl font-black text-[#111111] mt-2">
             {calls.length}
           </div>
-          <div className="text-[11px] font-sans text-[#737373] mt-2">
+          <div className="text-[11px] font-sans text-[#111111]/70 font-semibold mt-2">
             Completed conversational sessions
           </div>
         </div>
 
-        <div className="bento-card p-5">
-          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#737373]">
+        <div className="neo-card p-5 bg-[#B4A7FF]">
+          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#111111] font-bold">
             <span>Avg Call Duration</span>
-            <Clock className="w-4 h-4 text-[#14532D]" />
+            <Clock className="w-4 h-4 text-[#111111]" />
           </div>
-          <div className="font-heading text-3xl font-bold text-[#171717] mt-2">
+          <div className="font-heading text-3xl font-black text-[#111111] mt-2">
             {formatDuration(avgDuration)}
           </div>
-          <div className="text-[11px] font-sans text-[#737373] mt-2">
+          <div className="text-[11px] font-sans text-[#111111]/80 font-bold mt-2">
             Average customer talk time
           </div>
         </div>
 
-        <div className="bento-card p-5">
-          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#14532D] font-bold">
+        <div className="neo-card p-5 bg-[#FFDE59]">
+          <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-[#111111] font-bold">
             <span>Visits Scheduled</span>
-            <CheckCircle2 className="w-4 h-4 text-[#14532D]" />
+            <CheckCircle2 className="w-4 h-4 text-[#111111]" />
           </div>
-          <div className="font-heading text-3xl font-bold text-[#14532D] mt-2">
+          <div className="font-heading text-3xl font-black text-[#111111] mt-2">
             {visitsBooked}
           </div>
-          <div className="text-[11px] font-sans text-[#737373] mt-2">
+          <div className="text-[11px] font-sans text-[#111111]/80 font-bold mt-2">
             Calls resulting in confirmed walkthroughs
           </div>
         </div>
       </div>
 
       {/* Search Bar */}
-      <div className="bento-card p-4 flex items-center gap-3">
+      <div className="neo-card p-4 flex items-center gap-3 bg-white">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-[#737373] absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#111111] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search call logs by customer name, phone number, session ID, or outcome..."
-            className="w-full pl-10 pr-4 py-2 text-xs bg-[#F5F2E9] border border-[#D6CDBB] rounded-xl text-[#171717] focus:outline-none focus:border-[#14532D]"
+            className="neo-input w-full pl-10 pr-4 py-2 text-xs font-medium text-[#111111]"
           />
         </div>
       </div>
@@ -182,14 +182,14 @@ export default function CallHistory() {
       {/* Call List */}
       {loading ? (
         <div className="py-20 text-center">
-          <RefreshCw className="w-8 h-8 text-[#14532D] animate-spin mx-auto mb-3" />
-          <p className="text-xs font-mono text-[#737373]">Loading call records from database...</p>
+          <RefreshCw className="w-8 h-8 text-[#111111] animate-spin mx-auto mb-3" />
+          <p className="text-xs font-mono font-bold text-[#111111]">Loading call records from database...</p>
         </div>
       ) : calls.length === 0 ? (
-        <div className="bento-card p-12 text-center">
-          <PhoneCall className="w-10 h-10 text-[#737373]/40 mx-auto mb-3" />
-          <h3 className="text-base font-heading font-bold text-[#171717]">No Call Sessions Recorded Yet</h3>
-          <p className="text-xs text-[#737373] mt-1 max-w-md mx-auto font-sans">
+        <div className="neo-card p-12 text-center bg-white">
+          <PhoneCall className="w-10 h-10 text-[#111111]/40 mx-auto mb-3" />
+          <h3 className="text-base font-heading font-extrabold text-[#111111]">No Call Sessions Recorded Yet</h3>
+          <p className="text-xs text-[#111111]/70 mt-1 max-w-md mx-auto font-sans font-medium">
             Conversations conducted via the AI Voice Assistant will appear here with full transcripts, lead profiles, and duration logs.
           </p>
         </div>
@@ -198,54 +198,54 @@ export default function CallHistory() {
           {filteredCalls.map((call) => (
             <div
               key={call.session_id}
-              className="bento-card p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+              className="neo-card-interactive p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white"
             >
               <div className="flex items-start gap-4 flex-1">
-                <div className="w-12 h-12 rounded-2xl bg-[#E2F1E7] border border-[#14532D]/20 flex items-center justify-center text-[#14532D] flex-shrink-0 shadow-sm">
-                  <PhoneCall className="w-5 h-5 text-[#14532D]" />
+                <div className="w-12 h-12 rounded-sm bg-[#FFDE59] border-2 border-[#111111] flex items-center justify-center text-[#111111] flex-shrink-0 shadow-[2px_2px_0px_#111111]">
+                  <PhoneCall className="w-5 h-5 text-[#111111]" />
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className="font-heading font-bold text-[#171717] text-base">{call.customer_name}</h3>
-                    <span className="text-[11px] font-mono text-[#737373]">• {call.customer_phone || 'Phone Unprovided'}</span>
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-[#E2F1E7] text-[#14532D] px-2.5 py-0.5 rounded-full border border-[#14532D]/20">
+                    <h3 className="font-heading font-extrabold text-[#111111] text-base">{call.customer_name}</h3>
+                    <span className="text-[11px] font-mono font-bold text-[#111111]/70">• {call.customer_phone || 'Phone Unprovided'}</span>
+                    <span className="neo-badge bg-[#B8F4B8] text-[#111111]">
                       {call.outcome || 'Completed'}
                     </span>
-                    <span className="text-[10px] text-[#737373] font-mono">
+                    <span className="text-[10px] text-[#111111]/60 font-mono font-bold">
                       {call.session_id}
                     </span>
                   </div>
 
-                  <p className="text-xs text-[#171717]/85 mt-1.5 leading-relaxed font-sans">
+                  <p className="text-xs text-[#111111] mt-1.5 leading-relaxed font-sans font-medium">
                     {call.summary || 'Voice sales conversation with Gemini assistant.'}
                   </p>
 
-                  <div className="flex items-center gap-4 text-[11px] font-mono text-[#737373] mt-2.5 flex-wrap">
+                  <div className="flex items-center gap-4 text-[11px] font-mono font-bold text-[#111111]/80 mt-2.5 flex-wrap">
                     <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-[#14532D]" />
+                      <Clock className="w-3.5 h-3.5 text-[#111111]" />
                       Duration: {formatDuration(call.duration_seconds)}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Languages className="w-3.5 h-3.5 text-[#14532D]" />
+                      <Languages className="w-3.5 h-3.5 text-[#111111]" />
                       {call.language}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-[#14532D]" />
+                      <Calendar className="w-3.5 h-3.5 text-[#111111]" />
                       {formatDateTime(call.started_at)}
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 w-full md:w-auto justify-end border-t md:border-t-0 pt-3 md:pt-0 border-[#D6CDBB]/40">
+              <div className="flex items-center gap-3 w-full md:w-auto justify-end border-t-2 md:border-t-0 pt-3 md:pt-0 border-[#111111]/15">
                 <button
                   onClick={() => handleOpenTranscript(call)}
-                  className="btn-secondary px-4 py-2 text-xs flex items-center gap-1.5 cursor-pointer shadow-sm active:translate-y-0.5"
+                  className="neo-btn neo-btn-yellow px-4 py-2 text-xs gap-1.5"
                 >
-                  <MessageSquare className="w-3.5 h-3.5 text-[#14532D]" />
+                  <MessageSquare className="w-3.5 h-3.5 text-[#111111]" />
                   View Transcript
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  <ChevronRight className="w-3.5 h-3.5 text-[#111111]" />
                 </button>
               </div>
             </div>
@@ -256,24 +256,24 @@ export default function CallHistory() {
       {/* Transcript Modal */}
       {selectedCall && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#FFFCF7] rounded-3xl max-w-2xl w-full p-6 shadow-neo-lg relative border border-[#D6CDBB] max-h-[85vh] flex flex-col animate-fade-in">
+          <div className="neo-card bg-white rounded-md max-w-2xl w-full p-6 shadow-[8px_8px_0px_#111111] relative border-3 border-[#111111] max-h-[85vh] flex flex-col animate-fade-in">
             <button
               onClick={() => setSelectedCall(null)}
-              className="absolute top-4 right-4 text-[#737373] hover:text-[#171717] p-1 cursor-pointer"
+              className="absolute top-4 right-4 text-[#111111] hover:opacity-70 p-1 cursor-pointer"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5 text-[#111111]" />
             </button>
 
-            <div className="border-b border-[#D6CDBB] pb-4 mb-4">
+            <div className="border-b-2 border-[#111111] pb-4 mb-4">
               <div className="flex items-center gap-2">
-                <h3 className="font-heading font-bold text-lg text-[#171717]">
+                <h3 className="font-heading font-black text-lg text-[#111111]">
                   Session Transcript: {selectedCall.customer_name}
                 </h3>
-                <span className="font-mono text-[10px] uppercase font-bold text-[#14532D] bg-[#E2F1E7] px-2 py-0.5 rounded-full border border-[#14532D]/20">
+                <span className="neo-badge bg-[#FFDE59] text-[#111111]">
                   {selectedCall.session_id}
                 </span>
               </div>
-              <p className="font-sans text-xs text-[#737373] mt-1">
+              <p className="font-sans text-xs text-[#111111]/70 mt-1 font-medium">
                 Language: {selectedCall.language} • Duration: {formatDuration(selectedCall.duration_seconds)}
               </p>
             </div>
@@ -281,11 +281,11 @@ export default function CallHistory() {
             {/* Transcript Messages Container */}
             <div className="flex-1 overflow-y-auto space-y-3 pr-1">
               {detailLoading ? (
-                <div className="py-12 text-center text-xs font-mono text-[#737373]">
+                <div className="py-12 text-center text-xs font-mono font-bold text-[#111111]">
                   Fetching messages...
                 </div>
               ) : !selectedCall.messages || selectedCall.messages.length === 0 ? (
-                <div className="py-12 text-center text-xs font-mono text-[#737373]">
+                <div className="py-12 text-center text-xs font-mono font-bold text-[#111111]">
                   No message history recorded for this session.
                 </div>
               ) : (
@@ -296,14 +296,14 @@ export default function CallHistory() {
                       key={idx}
                       className={`flex flex-col ${isAgent ? 'items-start' : 'items-end'}`}
                     >
-                      <span className="font-mono text-[10px] text-[#737373] mb-1 uppercase font-bold">
+                      <span className="font-mono text-[10px] text-[#111111]/80 mb-1 uppercase font-bold">
                         {isAgent ? 'EstateVoice AI' : selectedCall.customer_name}
                       </span>
                       <div
-                        className={`max-w-[85%] rounded-2xl p-3.5 text-xs leading-relaxed ${
+                        className={`max-w-[85%] rounded-sm p-3.5 text-xs leading-relaxed border-2 border-[#111111] font-medium ${
                           isAgent
-                            ? 'bg-[#F5F2E9] text-[#171717] border border-[#D6CDBB] rounded-tl-sm'
-                            : 'bg-[#14532D] text-white border border-[#14532D] rounded-tr-sm'
+                            ? 'bg-[#FFFDF5] text-[#111111] shadow-[2px_2px_0px_#111111]'
+                            : 'bg-[#FFDE59] text-[#111111] shadow-[2px_2px_0px_#111111]'
                         }`}
                       >
                         {m.content || m.text}
@@ -314,13 +314,13 @@ export default function CallHistory() {
               )}
             </div>
 
-            <div className="pt-4 border-t border-[#D6CDBB] mt-4 flex items-center justify-between text-xs">
-              <span className="font-mono text-[11px] text-[#737373]">
-                Outcome: <strong className="text-[#14532D]">{selectedCall.outcome || 'Completed'}</strong>
+            <div className="pt-4 border-t-2 border-[#111111] mt-4 flex items-center justify-between text-xs">
+              <span className="font-mono text-[11px] font-bold text-[#111111]">
+                Outcome: <strong className="neo-badge bg-[#B8F4B8] text-[#111111] ml-1">{selectedCall.outcome || 'Completed'}</strong>
               </span>
               <button
                 onClick={() => setSelectedCall(null)}
-                className="btn-secondary px-4 py-1.5 text-xs font-bold cursor-pointer"
+                className="neo-btn neo-btn-white px-4 py-1.5 text-xs font-bold"
               >
                 Close
               </button>
