@@ -4,17 +4,25 @@ __pycache__/
 *$py.class
 *.so
 .Python
+venv/
+.venv/
 backend/venv/
 backend/.pytest_cache/
 *.egg-info/
 dist/
 build/
+
+# Local databases & SQLite WAL/SHM files
 *.db
+*.db-shm
+*.db-wal
+*.db-journal
+*.sqlite
 *.sqlite3
 *.backup
 *.db.backup
 *.db.*
-*.db-journal
+backend/data/*.db*
 
 # Node / Frontend
 node_modules/
@@ -23,10 +31,18 @@ frontend/dist/
 .npm
 .eslintcache
 
-# Environment variables
+# Environment variables, API keys & SMTP credentials
 .env
-backend/.env
-frontend/.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+*.pem
+*.key
+*.secret
+*credentials*.json
+*service-account*.json
 *.local
 
 # IDE & OS
